@@ -54,11 +54,11 @@ namespace Api.Controllers
 
 		[Route("/api/add-user")]
 		[HttpPost]
-		public void AddUser(string telegramId, string firstName, string lastName, string userName, string botid)
+		public void AddUser(string telegramId, string firstName, string lastName, string userName, string botId)
 		{
 			_repository.AddUser(new User
 			{
-				BotId = botid,
+				BotId = botId,
 				FirstName = firstName,
 				LastName = lastName,
 				TelegramId = telegramId,
