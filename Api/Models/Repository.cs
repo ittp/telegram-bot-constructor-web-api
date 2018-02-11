@@ -13,6 +13,7 @@ namespace Api.Models
 		private readonly IMongoCollection<TextMessageAnswer> _textMessageAnswers;
 		private readonly IMongoCollection<InlineKey> _inlineKeys;
 		private readonly IMongoCollection<Interview> _interviews;
+		private IMongoCollection<InterviewAnswer> _interviewAnswers;
 
 		public Repository(string token, string dbName)
 		{
@@ -22,6 +23,7 @@ namespace Api.Models
 			_textMessageAnswers = database.GetCollection<TextMessageAnswer>("textMessageAnswers");
 			_inlineKeys = database.GetCollection<InlineKey>("inlineKeys");
 			_interviews = database.GetCollection<Interview>("interviews");
+			_interviewAnswers = database.GetCollection<InterviewAnswer>("interviewsAnswers");
 		}
 
 		public Bot GetBotByToken(string token)
@@ -77,6 +79,16 @@ namespace Api.Models
 		public User GetUser(string telegramId, string botId)
 		{
 			return _users.Find(x => x.BotId == botId && x.TelegramId == telegramId).FirstOrDefault();
+		}
+
+		public void AddInterviewAnswer(InterviewAnswer interviewAnswer)
+		{
+			_interviewAnswers.InsertOne(interviewAnswer);
+		}
+
+		public IEnumerable<InterviewAnswer> GetInterviewAnswers(string botId)
+		{
+			return _interviewAnswers.Find(x => x.BotId == botId).ToList();
 		}
 	}
 }

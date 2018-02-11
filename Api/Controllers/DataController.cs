@@ -30,7 +30,9 @@ namespace Api.Controllers
 				"post /api/add-inline-key caption,answer,botId",
 				"get /api/inline-keys botId",
 				"post /api/add-interview name, question, answers, botId",
-				"get /api/interviews botId"
+				"get /api/interviews botId" +
+				"post /api/add-interview-answer interviewId,userId,answer,botId",
+				"get /api/interview-answers botId"
 			};
 		}
 
@@ -159,6 +161,30 @@ namespace Api.Controllers
 
 			return interviewsDto != null
 				? Json(interviewsDto.Select(x => x.Transform()))
+				: new JsonResult(false);
+		}
+
+		[Route("/api/add-interview-answer")]
+		[HttpPost]
+		public void AddInterviewAnswer(string interviewId, string userId, string answer, string botId)
+		{
+			_repository.AddInterviewAnswer(new InterviewAnswer
+			{
+				Answer = answer,
+				InterviewId = interviewId,
+				UserId = userId,
+				BotId = botId
+			});
+		}
+
+		[Route("/api/interview-answers")]
+		[HttpPost]
+		public JsonResult GetInterviewAnswers(string botId)
+		{
+			var interviewAnswersDto = _repository.GetInterviewAnswers(botId);
+
+			return interviewAnswersDto != null
+				? Json(interviewAnswersDto.Select(x => x.Transform()))
 				: new JsonResult(false);
 		}
 	}

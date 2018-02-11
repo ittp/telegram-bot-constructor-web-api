@@ -90,5 +90,17 @@ namespace Tests
 
 			Assert.Contains("question", ((IEnumerable<object>)result.Value).First().ToString());
 		}
+
+		[Fact]
+		public void AddInterviewAnswer_GetInterviewAnswers()
+		{
+			_dataController.AddInterviewAnswer("interviewId", "userId", "answer", "botId");
+
+			var result = _dataController.GetInterviewAnswers("botId");
+
+			_dataController.GetInterviewAnswers("wrongId");
+
+			Assert.Contains("interviewId", ((IEnumerable<object>)result.Value).First().ToString());
+		}
 }
 }
