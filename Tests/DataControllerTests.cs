@@ -1,106 +1,270 @@
 using System.Collections.Generic;
-using System.Linq;
 using Api.Controllers;
 using Api.Models;
+using Microsoft.AspNetCore.Mvc;
 using Mongo2Go;
+using Tests.Utils;
 using Xunit;
 
 namespace Tests
 {
 	public class DataControllerTests
 	{
-		private readonly Repository _repository;
-		private readonly DataController _dataController;
+		private DataController _dataController;
+		private MongoDbRunner _fakeDbRunner;
 
-		public DataControllerTests()
+		private void Setup()
 		{
-			var fakeDb = MongoDbRunner.Start();
-			_repository = new Repository(fakeDb.ConnectionString, "TestBase");
-			_dataController = new DataController(_repository);
+			_fakeDbRunner = MongoDbRunner.Start();
+			_dataController = new DataController(new Repository(_fakeDbRunner.ConnectionString, "TestBase"));
+		}
+
+		private void Dispose()
+		{
+			_fakeDbRunner.Dispose();
 		}
 
 		[Fact]
-		public void AddBot_GetBotByToken()
+		public void BotsActions()
 		{
+			Setup();
+
+			var addResult = _dataController.AddBot("name", "token");
+			var id = addResult.GetPropertyOfJsonResult<string>("id");
+			var token = addResult.GetPropertyOfJsonResult<string>("token");
+
+			var getResult = _dataController.GetBot(id);
+			var getByTokenResult = _dataController.GetBotByToken(token);
+
+			var removeResult = _dataController.RemoveBot(id);
+			var afterRemoveResult = _dataController.GetBot(id);
+
+			Assert.Equal("name", getResult.GetPropertyOfJsonResult<string>("name"));
+			Assert.Equal("name", getByTokenResult.GetPropertyOfJsonResult<string>("name"));
+			Assert.NotStrictEqual(new JsonResult(true), removeResult);
+			Assert.NotStrictEqual(new JsonResult(false), afterRemoveResult);
+
+			Dispose();
+		}
+
+		[Fact]
+		public void BotsActions_WithWrongParams()
+		{
+			Setup();
+
 			_dataController.AddBot("name", "token");
 
-			var result = _dataController.GetBotByToken("token");
+			var getByTokenResult = _dataController.GetBotByToken("wrong");
+			var getResult = _dataController.GetBot("wrong");
 
-			_dataController.GetBotByToken("wrongToken");
+			var wrongAddResult = _dataController.AddBot("", "");
 
-			Assert.Contains("name" , result.Value.ToString());
+			Assert.NotStrictEqual(new JsonResult(false), getByTokenResult);
+			Assert.NotStrictEqual(new JsonResult(false), getResult);
+			Assert.NotStrictEqual(new JsonResult(false), wrongAddResult);
+
+			Dispose();
+		}
+
+
+		[Fact]
+		public void InlineKeysActions()
+		{
+			Setup();
+
+			var addResult = _dataController.AddInlineKey("caption", "answer", "botId");
+			var id = addResult.GetPropertyOfJsonResult<string>("id");
+
+			var getSingleResult = _dataController.GetInlineKey(id);
+			var getResult = _dataController.GetInlineKeys("botId");
+
+			var removeResult = _dataController.RemoveInlineKey(id);
+			var afterRemoveResult = _dataController.GetInlineKey(id);
+
+			Assert.Equal("caption", addResult.GetPropertyOfJsonResult<string>("caption"));
+			Assert.Equal("caption", getSingleResult.GetPropertyOfJsonResult<string>("caption"));
+			Assert.Equal("caption",	getResult.GetPropertyOfFirstElementInJsonResult<string>("caption"));
+			Assert.NotStrictEqual(new JsonResult(true), removeResult);
+			Assert.NotStrictEqual(new JsonResult(false), afterRemoveResult);
+
+			Dispose();
 		}
 
 		[Fact]
-		public void AddTextMessageAnswer_GetTextMessageAnswers()
+		public void InlineKeysActions_WithWrongParams()
 		{
-			_dataController.AddTextMessageAnswer("answer", "message", "botId");
+			Setup();
 
-			var result = _dataController.GetTextMessageAnswers("botId");
-
-			_dataController.GetTextMessageAnswers("wrongId");
-
-			Assert.Contains("message",((IEnumerable<object>)result.Value).First().ToString());
-		}
-
-		[Fact]
-		public void AddUser_GetUsers()
-		{
-			_dataController.AddUser("telegramId", "firstName", "lastName", "userName", "botId");
-
-			var result = _dataController.GetUsers("botId");
-
-			_dataController.GetUsers("wrongId");
-
-			Assert.Contains("telegramId", ((IEnumerable<object>)result.Value).First().ToString());
-		}
-
-		[Fact]
-		public void AddUser_GetUser()
-		{
-			_dataController.AddUser("telegramId", "firstName", "lastName", "userName", "botId");
-
-			var result = _dataController.GetUser("telegramId", "botId");
-
-		_dataController.GetUser("wrongId", "wrongId");
-
-			Assert.Contains("telegramId", result.Value.ToString());
-		}
-
-		[Fact]
-		public void AddInlineKey_GetInlineKeys()
-		{
 			_dataController.AddInlineKey("caption", "answer", "botId");
 
-			var result = _dataController.GetInlineKeys("botId");
+			var singleResult = _dataController.GetInlineKey("wrong");
+			var result = _dataController.GetInlineKeys("wrong");
 
-			_dataController.GetInlineKeys("wrongId");
+			var wrongAddResult = _dataController.AddInlineKey("", "", "");
 
-			Assert.Contains("caption", ((IEnumerable<object>)result.Value).First().ToString());
+			Assert.NotStrictEqual(new JsonResult(false), singleResult);
+			Assert.NotStrictEqual(new JsonResult(false), result);
+			Assert.NotStrictEqual(new JsonResult(false), wrongAddResult);
+
+			Dispose();
 		}
 
 		[Fact]
-		public void AddInterview_GetInterviews()
+		public void InterviewAnswersActions()
 		{
-			_dataController.AddInterview("name", "question", new List<string> {"answer1", "answer2"}, "botId");
+			Setup();
 
-			var result = _dataController.GetInterviews("botId");
+			var addResult = _dataController.AddInterviewAnswer("interviewId", "userId", "answer", "botId");
+			var id = addResult.GetPropertyOfJsonResult<string>("id");
 
-			_dataController.GetInterviews("wrongId");
+			var getResult = _dataController.GetInterviewAnswers("botId");
+			var getSingileResult = _dataController.GetInterviewAnswer(id);
 
-			Assert.Contains("question", ((IEnumerable<object>)result.Value).First().ToString());
+			var removeResult = _dataController.RemoveInterviewAnswer(id);
+			var afterRemoveResult = _dataController.GetInterviewAnswer(id);
+
+			Assert.Equal("interviewId", getResult.GetPropertyOfFirstElementInJsonResult<string>("interviewId"));
+			Assert.Equal("interviewId", getSingileResult.GetPropertyOfJsonResult<string>("interviewId"));
+			Assert.NotStrictEqual(new JsonResult(true), removeResult);
+			Assert.NotStrictEqual(new JsonResult(false), afterRemoveResult);
+
+			Dispose();
 		}
 
 		[Fact]
-		public void AddInterviewAnswer_GetInterviewAnswers()
+		public void InterviewAnswersActions_WithWrongParams()
 		{
+			Setup();
+
 			_dataController.AddInterviewAnswer("interviewId", "userId", "answer", "botId");
 
-			var result = _dataController.GetInterviewAnswers("botId");
+			var result = _dataController.GetInterviewAnswers("wrongId");
 
-			_dataController.GetInterviewAnswers("wrongId");
+			var wrongAddResult = _dataController.AddInterviewAnswer("", "", "", "");
 
-			Assert.Contains("interviewId", ((IEnumerable<object>)result.Value).First().ToString());
+			Assert.NotStrictEqual(new JsonResult(false), result);
+			Assert.NotStrictEqual(new JsonResult(false), wrongAddResult);
+
+			Dispose();
 		}
-}
+
+		[Fact]
+		public void InterviewsActions()
+		{
+			Setup();
+
+			var addResult = _dataController.AddInterview("name", "question", new List<string> {"answer1", "answer2"}, "botId");
+			var id = addResult.GetPropertyOfJsonResult<string>("id");
+
+			var getResult = _dataController.GetInterviews("botId");
+			var getSingleResult = _dataController.GetInterview(id);
+
+			var removeResult = _dataController.RemoveInterview(id);
+			var afterRemoveResult = _dataController.GetInterview(id);
+
+			Assert.Equal("name", getResult.GetPropertyOfFirstElementInJsonResult<string>("name"));
+			Assert.Equal("name", getSingleResult.GetPropertyOfJsonResult<string>("name"));
+			Assert.NotStrictEqual(new JsonResult(true), removeResult);
+			Assert.NotStrictEqual(new JsonResult(false), afterRemoveResult);
+
+			Dispose();
+		}
+
+		[Fact]
+		public void InterviewsActions_WithWrongParams()
+		{
+			Setup();
+
+			_dataController.AddInterview("name", "question", new List<string> {"answer1", "answer2"}, "botId");
+
+			var result = _dataController.GetInterviews("wrong");
+
+			var wrongAddResult = _dataController.AddInterview("", "", null, "");
+
+			Assert.NotStrictEqual(new JsonResult(false), result);
+			Assert.NotStrictEqual(new JsonResult(false), wrongAddResult);
+
+			Dispose();
+		}
+
+		[Fact]
+		public void TextMessageAnswersActions_GetTextMessageAnswers()
+		{
+			Setup();
+
+			var addResult = _dataController.AddTextMessageAnswer("answer", "message", "botId");
+			var id = addResult.GetPropertyOfJsonResult<string>("id");
+
+			var getResult = _dataController.GetTextMessageAnswers("botId");
+			var getSingleResult = _dataController.GetTextMessageAnswer(id);
+
+			var removeResult = _dataController.RemoveTextMessageAnswer(id);
+			var afterRemoveResult = _dataController.GetTextMessageAnswer(id);
+
+			Assert.Equal("answer", getResult.GetPropertyOfFirstElementInJsonResult<string>("answer"));
+			Assert.Equal("answer", getSingleResult.GetPropertyOfJsonResult<string>("answer"));
+			Assert.NotStrictEqual(new JsonResult(true), removeResult);
+			Assert.NotStrictEqual(new JsonResult(false), afterRemoveResult);
+
+			Dispose();
+		}
+
+		[Fact]
+		public void TextMessageAnswersActions_WithWrongParams()
+		{
+			Setup();
+
+			_dataController.AddTextMessageAnswer("answer", "message", "botId");
+
+			var result = _dataController.GetTextMessageAnswers("wrong");
+
+			var wrongAddResult = _dataController.AddTextMessageAnswer("", "", "");
+
+			Assert.NotStrictEqual(new JsonResult(false), result);
+			Assert.NotStrictEqual(new JsonResult(false), wrongAddResult);
+
+			Dispose();
+		}
+
+		[Fact]
+		public void UsersActions()
+		{
+			Setup();
+
+			var addResult = _dataController.AddUser("telegramId", "firstName", "lastName", "userName", "botId");
+			var id = addResult.GetPropertyOfJsonResult<string>("id");
+
+			var getResult = _dataController.GetUsers("botId");
+			var getSingleResult = _dataController.GetUser("telegramId", "botId");
+
+			var removeResult = _dataController.RemoveUser(id);
+			var afterRemoveResult = _dataController.GetUser("telegramId", "botId");
+
+			Assert.Equal("telegramId", getResult.GetPropertyOfFirstElementInJsonResult<string>("telegramId"));
+			Assert.Equal("telegramId", getSingleResult.GetPropertyOfJsonResult<string>("telegramId"));
+			Assert.NotStrictEqual(new JsonResult(true), removeResult);
+			Assert.NotStrictEqual(new JsonResult(false), afterRemoveResult);
+
+			Dispose();
+		}
+
+		[Fact]
+		public void UsersActions_WithWrongParams()
+		{
+			Setup();
+
+			_dataController.AddUser("telegramId", "firstName", "lastName", "userName", "botId");
+
+			var result = _dataController.GetUsers("wrong");
+			var singleResult = _dataController.GetUser("wrong", "wrong");
+
+			var wrongAddResult = _dataController.AddUser("", "", "", "", "");
+
+			Assert.NotStrictEqual(new JsonResult(false), result);
+			Assert.NotStrictEqual(new JsonResult(false), singleResult);
+			Assert.NotStrictEqual(new JsonResult(false), wrongAddResult);
+
+			Dispose();
+		}
+	}
 }
