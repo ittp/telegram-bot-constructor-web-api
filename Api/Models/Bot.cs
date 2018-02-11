@@ -7,7 +7,11 @@ namespace Api.Models
 	{
 		[BsonElement("_id")]
 		public ObjectId Id { get; set; }
+
+		[BsonElement("Token")]
 		public string Token { get; set; }
+
+		[BsonElement("Name")]
 		public string Name { get; set; }
 	}
 }

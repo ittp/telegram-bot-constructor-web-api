@@ -1,0 +1,11 @@
+C:\Workspace\HackatonBotApi\Api\bin\Debug\netcoreapp2.0\Api.deps.json
+C:\Workspace\HackatonBotApi\Api\bin\Debug\netcoreapp2.0\Api.runtimeconfig.json
+C:\Workspace\HackatonBotApi\Api\bin\Debug\netcoreapp2.0\Api.runtimeconfig.dev.json
+C:\Workspace\HackatonBotApi\Api\bin\Debug\netcoreapp2.0\Api.dll
+C:\Workspace\HackatonBotApi\Api\bin\Debug\netcoreapp2.0\Api.pdb
+C:\Workspace\HackatonBotApi\Api\obj\Debug\netcoreapp2.0\Api.csprojResolveAssemblyReference.cache
+C:\Workspace\HackatonBotApi\Api\obj\Debug\netcoreapp2.0\Api.csproj.CoreCompileInputs.cache
+C:\Workspace\HackatonBotApi\Api\obj\Debug\netcoreapp2.0\Api.AssemblyInfoInputs.cache
+C:\Workspace\HackatonBotApi\Api\obj\Debug\netcoreapp2.0\Api.AssemblyInfo.cs
+C:\Workspace\HackatonBotApi\Api\obj\Debug\netcoreapp2.0\Api.dll
+C:\Workspace\HackatonBotApi\Api\obj\Debug\netcoreapp2.0\Api.pdb

@@ -24,9 +24,9 @@ namespace Api.Models
 			return _usersCollection.Find(new BsonDocument()).ToList();
 		}
 
-		public User GetUserById(string id)
+		public User GetUserById(ObjectId id)
 		{
-			return _usersCollection.Find(x => x.Id == new ObjectId(id)).FirstOrDefault();
+			return _usersCollection.Find(x => x.Id == id).FirstOrDefault();
 		}
 	}
 }
