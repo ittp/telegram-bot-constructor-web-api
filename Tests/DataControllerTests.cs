@@ -24,9 +24,9 @@ namespace Tests
 		{
 			_dataController.AddBot("name", "token");
 
-			var result = _dataController.GetBotByToken("token").Value;
+			var result = _dataController.GetBotByToken("token");
 
-			Assert.Contains("name" , result.ToString());
+			Assert.Contains("name" , result.Value.ToString());
 		}
 
 		[Fact]
@@ -34,9 +34,9 @@ namespace Tests
 		{
 			_dataController.AddTextMessageAnswer("answer", "message", "botId");
 
-			var result = _dataController.GetTextMessageAnswers("botId").Value;
+			var result = _dataController.GetTextMessageAnswers("botId");
 
-			Assert.Contains("message",((IEnumerable<object>)result).First().ToString());
+			Assert.Contains("message",((IEnumerable<object>)result.Value).First().ToString());
 		}
 
 		[Fact]
@@ -44,9 +44,19 @@ namespace Tests
 		{
 			_dataController.AddUser("telegramId", "firstName", "lastName", "userName", "botId");
 
-			var result = _dataController.GetUsers("botId").Value;
+			var result = _dataController.GetUsers("botId");
 
-			Assert.Contains("telegramId", ((IEnumerable<object>)result).First().ToString());
+			Assert.Contains("telegramId", ((IEnumerable<object>)result.Value).First().ToString());
+		}
+
+		[Fact]
+		public void AddInlineKey_GetInlineKeys()
+		{
+			_dataController.AddInlineKey("caption", "answer", "botId");
+
+			var result = _dataController.GetInlineKeys("botId");
+
+			Assert.Contains("caption", ((IEnumerable<object>)result.Value).First().ToString());
 		}
 }
 }

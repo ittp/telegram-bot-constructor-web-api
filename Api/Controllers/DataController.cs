@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
@@ -13,6 +14,23 @@ namespace Api.Controllers
 		public DataController(Repository repository)
 		{
 			_repository = repository;
+		}
+
+		[Route("/")]
+		[HttpGet]
+		public List<string> Index()
+		{
+			return new List<string>
+			{
+				"get /api/bot-by-token token",
+				"post /api/add-bot name,token",
+				"get /api/text-message-answers botId",
+				"post /api/add-text-message-answer answer,message,botId",
+				"post /api/add-user telegramId,firstName,lastName,userName,botId",
+				"get /api/users botId",
+				"post /api/add-inline-key caption,answer,botId",
+				"get /api/inline-keys botId"
+			};
 		}
 
 		[Route("/api/bot-by-token")]
@@ -71,6 +89,25 @@ namespace Api.Controllers
 		public JsonResult GetUsers(string botId)
 		{
 			return new JsonResult(_repository.GetUsers(botId).Select(x => x.Transform()));
+		}
+
+		[Route("/api/add-inline-key")]
+		[HttpPost]
+		public void AddInlineKey(string caption, string answer, string botId)
+		{
+			_repository.AddInlineKey(new InlineKey
+			{
+				Caption = caption,
+				Answer = answer,
+				BotId = botId
+			});
+		}
+
+		[Route("/api/inline-keys")]
+		[HttpGet]
+		public JsonResult GetInlineKeys(string botId)
+		{
+			return new JsonResult(_repository.GetInlineKeys(botId).Select(x => x.Transform()));
 		}
 	}
 }
