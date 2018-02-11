@@ -5,59 +5,28 @@ using MongoDB.Bson;
 
 namespace Api.Controllers
 {
-	public class DataController: Controller
+	public class DataController : Controller
 	{
-		private Repository _repository;
+		private readonly Repository _repository;
 
 		public DataController(Repository repository)
 		{
 			_repository = repository;
 		}
 
-		[Route("/users")]
+		[Route("/api/bot-by-token")]
 		[HttpGet]
-		public JsonResult GetUsers()
+		public JsonResult GetBotByToken(string token)
 		{
-			var mappedUsers = _repository.GetUsers().Select(_=> new
-			{
-				id = _.Id.ToString(),
-				telegramId = _.TelegramId,
-				firstName = _.FirstName,
-				lastName = _.LastName
-			});
-
-			return Json(mappedUsers);
+			return new JsonResult(_repository.GetBotByToken(token).Transform());
 		}
 
-		[Route("/get-user")]
+		[Route("/api/text-message-answers")]
 		[HttpGet]
-		public JsonResult GetUsers(string id)
+		public JsonResult GetTextMessageAnswers(string botId)
 		{
-			var user = _repository.GetUserById(new ObjectId(id));
-
-			var mappedUser = new
-			{
-				id = user.Id.ToString(),
-				telegramId = user.TelegramId,
-				firstName = user.FirstName,
-				lastName = user.LastName
-			};
-
-			return Json(mappedUser);
+			return new JsonResult(_repository.GetTextMessageAnswers(botId).Select(x => x.Transform()));
 		}
 
-		[Route("/add-user")]
-		[HttpPost]
-		public string AddUser(string telegramId, string firstName, string lastName)
-		{
-			_repository.AddUser(new User
-			{
-				TelegramId = telegramId,
-				FirstName = firstName,
-				LastName = lastName
-			});
-
-			return "ok";
-		}
 	}
 }

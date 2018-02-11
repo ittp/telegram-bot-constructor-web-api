@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Api.Models
@@ -14,5 +15,19 @@ namespace Api.Models
 		public string FirstName { get; set; }
 
 		public string LastName { get; set; }
+
+		public string BotId { get; set; }
+
+		public object Transform()
+		{
+			return new
+			{
+				id = Id.ToString(),
+				telegramId = TelegramId,
+				firstName = FirstName,
+				lastName = LastName,
+				botId = BotId
+			};
+		}
 	}
 }

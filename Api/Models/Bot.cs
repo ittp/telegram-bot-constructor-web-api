@@ -1,17 +1,26 @@
-﻿using MongoDB.Bson;
+﻿using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Api.Models
 {
 	public class Bot
 	{
-		[BsonElement("_id")]
+		[BsonId]
 		public ObjectId Id { get; set; }
 
-		[BsonElement("Token")]
 		public string Token { get; set; }
 
-		[BsonElement("Name")]
 		public string Name { get; set; }
+
+		public object Transform()
+		{
+			return new
+			{
+				id = Id.ToString(),
+				token = Token,
+				name = Name
+			};
+		}
 	}
 }
