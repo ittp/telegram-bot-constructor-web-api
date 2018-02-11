@@ -50,6 +50,18 @@ namespace Tests
 		}
 
 		[Fact]
+		public void AddUser_GetUser()
+		{
+			_dataController.AddUser("telegramId", "firstName", "lastName", "userName", "botId");
+
+			var user = _repository.GetUsers("botId").FirstOrDefault();
+
+			var result = _dataController.GetUser(user.Id.ToString(), user.BotId);
+
+			Assert.Contains("telegramId", ((IEnumerable<object>)result.Value).First().ToString());
+		}
+
+		[Fact]
 		public void AddInlineKey_GetInlineKeys()
 		{
 			_dataController.AddInlineKey("caption", "answer", "botId");
@@ -58,5 +70,15 @@ namespace Tests
 
 			Assert.Contains("caption", ((IEnumerable<object>)result.Value).First().ToString());
 		}
+
+//		[Fact]
+//		public void AddInterview_GetInterviews()
+//		{
+//			_dataController.AddInterview("name", "question", new [] {"answer1", "answer2"}, "botId");
+//
+//			var result = _dataController.GetInterviews("botId");
+//
+//			Assert.Contains("question", ((IEnumerable<object>)result.Value).First().ToString());
+//		}
 }
 }

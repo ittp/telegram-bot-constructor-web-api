@@ -16,7 +16,7 @@ namespace Api.Models
 		[BsonElement("question")]
 		public string Question { get; set; }
 
-		[BsonElement("answer")]
+		[BsonElement("answers")]
 		public List<string> Answers { get; set; }
 
 		[BsonElement("botId")]

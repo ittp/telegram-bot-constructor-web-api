@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.Common;
 using System.Security.Cryptography.X509Certificates;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -11,6 +12,7 @@ namespace Api.Models
 		private readonly IMongoCollection<Bot> _bots;
 		private readonly IMongoCollection<TextMessageAnswer> _textMessageAnswers;
 		private readonly IMongoCollection<InlineKey> _inlineKeys;
+		private readonly IMongoCollection<Interview> _interviews;
 
 		public Repository(string token, string dbName)
 		{
@@ -19,6 +21,7 @@ namespace Api.Models
 			_bots = database.GetCollection<Bot>("bots");
 			_textMessageAnswers = database.GetCollection<TextMessageAnswer>("textMessageAnswers");
 			_inlineKeys = database.GetCollection<InlineKey>("inlineKeys");
+			_interviews = database.GetCollection<Interview>("interviews");
 		}
 
 		public Bot GetBotByToken(string token)
@@ -59,6 +62,21 @@ namespace Api.Models
 		public IEnumerable<InlineKey> GetInlineKeys(string botId)
 		{
 			return _inlineKeys.Find(x => x.BotId == botId).ToList();
+		}
+
+		public void AddInterview(Interview interview)
+		{
+			_interviews.InsertOne(interview);
+		}
+
+		public IEnumerable<Interview> GetInterviews(string botId)
+		{
+			return _interviews.Find(x => x.BotId == botId).ToList();
+		}
+
+		public User GetUser(string id, string botId)
+		{
+			return _users.Find(x => x.BotId == botId && x.Id == new ObjectId(id)).FirstOrDefault();
 		}
 	}
 }

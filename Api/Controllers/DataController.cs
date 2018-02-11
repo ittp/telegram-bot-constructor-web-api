@@ -2,6 +2,7 @@
 using System.Linq;
 using Api.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using MongoDB.Bson;
 using MongoDB.Driver.Core.WireProtocol.Messages.Encoders.BinaryEncoders;
 
@@ -28,8 +29,11 @@ namespace Api.Controllers
 				"post /api/add-text-message-answer answer,message,botId",
 				"post /api/add-user telegramId,firstName,lastName,userName,botId",
 				"get /api/users botId",
+				"get /api/user id,botId",
 				"post /api/add-inline-key caption,answer,botId",
-				"get /api/inline-keys botId"
+				"get /api/inline-keys botId",
+				"post /api/add-interview name, question, answers, botId",
+				"get /api/interviews botId"
 			};
 		}
 
@@ -91,6 +95,13 @@ namespace Api.Controllers
 			return new JsonResult(_repository.GetUsers(botId).Select(x => x.Transform()));
 		}
 
+		[Route("/api/user")]
+		[HttpGet]
+		public JsonResult GetUser(string id, string botId)
+		{
+			return new JsonResult(_repository.GetUser(id, botId).Transform());
+		}
+
 		[Route("/api/add-inline-key")]
 		[HttpPost]
 		public void AddInlineKey(string caption, string answer, string botId)
@@ -108,6 +119,26 @@ namespace Api.Controllers
 		public JsonResult GetInlineKeys(string botId)
 		{
 			return new JsonResult(_repository.GetInlineKeys(botId).Select(x => x.Transform()));
+		}
+
+		[Route("/api/add-interview")]
+		[HttpPost]
+		public void AddInterview(string name, string question, List<string> answers, string botId)
+		{
+			_repository.AddInterview(new Interview
+			{
+				Name = name,
+				Question = question,
+				BotId = botId,
+				Answers = answers.ToList()
+			});
+		}
+
+		[Route("/api/interviews")]
+		[HttpGet]
+		public JsonResult GetInterviews(string botId)
+		{
+			return new JsonResult(_repository.GetInterviews(botId).Select(x => x.Transform()));
 		}
 	}
 }
