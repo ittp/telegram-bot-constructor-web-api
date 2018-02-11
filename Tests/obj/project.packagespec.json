@@ -1,0 +1,63 @@
+﻿{
+  "version": "1.0.0",
+  "restore": {
+    "projectUniqueName": "C:\\Workspace\\HackatonBotApi\\Tests\\Tests.csproj",
+    "projectName": "Tests",
+    "projectPath": "C:\\Workspace\\HackatonBotApi\\Tests\\Tests.csproj",
+    "outputPath": "C:\\Workspace\\HackatonBotApi\\Tests\\obj\\",
+    "projectStyle": "PackageReference",
+    "fallbackFolders": [
+      "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+    ],
+    "originalTargetFrameworks": [
+      "netcoreapp2.0"
+    ],
+    "frameworks": {
+      "netcoreapp2.0": {
+        "projectReferences": {
+          "C:\\Workspace\\HackatonBotApi\\Api\\Api.csproj": {
+            "projectPath": "C:\\Workspace\\HackatonBotApi\\Api\\Api.csproj"
+          }
+        }
+      }
+    },
+    "warningProperties": {
+      "warnAsError": [
+        "NU1605"
+      ]
+    }
+  },
+  "frameworks": {
+    "netcoreapp2.0": {
+      "dependencies": {
+        "Microsoft.NET.Test.Sdk": {
+          "target": "Package",
+          "version": "[15.5.0, )"
+        },
+        "Microsoft.NETCore.App": {
+          "suppressParent": "All",
+          "target": "Package",
+          "version": "[2.0.0, )",
+          "autoReferenced": true
+        },
+        "Mongo2Go": {
+          "target": "Package",
+          "version": "[2.2.1, )"
+        },
+        "xunit": {
+          "target": "Package",
+          "version": "[2.3.1, )"
+        },
+        "xunit.runner.visualstudio": {
+          "target": "Package",
+          "version": "[2.3.1, )"
+        }
+      },
+      "imports": [
+        "net461"
+      ],
+      "assetTargetFallback": true,
+      "warn": true
+    }
+  }
+}

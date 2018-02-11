@@ -16,6 +16,8 @@ namespace Api.Models
 
 		public string LastName { get; set; }
 
+		public string UserName { get; set; }
+
 		public string BotId { get; set; }
 
 		public object Transform()
@@ -26,6 +28,7 @@ namespace Api.Models
 				telegramId = TelegramId,
 				firstName = FirstName,
 				lastName = LastName,
+				userName = UserName,
 				botId = BotId
 			};
 		}

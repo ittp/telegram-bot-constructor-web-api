@@ -8,8 +8,8 @@ namespace Api.Models
 	public class Repository
 	{
 		private readonly IMongoCollection<User> _usersCollection;
-		private IMongoCollection<Bot> _botsCollection;
-		private IMongoCollection<TextMessageAnswer> _textMessageAnswers;
+		private readonly IMongoCollection<Bot> _botsCollection;
+		private readonly IMongoCollection<TextMessageAnswer> _textMessageAnswers;
 
 		public Repository(string token, string dbName)
 		{
@@ -19,14 +19,18 @@ namespace Api.Models
 			_textMessageAnswers = database.GetCollection<TextMessageAnswer>("textMessageAnswers");
 		}
 
-		public Bot GetBotByToken(string token)
-		{
-			return _botsCollection.Find(x => x.Token == token).FirstOrDefault();
-		}
+		public Bot GetBotByToken(string token) => _botsCollection.Find(x => x.Token == token).FirstOrDefault();
 
-		public IEnumerable<TextMessageAnswer> GetTextMessageAnswers(string botId)
-		{
-			return _textMessageAnswers.Find(x => x.BotId == botId).ToList();
-		}
+		public void AddBot(Bot bot) => _botsCollection.InsertOne(bot);
+
+		public IEnumerable<TextMessageAnswer> GetTextMessageAnswers(string botId) =>
+			_textMessageAnswers.Find(x => x.BotId == botId).ToList();
+
+		public void AddTextMessageAnswer(TextMessageAnswer textMessageAnswer) =>
+			_textMessageAnswers.InsertOne(textMessageAnswer);
+
+		public void AddUser(User user) => _usersCollection.InsertOne(user);
+
+		public IEnumerable<User> GetUsers(string botId) => _usersCollection.Find(x => x.BotId == botId).ToList();
 	}
 }
