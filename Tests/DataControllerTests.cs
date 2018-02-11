@@ -55,13 +55,17 @@ namespace Tests
 			_dataController.AddBot("name", "token");
 
 			var getByTokenResult = _dataController.GetBotByToken("wrong");
+
 			var getResult = _dataController.GetBot("wrong");
 
 			var wrongAddResult = _dataController.AddBot("", "");
 
+			var wrongRemoveResult = _dataController.RemoveBot("wrong");
+
 			Assert.NotStrictEqual(new JsonResult(false), getByTokenResult);
 			Assert.NotStrictEqual(new JsonResult(false), getResult);
 			Assert.NotStrictEqual(new JsonResult(false), wrongAddResult);
+			Assert.NotStrictEqual(new JsonResult(false), wrongRemoveResult);
 
 			Dispose();
 		}
@@ -76,6 +80,7 @@ namespace Tests
 			var id = addResult.GetPropertyOfJsonResult<string>("id");
 
 			var getSingleResult = _dataController.GetInlineKey(id);
+
 			var getResult = _dataController.GetInlineKeys("botId");
 
 			var removeResult = _dataController.RemoveInlineKey(id);
@@ -98,13 +103,17 @@ namespace Tests
 			_dataController.AddInlineKey("caption", "answer", "botId");
 
 			var singleResult = _dataController.GetInlineKey("wrong");
+
 			var result = _dataController.GetInlineKeys("wrong");
+
+			var wrongRemoveResult = _dataController.RemoveInlineKey("wrong");
 
 			var wrongAddResult = _dataController.AddInlineKey("", "", "");
 
 			Assert.NotStrictEqual(new JsonResult(false), singleResult);
 			Assert.NotStrictEqual(new JsonResult(false), result);
 			Assert.NotStrictEqual(new JsonResult(false), wrongAddResult);
+			Assert.NotStrictEqual(new JsonResult(false), wrongRemoveResult);
 
 			Dispose();
 		}
@@ -118,6 +127,7 @@ namespace Tests
 			var id = addResult.GetPropertyOfJsonResult<string>("id");
 
 			var getResult = _dataController.GetInterviewAnswers("botId");
+
 			var getSingileResult = _dataController.GetInterviewAnswer(id);
 
 			var removeResult = _dataController.RemoveInterviewAnswer(id);
@@ -142,8 +152,11 @@ namespace Tests
 
 			var wrongAddResult = _dataController.AddInterviewAnswer("", "", "", "");
 
+			var wrongRemoveResult = _dataController.RemoveInterviewAnswer("wrong");
+
 			Assert.NotStrictEqual(new JsonResult(false), result);
 			Assert.NotStrictEqual(new JsonResult(false), wrongAddResult);
+			Assert.NotStrictEqual(new JsonResult(false), wrongRemoveResult);
 
 			Dispose();
 		}
@@ -157,6 +170,7 @@ namespace Tests
 			var id = addResult.GetPropertyOfJsonResult<string>("id");
 
 			var getResult = _dataController.GetInterviews("botId");
+
 			var getSingleResult = _dataController.GetInterview(id);
 
 			var removeResult = _dataController.RemoveInterview(id);
@@ -181,8 +195,11 @@ namespace Tests
 
 			var wrongAddResult = _dataController.AddInterview("", "", null, "");
 
+			var wrongRemoveResult = _dataController.RemoveInterview("wrong");
+
 			Assert.NotStrictEqual(new JsonResult(false), result);
 			Assert.NotStrictEqual(new JsonResult(false), wrongAddResult);
+			Assert.NotStrictEqual(new JsonResult(false), wrongRemoveResult);
 
 			Dispose();
 		}
@@ -196,6 +213,7 @@ namespace Tests
 			var id = addResult.GetPropertyOfJsonResult<string>("id");
 
 			var getResult = _dataController.GetTextMessageAnswers("botId");
+
 			var getSingleResult = _dataController.GetTextMessageAnswer(id);
 
 			var removeResult = _dataController.RemoveTextMessageAnswer(id);
@@ -220,7 +238,10 @@ namespace Tests
 
 			var wrongAddResult = _dataController.AddTextMessageAnswer("", "", "");
 
+			var wrongRemoveResult = _dataController.RemoveTextMessageAnswer("wrong");
+
 			Assert.NotStrictEqual(new JsonResult(false), result);
+			Assert.NotStrictEqual(new JsonResult(false), wrongAddResult);
 			Assert.NotStrictEqual(new JsonResult(false), wrongAddResult);
 
 			Dispose();
@@ -235,6 +256,7 @@ namespace Tests
 			var id = addResult.GetPropertyOfJsonResult<string>("id");
 
 			var getResult = _dataController.GetUsers("botId");
+
 			var getSingleResult = _dataController.GetUser("telegramId", "botId");
 
 			var removeResult = _dataController.RemoveUser(id);
@@ -259,6 +281,8 @@ namespace Tests
 			var singleResult = _dataController.GetUser("wrong", "wrong");
 
 			var wrongAddResult = _dataController.AddUser("", "", "", "", "");
+
+			var wrongRemoveResult = _dataController.RemoveUser("wrong");
 
 			Assert.NotStrictEqual(new JsonResult(false), result);
 			Assert.NotStrictEqual(new JsonResult(false), singleResult);
