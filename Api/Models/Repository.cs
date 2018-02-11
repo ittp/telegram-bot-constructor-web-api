@@ -19,21 +19,6 @@ namespace Api.Models
 			_textMessageAnswers = database.GetCollection<TextMessageAnswer>("textMessageAnswers");
 		}
 
-		public void AddUser(User user)
-		{
-			_usersCollection.InsertOne(user);
-		}
-
-		public IEnumerable<User> GetUsers()
-		{
-			return _usersCollection.Find(new BsonDocument()).ToList();
-		}
-
-		public User GetUserById(ObjectId id)
-		{
-			return _usersCollection.Find(x => x.Id == id).FirstOrDefault();
-		}
-
 		public Bot GetBotByToken(string token)
 		{
 			return _botsCollection.Find(x => x.Token == token).FirstOrDefault();

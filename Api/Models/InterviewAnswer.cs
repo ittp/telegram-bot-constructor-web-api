@@ -9,12 +9,16 @@ namespace Api.Models
 		[BsonId]
 		public ObjectId Id { get; set; }
 
-		public string InterViewId { get; set; }
+		[BsonElement("interviewId")]
+		public string InterviewId { get; set; }
 
+		[BsonElement("userId")]
 		public string UserId { get; set; }
 
+		[BsonElement("answer")]
 		public string Answer { get; set; }
 
+		[BsonElement("botId")]
 		public string BotId { get; set; }
 
 		public object Transform()
@@ -22,7 +26,7 @@ namespace Api.Models
 			return new
 			{
 				id = Id.ToString(),
-				interviewId = InterViewId,
+				interviewId = InterviewId,
 				userId = UserId,
 				answer = Answer,
 				botId = BotId

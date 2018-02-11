@@ -9,10 +9,13 @@ namespace Api.Models
 		[BsonId]
 		public ObjectId Id { get; set; }
 
+		[BsonElement("caption")]
 		public string Caption { get; set; }
 
+		[BsonElement("answer")]
 		public string Answer { get; set; }
 
+		[BsonElement("botId")]
 		public string BotId { get; set; }
 
 		public object Transform()
