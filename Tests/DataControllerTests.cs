@@ -58,7 +58,7 @@ namespace Tests
 
 			var result = _dataController.GetUser(user.Id.ToString(), user.BotId);
 
-			Assert.Contains("telegramId", ((IEnumerable<object>)result.Value).First().ToString());
+			Assert.Contains("telegramId", result.Value.ToString());
 		}
 
 		[Fact]
