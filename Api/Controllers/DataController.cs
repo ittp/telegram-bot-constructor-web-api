@@ -41,7 +41,9 @@ namespace Api.Controllers
 		[HttpGet]
 		public JsonResult GetBotByToken(string token)
 		{
-			return new JsonResult(_repository.GetBotByToken(token).Transform());
+			var botDto = _repository.GetBotByToken(token);
+
+			return botDto != null ? Json(botDto.Transform()) : null;
 		}
 
 		[Route("/api/add-bot")]
@@ -59,7 +61,9 @@ namespace Api.Controllers
 		[HttpGet]
 		public JsonResult GetTextMessageAnswers(string botId)
 		{
-			return new JsonResult(_repository.GetTextMessageAnswers(botId).Select(x => x.Transform()));
+			var textMessageAnswersDto = _repository.GetTextMessageAnswers(botId);
+
+			return textMessageAnswersDto != null ? Json(textMessageAnswersDto.Select(x => x.Transform())) : null;
 		}
 
 		[Route("/api/add-text-message-answer")]
@@ -92,14 +96,18 @@ namespace Api.Controllers
 		[HttpGet]
 		public JsonResult GetUsers(string botId)
 		{
-			return new JsonResult(_repository.GetUsers(botId).Select(x => x.Transform()));
+			var usersDto = _repository.GetUsers(botId);
+
+			return usersDto != null ? Json(usersDto.Select(x => x.Transform())) : null;
 		}
 
 		[Route("/api/user")]
 		[HttpGet]
 		public JsonResult GetUser(string telegramId, string botId)
 		{
-			return new JsonResult(_repository.GetUser(telegramId, botId).Transform());
+			var userDto = _repository.GetUser(telegramId, botId);
+
+			return userDto != null ? Json(userDto.Transform()) : null;
 		}
 
 		[Route("/api/add-inline-key")]
@@ -118,7 +126,9 @@ namespace Api.Controllers
 		[HttpGet]
 		public JsonResult GetInlineKeys(string botId)
 		{
-			return new JsonResult(_repository.GetInlineKeys(botId).Select(x => x.Transform()));
+			var inlineKeysDto = _repository.GetInlineKeys(botId);
+
+			return inlineKeysDto != null ? Json(inlineKeysDto.Select(x => x.Transform())) : null;
 		}
 
 		[Route("/api/add-interview")]
@@ -138,7 +148,9 @@ namespace Api.Controllers
 		[HttpGet]
 		public JsonResult GetInterviews(string botId)
 		{
-			return new JsonResult(_repository.GetInterviews(botId).Select(x => x.Transform()));
+			var interviewsDto = _repository.GetInterviews(botId);
+
+			return interviewsDto != null ? Json(interviewsDto.Select(x => x.Transform())) : null;
 		}
 	}
 }

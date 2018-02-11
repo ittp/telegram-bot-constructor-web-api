@@ -26,6 +26,8 @@ namespace Tests
 
 			var result = _dataController.GetBotByToken("token");
 
+			_dataController.GetBotByToken("wrongToken");
+
 			Assert.Contains("name" , result.Value.ToString());
 		}
 
@@ -35,6 +37,8 @@ namespace Tests
 			_dataController.AddTextMessageAnswer("answer", "message", "botId");
 
 			var result = _dataController.GetTextMessageAnswers("botId");
+
+			_dataController.GetTextMessageAnswers("wrongId");
 
 			Assert.Contains("message",((IEnumerable<object>)result.Value).First().ToString());
 		}
@@ -46,6 +50,8 @@ namespace Tests
 
 			var result = _dataController.GetUsers("botId");
 
+			_dataController.GetUsers("wrongId");
+
 			Assert.Contains("telegramId", ((IEnumerable<object>)result.Value).First().ToString());
 		}
 
@@ -56,6 +62,8 @@ namespace Tests
 
 			var result = _dataController.GetUser("telegramId", "botId");
 
+		_dataController.GetUser("wrongId", "wrongId");
+
 			Assert.Contains("telegramId", result.Value.ToString());
 		}
 
@@ -65,6 +73,8 @@ namespace Tests
 			_dataController.AddInlineKey("caption", "answer", "botId");
 
 			var result = _dataController.GetInlineKeys("botId");
+
+			_dataController.GetInlineKeys("wrongId");
 
 			Assert.Contains("caption", ((IEnumerable<object>)result.Value).First().ToString());
 		}
