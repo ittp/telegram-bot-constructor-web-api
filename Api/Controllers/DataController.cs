@@ -29,7 +29,7 @@ namespace Api.Controllers
 				"post /api/add-text-message-answer answer,message,botId",
 				"post /api/add-user telegramId,firstName,lastName,userName,botId",
 				"get /api/users botId",
-				"get /api/user id,botId",
+				"get /api/user telegramId,botId",
 				"post /api/add-inline-key caption,answer,botId",
 				"get /api/inline-keys botId",
 				"post /api/add-interview name, question, answers, botId",
@@ -97,9 +97,9 @@ namespace Api.Controllers
 
 		[Route("/api/user")]
 		[HttpGet]
-		public JsonResult GetUser(string id, string botId)
+		public JsonResult GetUser(string telegramId, string botId)
 		{
-			return new JsonResult(_repository.GetUser(id, botId).Transform());
+			return new JsonResult(_repository.GetUser(telegramId, botId).Transform());
 		}
 
 		[Route("/api/add-inline-key")]

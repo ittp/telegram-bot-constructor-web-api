@@ -54,9 +54,7 @@ namespace Tests
 		{
 			_dataController.AddUser("telegramId", "firstName", "lastName", "userName", "botId");
 
-			var user = _repository.GetUsers("botId").FirstOrDefault();
-
-			var result = _dataController.GetUser(user.Id.ToString(), user.BotId);
+			var result = _dataController.GetUser("telegramId", "botId");
 
 			Assert.Contains("telegramId", result.Value.ToString());
 		}

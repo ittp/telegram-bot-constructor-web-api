@@ -74,9 +74,9 @@ namespace Api.Models
 			return _interviews.Find(x => x.BotId == botId).ToList();
 		}
 
-		public User GetUser(string id, string botId)
+		public User GetUser(string telegramId, string botId)
 		{
-			return _users.Find(x => x.BotId == botId && x.Id == new ObjectId(id)).FirstOrDefault();
+			return _users.Find(x => x.BotId == botId && x.TelegramId == telegramId).FirstOrDefault();
 		}
 	}
 }
