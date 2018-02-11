@@ -2,9 +2,6 @@
 using System.Linq;
 using Api.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using MongoDB.Bson;
-using MongoDB.Driver.Core.WireProtocol.Messages.Encoders.BinaryEncoders;
 
 namespace Api.Controllers
 {
@@ -43,7 +40,9 @@ namespace Api.Controllers
 		{
 			var botDto = _repository.GetBotByToken(token);
 
-			return botDto != null ? Json(botDto.Transform()) : null;
+			return botDto != null
+				? Json(botDto.Transform())
+				: new JsonResult(false);
 		}
 
 		[Route("/api/add-bot")]
@@ -63,7 +62,9 @@ namespace Api.Controllers
 		{
 			var textMessageAnswersDto = _repository.GetTextMessageAnswers(botId);
 
-			return textMessageAnswersDto != null ? Json(textMessageAnswersDto.Select(x => x.Transform())) : null;
+			return textMessageAnswersDto != null
+				? Json(textMessageAnswersDto.Select(x => x.Transform()))
+				: new JsonResult(false);
 		}
 
 		[Route("/api/add-text-message-answer")]
@@ -98,7 +99,9 @@ namespace Api.Controllers
 		{
 			var usersDto = _repository.GetUsers(botId);
 
-			return usersDto != null ? Json(usersDto.Select(x => x.Transform())) : null;
+			return usersDto != null
+				? Json(usersDto.Select(x => x.Transform()))
+				: new JsonResult(false);
 		}
 
 		[Route("/api/user")]
@@ -107,7 +110,9 @@ namespace Api.Controllers
 		{
 			var userDto = _repository.GetUser(telegramId, botId);
 
-			return userDto != null ? Json(userDto.Transform()) : null;
+			return userDto != null
+				? Json(userDto.Transform())
+				: new JsonResult(false);
 		}
 
 		[Route("/api/add-inline-key")]
@@ -128,7 +133,9 @@ namespace Api.Controllers
 		{
 			var inlineKeysDto = _repository.GetInlineKeys(botId);
 
-			return inlineKeysDto != null ? Json(inlineKeysDto.Select(x => x.Transform())) : null;
+			return inlineKeysDto != null
+				? Json(inlineKeysDto.Select(x => x.Transform()))
+				: new JsonResult(false);
 		}
 
 		[Route("/api/add-interview")]
@@ -150,7 +157,9 @@ namespace Api.Controllers
 		{
 			var interviewsDto = _repository.GetInterviews(botId);
 
-			return interviewsDto != null ? Json(interviewsDto.Select(x => x.Transform())) : null;
+			return interviewsDto != null
+				? Json(interviewsDto.Select(x => x.Transform()))
+				: new JsonResult(false);
 		}
 	}
 }
