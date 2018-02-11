@@ -8,10 +8,13 @@ namespace Api.Models
 		[BsonId]
 		public ObjectId Id { get; set; }
 
+		[BsonElement("message")]
 		public string Message { get; set; }
 
+		[BsonElement("answer")]
 		public string Answer { get; set; }
 
+		[BsonElement("botId")]
 		public string BotId { get; set; }
 
 		public object Transform()
