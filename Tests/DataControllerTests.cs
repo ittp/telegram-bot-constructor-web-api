@@ -33,13 +33,17 @@ namespace Tests
 			var id = addResult.GetPropertyOfJsonResult<string>("id");
 			var token = addResult.GetPropertyOfJsonResult<string>("token");
 
-			var getResult = _dataController.GetBot(id);
+			var getResult = _dataController.GetBots();
+
+			var getSingleResult = _dataController.GetBot(id);
+
 			var getByTokenResult = _dataController.GetBotByToken(token);
 
 			var removeResult = _dataController.RemoveBot(id);
 			var afterRemoveResult = _dataController.GetBot(id);
 
-			Assert.Equal("name", getResult.GetPropertyOfJsonResult<string>("name"));
+			Assert.Equal("name", getResult.GetPropertyOfFirstElementInJsonResult<string>("name"));
+			Assert.Equal("name", getSingleResult.GetPropertyOfJsonResult<string>("name"));
 			Assert.Equal("name", getByTokenResult.GetPropertyOfJsonResult<string>("name"));
 			Assert.NotStrictEqual(new JsonResult(true), removeResult);
 			Assert.NotStrictEqual(new JsonResult(false), afterRemoveResult);

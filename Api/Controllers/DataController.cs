@@ -34,6 +34,17 @@ namespace Api.Controllers
 				: Json(false);
 		}
 
+		[Route("/api/bots")]
+		[HttpGet]
+		public JsonResult GetBots()
+		{
+			var botsDto = _repository.GetBots();
+
+			return botsDto != null
+				? Json(botsDto.Select(x => x.Transform()))
+				: Json(false);
+		}
+
 		[Route("/api/bot-by-token")]
 		[HttpGet]
 		public JsonResult GetBotByToken(string token)

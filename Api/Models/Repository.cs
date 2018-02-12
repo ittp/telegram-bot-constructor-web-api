@@ -37,6 +37,11 @@ namespace Api.Models
 			return GetBot(bot.Id.ToString());
 		}
 
+		public IEnumerable<Bot> GetBots()
+		{
+			return _bots.Find(new BsonDocument()).ToList();
+		}
+
 		public Bot GetBot(string id)
 		{
 			return _bots.Find(x => x.Id == TryCreateObjectId(id)).FirstOrDefault();
