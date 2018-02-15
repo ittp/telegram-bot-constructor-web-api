@@ -20,6 +20,7 @@ namespace Api
 			services.AddMvc();
 
 			services.AddSingleton(new Repository(Configuration["Token"], Configuration["DBName"]));
+			services.AddSingleton(Configuration);
 		}
 
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env)

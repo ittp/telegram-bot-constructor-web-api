@@ -2,23 +2,26 @@
 using System.Linq;
 using Api.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace Api.Controllers
 {
 	public class DataController : Controller
 	{
 		private readonly Repository _repository;
+		private readonly IConfiguration _configuration;
 
-		public DataController(Repository repository)
+		public DataController(Repository repository, IConfiguration configuration)
 		{
 			_repository = repository;
+			_configuration = configuration;
 		}
 
 		[Route("/")]
 		[HttpGet]
 		public string Index()
 		{
-			return "Works!";
+			return _configuration["Version"];
 		}
 
 		[Route("/api/bot")]
