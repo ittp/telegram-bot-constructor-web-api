@@ -3,6 +3,7 @@ using System.Linq;
 using Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace Api.Controllers
 {
@@ -268,19 +269,21 @@ namespace Api.Controllers
 
 		[Route("/api/add-interview")]
 		[HttpPost]
-		public JsonResult AddInterview(string name, string question, List<string> answers, string botId)
+		public JsonResult AddInterview(string name, string question, string answers, string botId)
 		{
-			if (answers == null) return Json(false);
+			if (string.IsNullOrEmpty(answers)) return Json(false);
 			if (string.IsNullOrEmpty(name)) return Json(false);
 			if (string.IsNullOrEmpty(question)) return Json(false);
 			if (string.IsNullOrEmpty(botId)) return Json(false);
+
+			var parsedAnswers = JsonConvert.DeserializeObject<List<string>>(answers);
 
 			var interviewDto = _repository.AddInterview(new Interview
 			{
 				Name = name,
 				Question = question,
 				BotId = botId,
-				Answers = answers.ToList()
+				Answers = parsedAnswers
 			});
 
 			return interviewDto != null
