@@ -14071,38 +14071,37 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Mikhail\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "/home/mikhail/.nuget/packages/": {},
+    "/usr/share/dotnet/sdk/NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Workspace\\HackatonBotApi\\Tests\\Tests.csproj",
+      "projectUniqueName": "/home/mikhail/Documents/hackaton-api/Tests/Tests.csproj",
       "projectName": "Tests",
-      "projectPath": "C:\\Workspace\\HackatonBotApi\\Tests\\Tests.csproj",
-      "packagesPath": "C:\\Users\\Mikhail\\.nuget\\packages\\",
-      "outputPath": "C:\\Workspace\\HackatonBotApi\\Tests\\obj\\",
+      "projectPath": "/home/mikhail/Documents/hackaton-api/Tests/Tests.csproj",
+      "packagesPath": "/home/mikhail/.nuget/packages/",
+      "outputPath": "/home/mikhail/Documents/hackaton-api/Tests/obj",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        "/usr/share/dotnet/sdk/NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Mikhail\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/home/mikhail/.config/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {},
-        "https://nuget.dodopizza.io/nuget": {}
+        "https://nuget.dodopizza.io/nuget": {},
+        "https://www.nuget.org/api/v2/": {}
       },
       "frameworks": {
         "netcoreapp2.0": {
           "projectReferences": {
-            "C:\\Workspace\\HackatonBotApi\\Api\\Api.csproj": {
-              "projectPath": "C:\\Workspace\\HackatonBotApi\\Api\\Api.csproj"
+            "/home/mikhail/Documents/hackaton-api/Api/Api.csproj": {
+              "projectPath": "/home/mikhail/Documents/hackaton-api/Api/Api.csproj"
             }
           }
         }
@@ -14116,27 +14115,27 @@
     "frameworks": {
       "netcoreapp2.0": {
         "dependencies": {
-          "Microsoft.NET.Test.Sdk": {
-            "target": "Package",
-            "version": "[15.5.0, )"
-          },
           "Microsoft.NETCore.App": {
             "suppressParent": "All",
             "target": "Package",
-            "version": "[2.0.0, )",
+            "version": "2.0",
             "autoReferenced": true
+          },
+          "Microsoft.NET.Test.Sdk": {
+            "target": "Package",
+            "version": "15.5.0"
           },
           "Mongo2Go": {
             "target": "Package",
-            "version": "[2.2.1, )"
+            "version": "2.2.1"
           },
           "xunit": {
             "target": "Package",
-            "version": "[2.3.1, )"
+            "version": "2.3.1"
           },
           "xunit.runner.visualstudio": {
             "target": "Package",
-            "version": "[2.3.1, )"
+            "version": "2.3.1"
           }
         },
         "imports": [

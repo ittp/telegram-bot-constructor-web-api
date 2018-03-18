@@ -158,13 +158,16 @@ namespace Api.Controllers
 			if (string.IsNullOrEmpty(userName)) return Json(false);
 			if (string.IsNullOrEmpty(botId)) return Json(false);
 
+            var networking = JsonConvert.SerializeObject(new object());
+
 			var userDto = _repository.AddUser(new User
 			{
 				BotId = botId,
 				FirstName = firstName,
 				LastName = lastName,
 				TelegramId = telegramId,
-				UserName = userName
+				UserName = userName,
+                Networking = networking
 			});
 
 			return userDto != null
@@ -198,6 +201,21 @@ namespace Api.Controllers
 				? Json(userDto.Transform())
 				: Json(false);
 		}
+
+        [Route("/api/set-networking")]
+        [HttpPost]
+        public JsonResult SetNetworking(string telegramId, string botId, string networking)
+        {
+            if (string.IsNullOrEmpty(telegramId)) return Json(false);
+            if (string.IsNullOrEmpty(botId)) return Json(false);
+            if (string.IsNullOrEmpty(networking)) return Json(false);
+
+            var updatedUserDto = _repository.SetNetworking(telegramId, botId, networking);
+
+            return updatedUserDto != null
+                ? Json(updatedUserDto.Transform())
+                : Json(false);
+        }
 
 		[Route("/api/remove-user")]
 		[HttpPost]

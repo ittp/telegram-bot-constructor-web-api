@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -100,9 +101,18 @@ namespace Api.Models
 			return _interviews.Find(x => x.BotId == botId).ToList();
 		}
 
-		public User GetUser(string telegramId, string botId)
-		{
-			return _users.Find(x => x.BotId == botId && x.TelegramId == telegramId).FirstOrDefault();
+        public User GetUser(string telegramId, string botId)
+        {
+            return _users.Find(x => x.BotId == botId && x.TelegramId == telegramId).FirstOrDefault();
+        }
+		
+        public User SetNetworking(string telegramId, string botId, string networking)
+        {
+            var update = Builders<User>.Update.Set(x => x.Networking, networking);
+
+            _users.UpdateOne(x => x.BotId == botId && x.TelegramId == telegramId, update);
+
+            return _users.Find(x => x.BotId == botId && x.TelegramId == telegramId).FirstOrDefault();
 		}
 
 		public InterviewAnswer AddInterviewAnswer(InterviewAnswer interviewAnswer)

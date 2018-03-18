@@ -19,6 +19,8 @@ namespace Api.Models
 
 		public string BotId { get; set; }
 
+        public string Networking { get; set; }
+
 		public object Transform()
 		{
 			return new
@@ -28,7 +30,8 @@ namespace Api.Models
 				firstName = FirstName,
 				lastName = LastName,
 				userName = UserName,
-				botId = BotId
+				botId = BotId,
+                networking = Networking,
 			};
 		}
 	}
