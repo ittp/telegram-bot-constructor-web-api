@@ -13068,31 +13068,29 @@
     ]
   },
   "packageFolders": {
-    "/home/mikhail/.nuget/packages/": {},
-    "/usr/share/dotnet/sdk/NuGetFallbackFolder": {}
+    "C:\\Users\\sb26f\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/mikhail/Documents/hackaton-api/Api/Api.csproj",
+      "projectUniqueName": "C:\\Workspace\\telegram-bot-constructor-web-api\\Api\\Api.csproj",
       "projectName": "Api",
-      "projectPath": "/home/mikhail/Documents/hackaton-api/Api/Api.csproj",
-      "packagesPath": "/home/mikhail/.nuget/packages/",
-      "outputPath": "/home/mikhail/Documents/hackaton-api/Api/obj",
+      "projectPath": "C:\\Workspace\\telegram-bot-constructor-web-api\\Api\\Api.csproj",
+      "packagesPath": "C:\\Users\\sb26f\\.nuget\\packages\\",
+      "outputPath": "C:\\Workspace\\telegram-bot-constructor-web-api\\Api\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "/usr/share/dotnet/sdk/NuGetFallbackFolder"
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "/home/mikhail/.config/NuGet/NuGet.Config"
+        "C:\\Users\\sb26f\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.0"
       ],
       "sources": {
-        "https://api.nuget.org/v3/index.json": {},
-        "https://nuget.dodopizza.io/nuget": {},
-        "https://www.nuget.org/api/v2/": {}
+        "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "netcoreapp2.0": {
@@ -13108,27 +13106,27 @@
     "frameworks": {
       "netcoreapp2.0": {
         "dependencies": {
+          "Microsoft.AspNetCore.All": {
+            "target": "Package",
+            "version": "[2.0.5, )"
+          },
           "Microsoft.NETCore.App": {
             "suppressParent": "All",
             "target": "Package",
-            "version": "2.0",
+            "version": "[2.0.0, )",
             "autoReferenced": true
-          },
-          "Microsoft.AspNetCore.All": {
-            "target": "Package",
-            "version": "2.0.5"
           },
           "MongoDB.Bson": {
             "target": "Package",
-            "version": "2.5.0"
+            "version": "[2.5.0, )"
           },
           "MongoDB.Driver": {
             "target": "Package",
-            "version": "2.5.0"
+            "version": "[2.5.0, )"
           },
           "MongoDB.Driver.Core": {
             "target": "Package",
-            "version": "2.5.0"
+            "version": "[2.5.0, )"
           }
         },
         "imports": [

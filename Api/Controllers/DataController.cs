@@ -37,6 +37,33 @@ namespace Api.Controllers
 				? Json(botDto.Transform())
 				: Json(false);
 		}
+		
+		[Route("/api/bot-networking")]
+		[HttpGet]
+		public JsonResult GetBotNetworking(string id)
+		{
+			if (string.IsNullOrEmpty(id)) return Json(false);
+
+			var botDto = _repository.GetBot(id);
+
+			return botDto != null
+				? Json(botDto.NetworkingEnabled)
+				: Json(false);
+		}
+		
+		[Route("/api/bot-networking")]
+		[HttpPost]
+		public JsonResult SetBotNetworking(string id, bool? networkingEnabled)
+		{
+			if (string.IsNullOrEmpty(id)) return Json(false);
+			if (networkingEnabled == null) return Json(false);
+
+			var botDto = _repository.SetNetWorkingStatus(id, networkingEnabled ?? false);
+
+			return botDto != null
+				? Json(botDto.Transform())
+				: Json(false);
+		}
 
 		[Route("/api/bots")]
 		[HttpGet]
@@ -72,7 +99,8 @@ namespace Api.Controllers
 			var botDto = _repository.AddBot(new Bot
 			{
 				Name = name,
-				Token = token
+				Token = token,
+				NetworkingEnabled = false
 			});
 
 			return botDto != null

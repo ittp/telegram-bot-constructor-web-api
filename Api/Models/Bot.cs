@@ -14,13 +14,16 @@ namespace Api.Models
 		[BsonElement("name")]
 		public string Name { get; set; }
 
+		public bool NetworkingEnabled { get; set; }
+
 		public object Transform()
 		{
 			return new
 			{
 				id = Id.ToString(),
 				token = Token,
-				name = Name
+				name = Name,
+				networkingEnabled = NetworkingEnabled
 			};
 		}
 	}

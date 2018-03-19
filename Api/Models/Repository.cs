@@ -101,18 +101,27 @@ namespace Api.Models
 			return _interviews.Find(x => x.BotId == botId).ToList();
 		}
 
-        public User GetUser(string telegramId, string botId)
-        {
-            return _users.Find(x => x.BotId == botId && x.TelegramId == telegramId).FirstOrDefault();
-        }
-		
-        public User SetNetworking(string telegramId, string botId, string networking)
-        {
-            var update = Builders<User>.Update.Set(x => x.Networking, networking);
+		public User GetUser(string telegramId, string botId)
+		{
+			return _users.Find(x => x.BotId == botId && x.TelegramId == telegramId).FirstOrDefault();
+		}
 
-            _users.UpdateOne(x => x.BotId == botId && x.TelegramId == telegramId, update);
+		public User SetNetworking(string telegramId, string botId, string networking)
+		{
+			var update = Builders<User>.Update.Set(x => x.Networking, networking);
 
-            return _users.Find(x => x.BotId == botId && x.TelegramId == telegramId).FirstOrDefault();
+			_users.UpdateOne(x => x.BotId == botId && x.TelegramId == telegramId, update);
+
+			return _users.Find(x => x.BotId == botId && x.TelegramId == telegramId).FirstOrDefault();
+		}
+
+		public Bot SetNetWorkingStatus(string botId, bool networkingStatus)
+		{
+			var update = Builders<Bot>.Update.Set(x => x.NetworkingEnabled, networkingStatus);
+
+			_bots.UpdateOne(x => x.Id == new ObjectId(botId), update);
+
+			return _bots.Find(x => x.Id == new ObjectId(botId)).FirstOrDefault();
 		}
 
 		public InterviewAnswer AddInterviewAnswer(InterviewAnswer interviewAnswer)

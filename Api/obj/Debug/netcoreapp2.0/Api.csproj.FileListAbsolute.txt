@@ -20,3 +20,14 @@ C:/Workspace/HackatonBotApi/Api/obj/Debug/netcoreapp2.0/Api.pdb
 /home/mikhail/Documents/hackaton-api/Api/obj/Debug/netcoreapp2.0/Api.AssemblyInfo.cs
 /home/mikhail/Documents/hackaton-api/Api/obj/Debug/netcoreapp2.0/Api.dll
 /home/mikhail/Documents/hackaton-api/Api/obj/Debug/netcoreapp2.0/Api.pdb
+C:\Workspace\telegram-bot-constructor-web-api\Api\bin\Debug\netcoreapp2.0\Api.deps.json
+C:\Workspace\telegram-bot-constructor-web-api\Api\bin\Debug\netcoreapp2.0\Api.runtimeconfig.json
+C:\Workspace\telegram-bot-constructor-web-api\Api\bin\Debug\netcoreapp2.0\Api.runtimeconfig.dev.json
+C:\Workspace\telegram-bot-constructor-web-api\Api\bin\Debug\netcoreapp2.0\Api.dll
+C:\Workspace\telegram-bot-constructor-web-api\Api\bin\Debug\netcoreapp2.0\Api.pdb
+C:\Workspace\telegram-bot-constructor-web-api\Api\obj\Debug\netcoreapp2.0\Api.csprojResolveAssemblyReference.cache
+C:\Workspace\telegram-bot-constructor-web-api\Api\obj\Debug\netcoreapp2.0\Api.csproj.CoreCompileInputs.cache
+C:\Workspace\telegram-bot-constructor-web-api\Api\obj\Debug\netcoreapp2.0\Api.AssemblyInfoInputs.cache
+C:\Workspace\telegram-bot-constructor-web-api\Api\obj\Debug\netcoreapp2.0\Api.AssemblyInfo.cs
+C:\Workspace\telegram-bot-constructor-web-api\Api\obj\Debug\netcoreapp2.0\Api.dll
+C:\Workspace\telegram-bot-constructor-web-api\Api\obj\Debug\netcoreapp2.0\Api.pdb
