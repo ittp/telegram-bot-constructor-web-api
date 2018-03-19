@@ -100,7 +100,7 @@ namespace Api.Controllers
 			{
 				Name = name,
 				Token = token,
-				NetworkingEnabled = false
+				NetworkingEnabled = true
 			});
 
 			return botDto != null
