@@ -164,6 +164,19 @@ namespace Api.Controllers
                 ? Json(botDto.Transform())
                 : Json(false);
         }
+        
+        [Route("/api/get-start-message")]
+        [HttpGet]
+        public JsonResult GetStartMessage(string id)
+        {
+            if (string.IsNullOrEmpty(id)) return Json(false);
+
+            var startMessage = _repository.GetStartMessage(id);
+
+            return startMessage != null
+                ? Json(startMessage)
+                : Json(false);
+        }
 
         [Route("/api/remove-bot")]
         [HttpPost]

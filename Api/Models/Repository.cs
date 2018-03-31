@@ -37,6 +37,11 @@ namespace Api.Models
         {
             return _bots.Find(x => x.Token == token).FirstOrDefault();
         }
+        
+        public string GetStartMessage(string id)
+        {
+            return _bots.Find(x => x.Id == new ObjectId(id)).FirstOrDefault().StartMessage;
+        }
 
         public Bot AddBot(Bot bot)
         {
