@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Api.Models
@@ -16,6 +17,8 @@ namespace Api.Models
 
 		public bool NetworkingEnabled { get; set; }
 
+		public string StartMessage { get; set; }
+
 		public object Transform()
 		{
 			return new
@@ -23,7 +26,8 @@ namespace Api.Models
 				id = Id.ToString(),
 				token = Token,
 				name = Name,
-				networkingEnabled = NetworkingEnabled
+				networkingEnabled = NetworkingEnabled,
+				startMessage = StartMessage
 			};
 		}
 	}

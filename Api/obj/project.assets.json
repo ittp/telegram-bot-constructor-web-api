@@ -13068,7 +13068,7 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\canne\\.nuget\\packages\\": {},
+    "C:\\Users\\sb26f\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
@@ -13077,23 +13077,20 @@
       "projectUniqueName": "C:\\Workspace\\telegram-bot-constructor-web-api\\Api\\Api.csproj",
       "projectName": "Api",
       "projectPath": "C:\\Workspace\\telegram-bot-constructor-web-api\\Api\\Api.csproj",
-      "packagesPath": "C:\\Users\\canne\\.nuget\\packages\\",
+      "packagesPath": "C:\\Users\\sb26f\\.nuget\\packages\\",
       "outputPath": "C:\\Workspace\\telegram-bot-constructor-web-api\\Api\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\canne\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\sb26f\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "https://api.nuget.org/v3/index.json": {},
-        "https://nuget.dodopizza.io/nuget": {}
+        "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "netcoreapp2.0": {

@@ -142,8 +142,23 @@ namespace Api.Controllers
             {
                 Name = name,
                 Token = token,
-                NetworkingEnabled = true
+                NetworkingEnabled = true,
+                StartMessage =  "Hello"
             });
+
+            return botDto != null
+                ? Json(botDto.Transform())
+                : Json(false);
+        }
+        
+        [Route("/api/set-start-message")]
+        [HttpPost]
+        public JsonResult SetStartMessage(string id, string message)
+        {
+            if (string.IsNullOrEmpty(id)) return Json(false);
+            if (string.IsNullOrEmpty(message)) return Json(false);
+
+            var botDto = _repository.SetStartMessage(id, message);
 
             return botDto != null
                 ? Json(botDto.Transform())

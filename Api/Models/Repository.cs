@@ -151,6 +151,15 @@ namespace Api.Models
 
             return _bots.Find(x => x.Id == new ObjectId(botId)).FirstOrDefault();
         }
+        
+        public Bot SetStartMessage(string botId, string startMessage)
+        {
+            var update = Builders<Bot>.Update.Set(x => x.StartMessage, startMessage);
+
+            _bots.UpdateOne(x => x.Id == new ObjectId(botId), update);
+
+            return _bots.Find(x => x.Id == new ObjectId(botId)).FirstOrDefault();
+        }
 
         public InterviewAnswer AddInterviewAnswer(InterviewAnswer interviewAnswer)
         {
