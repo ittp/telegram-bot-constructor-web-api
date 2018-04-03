@@ -345,6 +345,52 @@ namespace Api.Controllers
                 ? Json(inlineKeyDto.Transform())
                 : Json(false);
         }
+        
+        [Route("/api/add-inline-url-key")]
+        [HttpPost]
+        public JsonResult AddUrlKey(string caption, string url, string botId)
+        {
+            if (string.IsNullOrEmpty(caption)) return Json(false);
+            if (string.IsNullOrEmpty(url)) return Json(false);
+            if (string.IsNullOrEmpty(botId)) return Json(false);
+
+            var inlineKeyDto = _repository.AddInlineUrlKey(new InlineUrlKey
+            {
+                Caption = caption,
+                Url = url,
+                BotId = botId
+            });
+
+            return inlineKeyDto != null
+                ? Json(inlineKeyDto.Transform())
+                : Json(false);
+        }
+        
+        [Route("/api/inline-url-keys")]
+        [HttpGet]
+        public JsonResult GetInlineUrlKeys(string botId)
+        {
+            if (string.IsNullOrEmpty(botId)) return Json(false);
+
+            var inlineKeysDto = _repository.GetUrlInlineUrlKeys(botId);
+
+            return inlineKeysDto != null
+                ? Json(inlineKeysDto.Select(x => x.Transform()))
+                : Json(false);
+        }
+        
+        [Route("/api/inline-url-key")]
+        [HttpGet]
+        public JsonResult GetInlineUrlKey(string id)
+        {
+            if (string.IsNullOrEmpty(id)) return Json(false);
+
+            var inlineKeyDto = _repository.GetUrlInlineUrlKey(id);
+
+            return inlineKeyDto != null
+                ? Json(inlineKeyDto.Transform())
+                : Json(false);
+        }
 
         [Route("/api/inline-keys")]
         [HttpGet]

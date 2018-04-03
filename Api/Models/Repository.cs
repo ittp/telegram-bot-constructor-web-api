@@ -15,6 +15,7 @@ namespace Api.Models
         private readonly IMongoCollection<Interview> _interviews;
         private readonly IMongoCollection<TextMessageAnswer> _textMessageAnswers;
         private readonly IMongoCollection<User> _users;
+        private readonly IMongoCollection<InlineUrlKey> _inlineUrlKeys;
 
         public Repository(string token, string dbName)
         {
@@ -23,6 +24,7 @@ namespace Api.Models
             _bots = database.GetCollection<Bot>("bots");
             _textMessageAnswers = database.GetCollection<TextMessageAnswer>("textMessageAnswers");
             _inlineKeys = database.GetCollection<InlineKey>("inlineKeys");
+            _inlineUrlKeys = database.GetCollection<InlineUrlKey>("inlineUrlKeys");
             _interviews = database.GetCollection<Interview>("interviews");
             _interviewAnswers = database.GetCollection<InterviewAnswer>("interviewsAnswers");
             _events = database.GetCollection<Event>("events");
@@ -120,6 +122,23 @@ namespace Api.Models
         public InlineKey GetInlineKey(string id)
         {
             return _inlineKeys.Find(x => x.Id == TryCreateObjectId(id)).FirstOrDefault();
+        }
+        
+        public InlineUrlKey AddInlineUrlKey(InlineUrlKey inlineUrlKey)
+        {
+            _inlineUrlKeys.InsertOne(inlineUrlKey);
+
+            return GetUrlInlineUrlKey(inlineUrlKey.Id.ToString());
+        }
+        
+        public InlineUrlKey GetUrlInlineUrlKey(string botId)
+        {
+            return _inlineUrlKeys.Find(x => x.Id == TryCreateObjectId(botId)).FirstOrDefault();
+        }
+        
+        public IEnumerable<InlineUrlKey> GetUrlInlineUrlKeys(string botId)
+        {
+            return _inlineUrlKeys.Find(x => x.BotId == botId).ToList();
         }
 
         public Interview AddInterview(Interview interview)
