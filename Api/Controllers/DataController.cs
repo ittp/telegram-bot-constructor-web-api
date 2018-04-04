@@ -9,8 +9,8 @@ namespace Api.Controllers
 {
     public class DataController : Controller
     {
-        private readonly Repository _repository;
         private readonly IConfiguration _configuration;
+        private readonly Repository _repository;
 
         public DataController(Repository repository, IConfiguration configuration)
         {
@@ -92,6 +92,33 @@ namespace Api.Controllers
                 ? Json(botDto.NetworkingEnabled)
                 : Json(false);
         }
+        
+        [Route("/api/bot-cognitive")]
+        [HttpGet]
+        public JsonResult GetBotCognitiveServiceStatus(string id)
+        {
+            if (string.IsNullOrEmpty(id)) return Json(false);
+
+            var botDto = _repository.GetBot(id);
+
+            return botDto != null
+                ? Json(botDto.CognitiveServicesEnabled)
+                : Json(false);
+        }
+        
+        [Route("/api/bot-cognitive")]
+        [HttpPost]
+        public JsonResult SetBotCognitiveServiceStatus(string id, bool? status)
+        {
+            if (string.IsNullOrEmpty(id)) return Json(false);
+            if (status == null) return Json(false);
+
+            var botDto = _repository.SetCognitiveServicesStatus(id, status ?? false);
+
+            return botDto != null
+                ? Json(botDto)
+                : Json(false);
+        }
 
         [Route("/api/bot-networking")]
         [HttpPost]
@@ -143,14 +170,15 @@ namespace Api.Controllers
                 Name = name,
                 Token = token,
                 NetworkingEnabled = true,
-                StartMessage =  "Hello"
+                CognitiveServicesEnabled = true,
+                StartMessage = "Hello"
             });
 
             return botDto != null
                 ? Json(botDto.Transform())
                 : Json(false);
         }
-        
+
         [Route("/api/set-start-message")]
         [HttpPost]
         public JsonResult SetStartMessage(string id, string message)
@@ -164,7 +192,7 @@ namespace Api.Controllers
                 ? Json(botDto.Transform())
                 : Json(false);
         }
-        
+
         [Route("/api/get-start-message")]
         [HttpGet]
         public JsonResult GetStartMessage(string id)
@@ -345,7 +373,7 @@ namespace Api.Controllers
                 ? Json(inlineKeyDto.Transform())
                 : Json(false);
         }
-        
+
         [Route("/api/add-inline-url-key")]
         [HttpPost]
         public JsonResult AddUrlKey(string caption, string url, string botId)
@@ -365,7 +393,7 @@ namespace Api.Controllers
                 ? Json(inlineKeyDto.Transform())
                 : Json(false);
         }
-        
+
         [Route("/api/inline-url-keys")]
         [HttpGet]
         public JsonResult GetInlineUrlKeys(string botId)
@@ -378,7 +406,7 @@ namespace Api.Controllers
                 ? Json(inlineKeysDto.Select(x => x.Transform()))
                 : Json(false);
         }
-        
+
         [Route("/api/inline-url-key")]
         [HttpGet]
         public JsonResult GetInlineUrlKey(string id)

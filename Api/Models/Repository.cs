@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+﻿using System.Collections.Generic;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -9,13 +7,13 @@ namespace Api.Models
     public class Repository
     {
         private readonly IMongoCollection<Bot> _bots;
-        private readonly IMongoCollection<InlineKey> _inlineKeys;
-        private readonly IMongoCollection<InterviewAnswer> _interviewAnswers;
         private readonly IMongoCollection<Event> _events;
+        private readonly IMongoCollection<InlineKey> _inlineKeys;
+        private readonly IMongoCollection<InlineUrlKey> _inlineUrlKeys;
+        private readonly IMongoCollection<InterviewAnswer> _interviewAnswers;
         private readonly IMongoCollection<Interview> _interviews;
         private readonly IMongoCollection<TextMessageAnswer> _textMessageAnswers;
         private readonly IMongoCollection<User> _users;
-        private readonly IMongoCollection<InlineUrlKey> _inlineUrlKeys;
 
         public Repository(string token, string dbName)
         {
@@ -39,7 +37,7 @@ namespace Api.Models
         {
             return _bots.Find(x => x.Token == token).FirstOrDefault();
         }
-        
+
         public string GetStartMessage(string id)
         {
             return _bots.Find(x => x.Id == new ObjectId(id)).FirstOrDefault().StartMessage;
@@ -63,7 +61,7 @@ namespace Api.Models
         {
             var result = _events.DeleteOne(x => x.Id == new ObjectId(id));
 
-			return result.DeletedCount > 0;
+            return result.DeletedCount > 0;
         }
 
         public Event GetEvent(string id)
@@ -80,7 +78,6 @@ namespace Api.Models
         {
             return _bots.Find(x => x.Id == TryCreateObjectId(id)).FirstOrDefault();
         }
-
 
 
         public IEnumerable<TextMessageAnswer> GetTextMessageAnswers(string botId)
@@ -123,19 +120,19 @@ namespace Api.Models
         {
             return _inlineKeys.Find(x => x.Id == TryCreateObjectId(id)).FirstOrDefault();
         }
-        
+
         public InlineUrlKey AddInlineUrlKey(InlineUrlKey inlineUrlKey)
         {
             _inlineUrlKeys.InsertOne(inlineUrlKey);
 
             return GetUrlInlineUrlKey(inlineUrlKey.Id.ToString());
         }
-        
+
         public InlineUrlKey GetUrlInlineUrlKey(string botId)
         {
             return _inlineUrlKeys.Find(x => x.Id == TryCreateObjectId(botId)).FirstOrDefault();
         }
-        
+
         public IEnumerable<InlineUrlKey> GetUrlInlineUrlKeys(string botId)
         {
             return _inlineUrlKeys.Find(x => x.BotId == botId).ToList();
@@ -175,7 +172,16 @@ namespace Api.Models
 
             return _bots.Find(x => x.Id == new ObjectId(botId)).FirstOrDefault();
         }
-        
+
+        public Bot SetCognitiveServicesStatus(string botId, bool cognitiveServicesStatus)
+        {
+            var update = Builders<Bot>.Update.Set(x => x.CognitiveServicesEnabled, cognitiveServicesStatus);
+
+            _bots.UpdateOne(x => x.Id == new ObjectId(botId), update);
+
+            return _bots.Find(x => x.Id == new ObjectId(botId)).FirstOrDefault();
+        }
+
         public Bot SetStartMessage(string botId, string startMessage)
         {
             var update = Builders<Bot>.Update.Set(x => x.StartMessage, startMessage);

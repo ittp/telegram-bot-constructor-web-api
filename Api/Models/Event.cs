@@ -5,14 +5,11 @@ namespace Api.Models
 {
     public class Event
     {
-        [BsonId]
-        public ObjectId Id { get; set; }
+        [BsonId] public ObjectId Id { get; set; }
 
-        [BsonElement("text")]
-        public string Text { get; set; }
+        [BsonElement("text")] public string Text { get; set; }
 
-		[BsonElement("botId")]
-		public string BotId { get; set; }
+        [BsonElement("botId")] public string BotId { get; set; }
 
         public object Transform()
         {

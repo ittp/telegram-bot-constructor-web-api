@@ -6,26 +6,26 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Api
 {
-	public class Startup
-	{
-		public Startup(IConfiguration configuration)
-		{
-			Configuration = configuration;
-		}
+    public class Startup
+    {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
 
-		public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; }
 
-		public void ConfigureServices(IServiceCollection services)
-		{
-			services.AddMvc();
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddMvc();
 
-			services.AddSingleton(new Repository(Configuration["Token"], Configuration["DBName"]));
-			services.AddSingleton(Configuration);
-		}
+            services.AddSingleton(new Repository(Configuration["Token"], Configuration["DBName"]));
+            services.AddSingleton(Configuration);
+        }
 
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-		{
-			app.UseMvc();
-		}
-	}
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseMvc();
+        }
+    }
 }
