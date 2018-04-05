@@ -14,7 +14,7 @@ namespace Api.Controllers
 			_botsRepository = botsRepository;
 		}
 
-		[Route("/api/bot")]
+		[Route("/api/bots/add")]
 		[HttpGet]
 		public JsonResult GetBot(string id)
 		{
@@ -28,7 +28,7 @@ namespace Api.Controllers
 		}
 
 
-		[Route("/api/bot-networking")]
+		[Route("/api/bots/networking")]
 		[HttpGet]
 		public JsonResult GetBotNetworking(string id)
 		{
@@ -41,7 +41,7 @@ namespace Api.Controllers
 				: Json(false);
 		}
 
-		[Route("/api/bot-cognitive")]
+		[Route("/api/bots/cognitive")]
 		[HttpGet]
 		public JsonResult GetBotCognitiveServiceStatus(string id)
 		{
@@ -54,7 +54,7 @@ namespace Api.Controllers
 				: Json(false);
 		}
 
-		[Route("/api/bot-cognitive")]
+		[Route("/api/bots/cognitive/set")]
 		[HttpPost]
 		public JsonResult SetBotCognitiveServiceStatus(string id, bool? status)
 		{
@@ -68,7 +68,7 @@ namespace Api.Controllers
 				: Json(false);
 		}
 
-		[Route("/api/bot-networking")]
+		[Route("/api/bots/networking")]
 		[HttpPost]
 		public JsonResult SetBotNetworking(string id, bool? networkingEnabled)
 		{
@@ -93,7 +93,7 @@ namespace Api.Controllers
 				: Json(false);
 		}
 
-		[Route("/api/bot-by-token")]
+		[Route("/api/bots/bot/by-token")]
 		[HttpGet]
 		public JsonResult GetBotByToken(string token)
 		{
@@ -106,7 +106,7 @@ namespace Api.Controllers
 				: Json(false);
 		}
 
-		[Route("/api/add-bot")]
+		[Route("/api/bots/add")]
 		[HttpPost]
 		public JsonResult AddBot(string name, string token, string message)
 		{
@@ -127,7 +127,7 @@ namespace Api.Controllers
 				: Json(false);
 		}
 
-		[Route("/api/set-start-message")]
+		[Route("/api/bots/message/set")]
 		[HttpPost]
 		public JsonResult SetStartMessage(string id, string message)
 		{
@@ -141,7 +141,7 @@ namespace Api.Controllers
 				: Json(false);
 		}
 
-		[Route("/api/get-start-message")]
+		[Route("/api/bots/message")]
 		[HttpGet]
 		public JsonResult GetStartMessage(string id)
 		{
@@ -154,7 +154,7 @@ namespace Api.Controllers
 				: Json(false);
 		}
 
-		[Route("/api/remove-bot")]
+		[Route("/api/bots/remove")]
 		[HttpPost]
 		public JsonResult RemoveBot(string id)
 		{

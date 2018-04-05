@@ -15,7 +15,7 @@ namespace Api.Controllers
 			_usersRepository = usersRepository;
 		}
 
-		[Route("/api/add-user")]
+		[Route("/api/users/add")]
 		[HttpPost]
 		public JsonResult AddUser(string telegramId, string firstName, string lastName, string userName, string botId)
 		{
@@ -55,7 +55,7 @@ namespace Api.Controllers
 				: Json(false);
 		}
 
-		[Route("/api/user")]
+		[Route("/api/users/user")]
 		[HttpGet]
 		public JsonResult GetUser(string telegramId, string botId)
 		{
@@ -69,7 +69,7 @@ namespace Api.Controllers
 				: Json(false);
 		}
 
-		[Route("/api/set-networking")]
+		[Route("/api/users/networking/set")]
 		[HttpPost]
 		public JsonResult SetNetworking(string telegramId, string botId, string networking)
 		{
@@ -84,7 +84,7 @@ namespace Api.Controllers
 				: Json(false);
 		}
 
-		[Route("/api/remove-user")]
+		[Route("/api/users/remove")]
 		[HttpPost]
 		public JsonResult RemoveUser(string id)
 		{

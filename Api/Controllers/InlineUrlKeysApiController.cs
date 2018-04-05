@@ -14,7 +14,7 @@ namespace Api.Controllers
 			_inlineUrlKeysRepository = inlineUrlKeysRepository;
 		}
 
-		[Route("/api/add-inline-url-key")]
+		[Route("/api/inline-url-keys/add")]
 		[HttpPost]
 		public JsonResult AddUrlKey(string caption, string url, string botId)
 		{
@@ -47,7 +47,7 @@ namespace Api.Controllers
 				: Json(false);
 		}
 
-		[Route("/api/inline-url-key")]
+		[Route("/api/inline-url-keys/inline-url-key")]
 		[HttpGet]
 		public JsonResult GetInlineUrlKey(string id)
 		{

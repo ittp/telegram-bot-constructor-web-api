@@ -27,7 +27,7 @@ namespace Api.Controllers
 				: Json(false);
 		}
 
-		[Route("/api/add-text-message-answer")]
+		[Route("/api/text-message-answers/add")]
 		[HttpPost]
 		public JsonResult AddTextMessageAnswer(string answer, string message, string botId)
 		{
@@ -47,7 +47,7 @@ namespace Api.Controllers
 				: Json(false);
 		}
 
-		[Route("/api/text-message-answer")]
+		[Route("/api/text-message-answers/text-message-answer")]
 		[HttpGet]
 		public JsonResult GetTextMessageAnswer(string id)
 		{
@@ -60,7 +60,7 @@ namespace Api.Controllers
 				: Json(false);
 		}
 
-		[Route("/api/remove-text-message-answer")]
+		[Route("/api/text-message-answers/remove")]
 		[HttpPost]
 		public JsonResult RemoveTextMessageAnswer(string id)
 		{

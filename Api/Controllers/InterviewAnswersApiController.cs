@@ -14,7 +14,7 @@ namespace Api.Controllers
 			_interviewAnswersRepository = interviewAnswersRepository;
 		}
 
-		[Route("/api/add-interview-answer")]
+		[Route("/api/interview-answers/add")]
 		[HttpPost]
 		public JsonResult AddInterviewAnswer(string interviewId, string userId, string answer, string botId)
 		{
@@ -49,7 +49,7 @@ namespace Api.Controllers
 				: Json(false);
 		}
 
-		[Route("/api/interview-answer")]
+		[Route("/api/interview-answers/interview-answer")]
 		[HttpGet]
 		public JsonResult GetInterviewAnswer(string id)
 		{
@@ -62,7 +62,7 @@ namespace Api.Controllers
 				: Json(false);
 		}
 
-		[Route("/api/remove-interview-answer")]
+		[Route("/api/interview-answers/remove")]
 		[HttpPost]
 		public JsonResult RemoveInterviewAnswer(string id)
 		{

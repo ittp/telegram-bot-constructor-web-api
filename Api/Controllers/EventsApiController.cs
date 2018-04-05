@@ -27,7 +27,7 @@ namespace Api.Controllers
 				: Json(false);
 		}
 
-		[Route("/api/add-event")]
+		[Route("/api/events/add")]
 		[HttpPost]
 		public JsonResult AddEvent(string botId, string text)
 		{
@@ -45,7 +45,7 @@ namespace Api.Controllers
 				: Json(false);
 		}
 
-		[Route("/api/remove-event")]
+		[Route("/api/events/remove")]
 		[HttpPost]
 		public JsonResult RemoveEvent(string id)
 		{

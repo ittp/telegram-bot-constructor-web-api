@@ -14,7 +14,7 @@ namespace Api.Controllers
 			_inlineKeysRepository = inlineKeysRepository;
 		}
 
-		[Route("/api/add-inline-key")]
+		[Route("/api/inline-keys/add")]
 		[HttpPost]
 		public JsonResult AddInlineKey(string caption, string answer, string botId)
 		{
@@ -47,7 +47,7 @@ namespace Api.Controllers
 				: Json(false);
 		}
 
-		[Route("/api/inline-key")]
+		[Route("/api/inline-keys/inline-key")]
 		[HttpGet]
 		public JsonResult GetInlineKey(string id)
 		{
@@ -60,7 +60,7 @@ namespace Api.Controllers
 				: Json(false);
 		}
 
-		[Route("/api/remove-inline-key")]
+		[Route("/api/inline-keys/remove")]
 		[HttpPost]
 		public JsonResult RemoveInlineKey(string id)
 		{
