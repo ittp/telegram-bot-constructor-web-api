@@ -14,7 +14,7 @@ namespace Api.Controllers
 			_botsRepository = botsRepository;
 		}
 
-		[Route("/api/bots/add")]
+		[Route("/api/bots/bot")]
 		[HttpGet]
 		public JsonResult GetBot(string id)
 		{
