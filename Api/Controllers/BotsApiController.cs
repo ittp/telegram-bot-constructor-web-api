@@ -108,7 +108,7 @@ namespace Api.Controllers
 
 		[Route("/api/add-bot")]
 		[HttpPost]
-		public JsonResult AddBot(string name, string token)
+		public JsonResult AddBot(string name, string token, string message)
 		{
 			if (string.IsNullOrEmpty(name)) return Json(false);
 			if (string.IsNullOrEmpty(token)) return Json(false);
@@ -119,7 +119,7 @@ namespace Api.Controllers
 				Token = token,
 				NetworkingEnabled = true,
 				CognitiveServicesEnabled = true,
-				StartMessage = "Hello"
+				StartMessage = message
 			});
 
 			return botDto != null
