@@ -2,6 +2,19 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v2.0": {
+      "Autofac/4.6.2": {
+        "type": "package",
+        "dependencies": {
+          "NETStandard.Library": "1.6.0",
+          "System.ComponentModel": "4.0.1"
+        },
+        "compile": {
+          "lib/netstandard1.1/Autofac.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.1/Autofac.dll": {}
+        }
+      },
       "DnsClient/1.0.7": {
         "type": "package",
         "dependencies": {
@@ -4991,6 +5004,19 @@
     }
   },
   "libraries": {
+    "Autofac/4.6.2": {
+      "sha512": "wKI7F6+n45gqfq0T8FuB3hFzaCkuegiFo5in6uB1y2Ai9ZYcjue8yqk3yzyNEwBDS7AyvlTUGSoNovwpUuKqTw==",
+      "type": "package",
+      "path": "autofac/4.6.2",
+      "files": [
+        "autofac.4.6.2.nupkg.sha512",
+        "autofac.nuspec",
+        "lib/net45/Autofac.dll",
+        "lib/net45/Autofac.xml",
+        "lib/netstandard1.1/Autofac.dll",
+        "lib/netstandard1.1/Autofac.xml"
+      ]
+    },
     "DnsClient/1.0.7": {
       "sha512": "f3k5ufhUSL658fy/ac1mReqRIr0jGMyOJFvBqJ+7cASq01NIysYbrrRDjboYKAGrd0Y2mc1A749uQvT8vAA91A==",
       "type": "package",
@@ -13060,6 +13086,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.0": [
+      "Autofac >= 4.6.2",
       "Microsoft.AspNetCore.All >= 2.0.5",
       "Microsoft.NETCore.App >= 2.0.0",
       "MongoDB.Bson >= 2.5.0",
@@ -13068,29 +13095,30 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\sb26f\\.nuget\\packages\\": {},
+    "C:\\Users\\canne\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Workspace\\telegram-bot-constructor-web-api\\Api\\Api.csproj",
+      "projectUniqueName": "C:\\Users\\canne\\Projects\\telegram-bot-constructor-web-api\\Api\\Api.csproj",
       "projectName": "Api",
-      "projectPath": "C:\\Workspace\\telegram-bot-constructor-web-api\\Api\\Api.csproj",
-      "packagesPath": "C:\\Users\\sb26f\\.nuget\\packages\\",
-      "outputPath": "C:\\Workspace\\telegram-bot-constructor-web-api\\Api\\obj\\",
+      "projectPath": "C:\\Users\\canne\\Projects\\telegram-bot-constructor-web-api\\Api\\Api.csproj",
+      "packagesPath": "C:\\Users\\canne\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\canne\\Projects\\telegram-bot-constructor-web-api\\Api\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\sb26f\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\canne\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.0"
       ],
       "sources": {
-        "https://api.nuget.org/v3/index.json": {}
+        "https://api.nuget.org/v3/index.json": {},
+        "https://nuget.dodopizza.io/nuget": {}
       },
       "frameworks": {
         "netcoreapp2.0": {
@@ -13106,11 +13134,16 @@
     "frameworks": {
       "netcoreapp2.0": {
         "dependencies": {
+          "Autofac": {
+            "target": "Package",
+            "version": "[4.6.2, )"
+          },
           "Microsoft.AspNetCore.All": {
             "target": "Package",
             "version": "[2.0.5, )"
           },
           "Microsoft.NETCore.App": {
+            "suppressParent": "All",
             "target": "Package",
             "version": "[2.0.0, )",
             "autoReferenced": true

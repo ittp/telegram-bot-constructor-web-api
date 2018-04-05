@@ -1,31 +1,44 @@
-﻿using Api.Models;
+﻿using Api.Repositories;
+using Autofac;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Driver;
 
 namespace Api
 {
-    public class Startup
-    {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+	public class Startup
+	{
+		private IContainer Container;
 
-        public IConfiguration Configuration { get; }
+		public Startup(IConfiguration configuration)
+		{
+			Configuration = configuration;
+		}
 
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddMvc();
+		public IConfiguration Configuration { get; }
 
-            services.AddSingleton(new Repository(Configuration["Token"], Configuration["DBName"]));
-            services.AddSingleton(Configuration);
-        }
+		public void ConfigureServices(IServiceCollection services)
+		{
+			services.AddSingleton(db =>
+				new MongoClient(Configuration["Token"]).GetDatabase(Configuration["DBName"]));
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
-            app.UseMvc();
-        }
-    }
+			services.AddScoped<BotsRepository>();
+			services.AddScoped<EventsRepository>();
+			services.AddScoped<InlineKeysRepository>();
+			services.AddScoped<InlineUrlKeysRepository>();
+			services.AddScoped<InterviewAnswersRepository>();
+			services.AddScoped<InterviewsRepository>();
+			services.AddScoped<TextMessageAnswersRepository>();
+			services.AddScoped<UsersRepository>();
+
+			services.AddMvc();
+		}
+
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+		{
+			app.UseMvc();
+		}
+	}
 }
