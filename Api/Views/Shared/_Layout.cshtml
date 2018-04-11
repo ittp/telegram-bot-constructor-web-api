@@ -51,23 +51,22 @@
                         <i class="menu-icon icon-home4"></i><span>Bots</span>
                     </a>
                 </li>
-                <li>
-                    <a href="/textmessages">
-                        <i class="menu-icon icon-home4"></i><span>TextMessages</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="email.html">
-                        <i class="menu-icon icon-inbox"></i><span>Email</span>
-                    </a>
-                </li>
-
+                @foreach (var bot in Model.Bots)
+                {
+                    <li>
+                        <a href="/bot?id=@bot.Bot.Id">
+                            @bot.Bot.Name
+                            <i class="menu-icon icon-home4"></i><span></span>
+                        </a>
+                    </li>
+                }
                 <li class="menu-divider"></li>
                 <li>
                     <a href="index.html">
                         <i class="menu-icon icon-help_outline"></i><span>Documentation</span>
                     </a>
                 </li>
+
             </ul>
         </div>
     </div>

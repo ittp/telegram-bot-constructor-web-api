@@ -1,2 +1,9 @@
 .vs
 .idea
+Api/obj/Debug/netcoreapp2.0/Api.pdb
+Api/obj/Debug/netcoreapp2.0/Api.dll
+Api/bin/Debug/netcoreapp2.0/Api.pdb
+Api/bin/Debug/netcoreapp2.0/Api.dll
+Api/bin/Debug/netcoreapp2.0/Api.dll
+*.dll
+*.pdb
