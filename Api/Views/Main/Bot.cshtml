@@ -57,7 +57,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach (var textMessage in Model.CurrentBot.TextMessages)
+                            @foreach (var textMessage in Model.TextMessages)
                             {
                                 <tr>
                                     <td>@textMessage.Message</td>
@@ -83,7 +83,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach (var inlineKey in Model.CurrentBot.InlineKeys)
+                            @foreach (var inlineKey in Model.InlineKeys)
                             {
                                 <tr>
                                     <td>@inlineKey.Caption</td>
@@ -108,7 +108,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach (var textMessage in Model.CurrentBot.InlineUrlKeys)
+                            @foreach (var textMessage in Model.InlineUrlKeys)
                             {
                                 <tr>
                                     <td>@textMessage.Caption</td>
