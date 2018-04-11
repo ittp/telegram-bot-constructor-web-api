@@ -120,34 +120,6 @@
                     </div>
                 </div>
             </li>
-            <li class="timeline-item">
-                <div class="panel panel-white">
-                    <div class="panel-body">
-                        <div class="timeline-item-header">
-                            <img src="~/images/messenger.png" alt="">
-                            <p>david smith <span>uploaded a photo</span></p>
-                            <small>7 hours ago</small>
-                        </div>
-                        <div class="timeline-item-post">
-                            <p>Aenean ante nunc, eleifend eget hendrerit eget</p>
-                            <img src="http://via.placeholder.com/500x300" alt="">
-                            <div class="timeline-options">
-                                <a href="#"><i class="fa fa-thumbs-up"></i> Like (12)</a>
-                                <a href="#"><i class="fa fa-comment"></i> Comment (1)</a>
-                                <a href="#"><i class="fa fa-share"></i> Share (6)</a>
-                            </div>
-                            <div class="timeline-comment">
-                                <div class="timeline-comment-header">
-                                    <img src="http://via.placeholder.com/30x30" alt="">
-                                    <p>noah smith <small>1 hour ago</small></p>
-                                </div>
-                                <p class="timeline-comment-text">Cras tempor pretium lorem, quis suscipit ipsum</p>
-                            </div>
-                            <textarea class="form-control" placeholder="Replay"></textarea>
-                        </div>
-                    </div>
-                </div>
-            </li>
         </ul>
     </div>
 </div>
@@ -160,12 +132,23 @@
             <p>@Model.CurrentBot.Bot.StartMessage</p>
         </div>
     </div>
-    <div class="panel panel-white">
-        <div class="panel-heading clearfix">
-            <h4 class="panel-title">Some Info</h4>
+    @foreach (var interview in Model.Interviews)
+    {
+        <div class="panel panel-white">
+            <div class="panel-heading clearfix">
+                <h4 class="panel-title">@interview.Name</h4>
+            </div>
+            <div class="panel-heading clearfix">
+                <h5 class="panel-title">@interview.Question</h5>
+            </div>
+            <ul>
+            @foreach (var answer in interview.Answers)
+            {
+                <div class="panel-body">
+                    <li>@answer</li>
+                </div>
+            }
+            </ul>
         </div>
-        <div class="panel-body">
-            <p>Integer tincidunt varius nulla, vitae facilisis nibh ornare dignissim. Morbi in orci vitae magna vestibulum placerat at vel augue. Pellentesque rutrum ipsum eget odio</p>
-        </div>
-    </div>
+    }
 </div>

@@ -41,8 +41,6 @@ namespace Api.Services
 
 			var botResult = await httpClient.GetStringAsync($"{_configuration["RunnerApiUrl"]}/check?id={id}");
 			var botParsedResult = JsonConvert.DeserializeObject<Response>(botResult);
-			
-			var bots = _botsRepository.GetBots();
 
 			var botViewModel = new BotViewModel
 			{

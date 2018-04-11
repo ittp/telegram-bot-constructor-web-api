@@ -10,5 +10,6 @@ namespace Api.Models
         public IEnumerable<TextMessageAnswer> TextMessages { get; set; }
         public IEnumerable<InlineKey> InlineKeys { get; set; }
         public IEnumerable<InlineUrlKey> InlineUrlKeys { get; set; }
+        public IEnumerable<Interview> Interviews {get;set;}
     }
 }
