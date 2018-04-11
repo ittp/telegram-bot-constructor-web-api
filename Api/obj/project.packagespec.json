@@ -1,13 +1,13 @@
 ﻿{
   "version": "1.0.0",
   "restore": {
-    "projectUniqueName": "C:\\Users\\canne\\Projects\\telegram-bot-constructor-web-api\\Api\\Api.csproj",
+    "projectUniqueName": "/home/ndy7/telegram-bot-constructor-web-api/Api/Api.csproj",
     "projectName": "Api",
-    "projectPath": "C:\\Users\\canne\\Projects\\telegram-bot-constructor-web-api\\Api\\Api.csproj",
-    "outputPath": "C:\\Users\\canne\\Projects\\telegram-bot-constructor-web-api\\Api\\obj\\",
+    "projectPath": "/home/ndy7/telegram-bot-constructor-web-api/Api/Api.csproj",
+    "outputPath": "/home/ndy7/telegram-bot-constructor-web-api/Api/obj/",
     "projectStyle": "PackageReference",
     "fallbackFolders": [
-      "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      "/usr/share/dotnet/sdk/NuGetFallbackFolder"
     ],
     "originalTargetFrameworks": [
       "netcoreapp2.0"
