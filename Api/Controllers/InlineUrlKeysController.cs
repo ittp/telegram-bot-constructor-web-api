@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Api.Models;
 using Api.Repositories;
 using Api.Services;
@@ -8,22 +7,22 @@ using Microsoft.Extensions.Configuration;
 
 namespace Api.Controllers
 {
-    public class InlineKeysController : Controller
+    public class InlineUrlKeysController: Controller
     {
-        private readonly InlineKeysRepository _inlineKeysRepository;
+        private readonly InlineUrlKeysRepository _inlineUrlKeysRepository;
         private readonly IConfiguration _configuration;
         private readonly BotsRepository _botsRepository;
 
-        public InlineKeysController(InlineKeysRepository inlineKeysRepository, BotsRepository botsRepository, IConfiguration configuration)
+        public InlineUrlKeysController(InlineUrlKeysRepository inlineUrlKeysRepository, BotsRepository botsRepository, IConfiguration configuration)
         {
-            _inlineKeysRepository = inlineKeysRepository;
+            _inlineUrlKeysRepository = inlineUrlKeysRepository;
             _configuration = configuration;
             _botsRepository = botsRepository;
         }
 
-        [Route("/inline-keys/new")]
+        [Route("/inline-url-keys/new")]
         [HttpGet]
-        public async Task<IActionResult> NewInlineKey(string botId)
+        public async Task<IActionResult> NewInlineUrlKey(string botId)
         {
             var bots = await BotsService.GetBotsViewModels(_configuration, _botsRepository);
             var bot = await BotsService.GetBotViewModel(botId, _configuration, _botsRepository);
@@ -35,25 +34,25 @@ namespace Api.Controllers
             });
         }
 
-        [Route("/inline-keys/add")]
+        [Route("/inline-url-keys/add")]
         [HttpPost]
-        public IActionResult AddInlineKey(string caption, string answer, string botId)
+        public IActionResult AddInlineUrlKey(string caption, string url, string botId)
         {
-            _inlineKeysRepository.AddInlineKey(new InlineKey
+            _inlineUrlKeysRepository.AddInlineUrlKey(new InlineUrlKey
             {
                 Caption = caption,
-                Answer = answer,
+                Url = url,
                 BotId = botId
             });
 
             return Redirect("/bot?id=" + botId);
         }
 
-        [Route("/inline-keys/remove")]
+        [Route("/inline-url-keys/remove")]
         [HttpPost]
-        public IActionResult RemoveInlineKey(string id, string botId)
+        public IActionResult RemoveUrlInlineKey(string id, string botId)
         {
-            _inlineKeysRepository.RemoveInlineKey(id);
+            _inlineUrlKeysRepository.RemoveInlineUrlKey(id);
 
             return Redirect("/bot?id=" + botId);
         }

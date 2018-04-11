@@ -32,5 +32,11 @@ namespace Api.Repositories
 		}
 
 
+		public bool RemoveInlineUrlKey(string id)
+		{
+			var deleteResult = _inlineUrlKeys.DeleteOne(x => x.Id == MongoService.TryCreateObjectId(id));
+
+			return deleteResult.DeletedCount > 0;
+		}
 	}
 }
