@@ -68,6 +68,8 @@ namespace Api.Controllers
 			var currentBotResult = await _httpClient.GetStringAsync($"{_configuration["RunnerApiUrl"]}/check?id={id}");
 			var currentBotParsedResult = JsonConvert.DeserializeObject<Response>(currentBotResult);
 			var textMessages = _textMessageAnswersRepository.GetTextMessageAnswers(id);
+			var inlineKeys = _inlineKeysRepository.GetInlineKeys(id);
+			var inlineUrlKeys = _inlineUrlKeysRepository.GetUrlInlineUrlKeys(id);
 
 			var bots = _botsRepository.GetBots();
 
@@ -86,7 +88,9 @@ namespace Api.Controllers
 			{
 				Bot = bot,
 				Status = Convert.ToBoolean(currentBotParsedResult.status),
-				TextMessages = textMessages
+				TextMessages = textMessages,
+				InlineKeys = inlineKeys,
+				InlineUrlKeys = inlineUrlKeys
 			};
 
 			return View(new PageViewModel

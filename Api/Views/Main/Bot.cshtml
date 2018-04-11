@@ -44,9 +44,11 @@
                     <div class="panel-body">
                         <div class="timeline-item-header">
                             <img src="~/images/messenger.png" alt="">
-                            <p>jack smith <span>posted a status</span></p>
-                            <small>3 hours ago</small>
+                            <p>
+                                @Model.CurrentBot.Bot.Name <span>text message answers</span>
+                            </p>
                         </div>
+                        <br/>
                         <table class="table table-striped">
                             <thead>
                             <tr>
@@ -60,6 +62,57 @@
                                 <tr>
                                     <td>@textMessage.Message</td>
                                     <td>@textMessage.Answer</td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                        <br/>
+
+                        <div class="timeline-item-header">
+                            <img src="~/images/messenger.png" alt="">
+                            <p>
+                                @Model.CurrentBot.Bot.Name <span>inline keys</span>
+                            </p>
+                        </div>
+                        <br/>
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Caption</th>
+                                <th>Answer</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var inlineKey in Model.CurrentBot.InlineKeys)
+                            {
+                                <tr>
+                                    <td>@inlineKey.Caption</td>
+                                    <td>@inlineKey.Answer</td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                        <br/>
+                        <div class="timeline-item-header">
+                            <img src="~/images/messenger.png" alt="">
+                            <p>
+                                @Model.CurrentBot.Bot.Name <span>url keys</span>
+                            </p>
+                        </div>
+                        <br/>
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Caption</th>
+                                <th>Url</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var textMessage in Model.CurrentBot.InlineUrlKeys)
+                            {
+                                <tr>
+                                    <td>@textMessage.Caption</td>
+                                    <td>@textMessage.Url</td>
                                 </tr>
                             }
                             </tbody>
