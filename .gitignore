@@ -1,4 +1,4 @@
 .vs
 .idea
-Api/obj/
-Api/bin/
+Api/obj
+Api/bin

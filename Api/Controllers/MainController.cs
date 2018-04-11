@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Api.Models;
 using Api.Repositories;
+using Api.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -41,18 +42,7 @@ namespace Api.Controllers
 
 		public async Task<IActionResult> Index()
 		{
-			var bots = _botsRepository.GetBots();
-
-			var botsViewModels = await Task.WhenAll(bots.Select(async _ =>
-			{
-				var result = await _httpClient.GetStringAsync($"{_configuration["RunnerApiUrl"]}/check?id={_.Id}");
-				var parsedResult = JsonConvert.DeserializeObject<Response>(result);
-				return new BotViewModel
-				{
-					Bot = _,
-					Status = parsedResult.status
-				};
-			}));
+			var botsViewModels = await BotsService.GetBotsViewModels(_configuration, _botsRepository);
 
 			return View(new PageViewModel
 			{
@@ -63,42 +53,22 @@ namespace Api.Controllers
 		[Route("/bot")]
 		public async Task<IActionResult> Bot(string id)
 		{
-			var bot = _botsRepository.GetBot(id);
+			var botsViewModels = await BotsService.GetBotsViewModels(_configuration, _botsRepository);
+			var botViewModel = await BotsService.GetBotViewModel(id, _configuration, _botsRepository);
 
-			var currentBotResult = await _httpClient.GetStringAsync($"{_configuration["RunnerApiUrl"]}/check?id={id}");
-			var currentBotParsedResult = JsonConvert.DeserializeObject<Response>(currentBotResult);
 			var textMessages = _textMessageAnswersRepository.GetTextMessageAnswers(id);
 			var inlineKeys = _inlineKeysRepository.GetInlineKeys(id);
 			var inlineUrlKeys = _inlineUrlKeysRepository.GetUrlInlineUrlKeys(id);
 			var interviews = _interviewsRepository.GetInterviews(id);
 
-			var bots = _botsRepository.GetBots();
-
-			var botsViewModels = await Task.WhenAll(bots.Select(async _ =>
+			return View(new PageViewModel
 			{
-				var result = await _httpClient.GetStringAsync($"{_configuration["RunnerApiUrl"]}/check?id={_.Id}");
-				var parsedResult = JsonConvert.DeserializeObject<Response>(result);
-				return new BotViewModel
-				{
-					Bot = _,
-					Status = parsedResult.status
-				};
-			}));
-
-			var botViewModel = new BotViewModel
-			{
-				Bot = bot,
-				Status = Convert.ToBoolean(currentBotParsedResult.status),
+				CurrentBot = botViewModel,
+				Bots = botsViewModels,
 				TextMessages = textMessages,
 				InlineKeys = inlineKeys,
 				InlineUrlKeys = inlineUrlKeys,
 				Interviews = interviews
-			};
-
-			return View(new PageViewModel
-			{
-				CurrentBot = botViewModel,
-				Bots = botsViewModels
 			});
 		}
 	}
