@@ -21,22 +21,6 @@ namespace Api.Controllers
             _botsRepository = botsRepository;
         }
 
-        [Route("/inline-key")]
-        [HttpGet]
-        public async Task<IActionResult> InlineKey(string id, string botId)
-        {
-            var inlineKeyDto = _inlineKeysRepository.GetInlineKey(id);
-            var bots = await BotsService.GetBotsViewModels(_configuration, _botsRepository);
-            var bot = await BotsService.GetBotViewModel(botId, _configuration, _botsRepository);
-
-            return View(new PageViewModel
-            {
-                CurrentBot = bot,
-                CurrentInlineKey = inlineKeyDto,
-                Bots = bots
-            });
-        }
-
         [Route("/inline-keys/new")]
         [HttpPost]
         public async Task<IActionResult> NewInlineKey(string caption, string answer, string botId)
