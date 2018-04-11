@@ -53,8 +53,40 @@ namespace Api.Controllers
 		[Route("/bot")]
 		public async Task<IActionResult> Bot(string id)
 		{
+<<<<<<< HEAD
 			var botsViewModels = await BotsService.GetBotsViewModels(_configuration, _botsRepository);
 			var botViewModel = await BotsService.GetBotViewModel(id, _configuration, _botsRepository);
+=======
+			var bot = _botsRepository.GetBot(id);
+
+			var currentBotResult = await _httpClient.GetStringAsync($"{_configuration["RunnerApiUrl"]}/check?id={id}");
+			var currentBotParsedResult = JsonConvert.DeserializeObject<Response>(currentBotResult);
+			var textMessages = _textMessageAnswersRepository.GetTextMessageAnswers(id);
+			var inlineKeys = _inlineKeysRepository.GetInlineKeys(id);
+			var inlineUrlKeys = _inlineUrlKeysRepository.GetUrlInlineUrlKeys(id);
+
+			var bots = _botsRepository.GetBots();
+
+			var botsViewModels = await Task.WhenAll(bots.Select(async _ =>
+			{
+				var result = await _httpClient.GetStringAsync($"{_configuration["RunnerApiUrl"]}/check?id={_.Id}");
+				var parsedResult = JsonConvert.DeserializeObject<Response>(result);
+				return new BotViewModel
+				{
+					Bot = _,
+					Status = parsedResult.status
+				};
+			}));
+
+			var botViewModel = new BotViewModel
+			{
+				Bot = bot,
+				Status = Convert.ToBoolean(currentBotParsedResult.status),
+				TextMessages = textMessages,
+				InlineKeys = inlineKeys,
+				InlineUrlKeys = inlineUrlKeys
+			};
+>>>>>>> 66047b92ded72c50f1198d630b68cbf7f1fbc02f
 
 			return View(new PageViewModel
 			{

@@ -1,4 +1,9 @@
 .vs
 .idea
+<<<<<<< HEAD
 Api/obj
 Api/bin
+=======
+Api/obj/
+Api/bin/
+>>>>>>> 66047b92ded72c50f1198d630b68cbf7f1fbc02f

@@ -6,7 +6,7 @@
             <h4 class="panel-title">Bot</h4>
         </div>
         <div class="panel-body user-profile-panel">
-            <img src="http://via.placeholder.com/100x100" class="user-profile-image img-circle" alt="">
+            <img src="~/images/messenger.png" class="user-profile-image img-circle" alt="">
             <h4 class="text-center m-t-lg">@Model.CurrentBot.Bot.Name</h4>
             <p class="text-center" style="font-size: 90%">@Model.CurrentBot.Bot.Token</p>
             <hr>
@@ -43,33 +43,80 @@
                 <div class="panel panel-white">
                     <div class="panel-body">
                         <div class="timeline-item-header">
-                            <img src="http://via.placeholder.com/40x40" alt="">
-                            <p>jack smith <span>posted a status</span></p>
-                            <small>3 hours ago</small>
+                            <img src="~/images/messenger.png" alt="">
+                            <p>
+                                @Model.CurrentBot.Bot.Name <span>text message answers</span>
+                            </p>
                         </div>
-                        <div class="timeline-item-post">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam porttitor mi eget laoreet auctor. Proin dictum nulla id augue aliquam, vitae condimentum erat imperdiet</p>
-                            <div class="timeline-options">
-                                <a href="#"><i class="fa fa-thumbs-up"></i> Like (7)</a>
-                                <a href="#"><i class="fa fa-comment"></i> Comment (2)</a>
-                                <a href="#"><i class="fa fa-share"></i> Share (3)</a>
-                            </div>
-                            <div class="timeline-comment">
-                                <div class="timeline-comment-header">
-                                    <img src="http://via.placeholder.com/30x30" alt="">
-                                    <p>ethan green <small>1 hour ago</small></p>
-                                </div>
-                                <p class="timeline-comment-text">Aenean tincidunt mi ut leo auctor, eleifend molestie erat vulputate</p>
-                            </div>
-                            <div class="timeline-comment">
-                                <div class="timeline-comment-header">
-                                    <img src="http://via.placeholder.com/30x30" alt="">
-                                    <p>john doe <small>3 hours ago</small></p>
-                                </div>
-                                <p class="timeline-comment-text">Nam non libero sem. Nullam commodo tellus quis massa pulvinar, sed blandit tortor tincidunt. Nulla consequat at nisi sit amet consectetur</p>
-                            </div>
-                            <textarea class="form-control" placeholder="Replay"></textarea>
+                        <br/>
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Text Message</th>
+                                <th>Answer</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var textMessage in Model.CurrentBot.TextMessages)
+                            {
+                                <tr>
+                                    <td>@textMessage.Message</td>
+                                    <td>@textMessage.Answer</td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                        <br/>
+
+                        <div class="timeline-item-header">
+                            <img src="~/images/messenger.png" alt="">
+                            <p>
+                                @Model.CurrentBot.Bot.Name <span>inline keys</span>
+                            </p>
                         </div>
+                        <br/>
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Caption</th>
+                                <th>Answer</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var inlineKey in Model.CurrentBot.InlineKeys)
+                            {
+                                <tr>
+                                    <td>@inlineKey.Caption</td>
+                                    <td>@inlineKey.Answer</td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                        <br/>
+                        <div class="timeline-item-header">
+                            <img src="~/images/messenger.png" alt="">
+                            <p>
+                                @Model.CurrentBot.Bot.Name <span>url keys</span>
+                            </p>
+                        </div>
+                        <br/>
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Caption</th>
+                                <th>Url</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var textMessage in Model.CurrentBot.InlineUrlKeys)
+                            {
+                                <tr>
+                                    <td>@textMessage.Caption</td>
+                                    <td>@textMessage.Url</td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </li>
@@ -77,7 +124,7 @@
                 <div class="panel panel-white">
                     <div class="panel-body">
                         <div class="timeline-item-header">
-                            <img src="http://via.placeholder.com/40x40" alt="">
+                            <img src="~/images/messenger.png" alt="">
                             <p>david smith <span>uploaded a photo</span></p>
                             <small>7 hours ago</small>
                         </div>
