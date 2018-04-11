@@ -1,4 +1,4 @@
-﻿@model Api.Models.BotViewModel
+﻿@model Api.Models.BotPageViewModel
 
 <div class="col-md-3">
     <div class="panel panel-white">
@@ -7,21 +7,21 @@
         </div>
         <div class="panel-body user-profile-panel">
             <img src="http://via.placeholder.com/100x100" class="user-profile-image img-circle" alt="">
-            <h4 class="text-center m-t-lg">@Model.Bot.Name</h4>
-            <p class="text-center" style="font-size: 90%">@Model.Bot.Token</p>
+            <h4 class="text-center m-t-lg">@Model.CurrentBot.Bot.Name</h4>
+            <p class="text-center" style="font-size: 90%">@Model.CurrentBot.Bot.Name.Token</p>
             <hr>
             <ul class="list-unstyled text-center">
                 <li>
-                    <p><i class="fa fa-map-marker m-r-xs"></i>Cognitive Services: @(Model.Bot.CognitiveServicesEnabled ? "enabled" : "disabled")</p>
+                    <p><i class="fa fa-map-marker m-r-xs"></i>Cognitive Services: @(Model.CurrentBot.Bot.CognitiveServicesEnabled ? "enabled" : "disabled")</p>
                 </li>
                 <li>
                     <p>
-                        <p><i class="fa fa-paper-plane-o m-r-xs"></i>Networking: @(Model.Bot.NetworkingEnabled ? "enabled" : "disabled")</p>
+                        <p><i class="fa fa-paper-plane-o m-r-xs"></i>Networking: @(Model.CurrentBot.Bot.NetworkingEnabled ? "enabled" : "disabled")</p>
                     </p>
                 </li>
             </ul>
             <hr>
-            <button class="btn btn-info btn-block">@(Model.Status ? "Stop" : "Start")</button>
+            <button class="btn btn-info btn-block">@(Model.CurrentBot.Status ? "Stop" : "Start")</button>
         </div>
     </div>
 </div>
@@ -110,7 +110,7 @@
             <h4 class="panel-title">Start message</h4>
         </div>
         <div class="panel-body">
-            <p>@Model.StartMessage</p>
+            <p>@Model.CurrentBot.StartMessage</p>
         </div>
     </div>
     <div class="panel panel-white">

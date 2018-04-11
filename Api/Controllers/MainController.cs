@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Api.Models;
@@ -63,11 +64,20 @@ namespace Api.Controllers
 			var parsedResult = JsonConvert.DeserializeObject<Response>(result);
 			var startMessage = _botsRepository.GetStartMessage(id);
 
-			return View(new BotViewModel
+			var botViewModel = new BotViewModel
 			{
-				Bot =  bot,
-				Status = Convert.ToBoolean(parsedResult.status),
-				StartMessage = startMessage
+				Bot = bot,
+				StartMessage = startMessage,
+				Status = Convert.ToBoolean(parsedResult.status)
+			};
+			
+			return View(new BotPageViewModel
+			{
+				CurrentBot = botViewModel,
+				Bots = new List<BotViewModel>
+				{
+					botViewModel
+				}
 			});
 		}
 	}
