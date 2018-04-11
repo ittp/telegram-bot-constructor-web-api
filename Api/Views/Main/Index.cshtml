@@ -1,1 +1,23 @@
-﻿
+﻿@model IEnumerable<Api.Models.Bot>
+
+<div class="page-title">
+    <h3 class="breadcrumb-header">Bots</h3>
+</div>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Telegram Token</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var bot in Model)
+    {
+        <tr>
+            <td> <a href="/bot?id=@bot.Id">@bot.Name</a></td>
+            <td>@bot.Token</td>
+        </tr>
+    }
+    </tbody>
+</table>
