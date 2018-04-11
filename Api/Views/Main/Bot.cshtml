@@ -75,11 +75,13 @@
                             </p>
                         </div>
                         <br/>
+                        <a href="/inline-keys/new?botId=@Model.CurrentBot.Bot.Id" class="btn btn-default">New</a>
                         <table class="table table-striped">
                             <thead>
                             <tr>
                                 <th>Caption</th>
                                 <th>Answer</th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -88,6 +90,15 @@
                                 <tr>
                                     <td>@inlineKey.Caption</td>
                                     <td>@inlineKey.Answer</td>
+                                    <td>
+                                        <form method="POST" action="/inline-keys/remove">
+                                            <input type="hidden" name="id" value="@inlineKey.Id" required>
+                                            <input type="hidden" name="botId" value="@inlineKey.BotId" required>
+                                            <button type="submit" class="btn btn-icon btn-danger">
+                                                <i class="fa fa-remove"></i>
+                                            </button>
+                                        </form>
+                                    </td>
                                 </tr>
                             }
                             </tbody>
@@ -108,11 +119,11 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach (var textMessage in Model.InlineUrlKeys)
+                            @foreach (var urlKey in Model.InlineUrlKeys)
                             {
                                 <tr>
-                                    <td>@textMessage.Caption</td>
-                                    <td>@textMessage.Url</td>
+                                    <td>@urlKey.Caption</td>
+                                    <td>@urlKey.Url</td>
                                 </tr>
                             }
                             </tbody>
@@ -132,23 +143,23 @@
             <p>@Model.CurrentBot.Bot.StartMessage</p>
         </div>
     </div>
+    <h4>Interviews</h4>
     @foreach (var interview in Model.Interviews)
     {
         <div class="panel panel-white">
             <div class="panel-heading clearfix">
                 <h4 class="panel-title">@interview.Name</h4>
             </div>
-            <div class="panel-heading clearfix">
-                <h5 class="panel-title">@interview.Question</h5>
+            <div class="panel-body">
+
+                <blockquote>
+                    <p>@(interview.Question[interview.Question.Length - 1] == '?' ? @interview.Question : interview.Question + "?")</p>
+                    @foreach (var answer in interview.Answers)
+                    {
+                        <footer>@answer</footer>
+                    }
+                </blockquote>
             </div>
-            <ul>
-            @foreach (var answer in interview.Answers)
-            {
-                <div class="panel-body">
-                    <li>@answer</li>
-                </div>
-            }
-            </ul>
         </div>
     }
 </div>
