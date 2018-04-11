@@ -8,61 +8,70 @@ using Microsoft.Extensions.Configuration;
 
 namespace Api.Controllers
 {
-	public class InlineKeysController: Controller
-	{
-		private readonly InlineKeysRepository _inlineKeysRepository;
-		private readonly IConfiguration _configuration;
-		private readonly BotsRepository _botsRepository;
+    public class InlineKeysController : Controller
+    {
+        private readonly InlineKeysRepository _inlineKeysRepository;
+        private readonly IConfiguration _configuration;
+        private readonly BotsRepository _botsRepository;
 
-		public InlineKeysController(InlineKeysRepository inlineKeysRepository, BotsRepository botsRepository, IConfiguration configuration)
-		{
-			_inlineKeysRepository = inlineKeysRepository;
-			_configuration = configuration;
-			_botsRepository = botsRepository;
-		}
+        public InlineKeysController(InlineKeysRepository inlineKeysRepository, BotsRepository botsRepository, IConfiguration configuration)
+        {
+            _inlineKeysRepository = inlineKeysRepository;
+            _configuration = configuration;
+            _botsRepository = botsRepository;
+        }
 
-		[Route("/inline-key")]
-		[HttpGet]
-		public async Task<IActionResult> InlineKey(string id)
-		{
-			var inlineKeyDto = _inlineKeysRepository.GetInlineKey(id);
-			var bots = await BotsService.GetBotsViewModels(_configuration, _botsRepository);
+        [Route("/inline-key")]
+        [HttpGet]
+        public async Task<IActionResult> InlineKey(string id, string botId)
+        {
+            var inlineKeyDto = _inlineKeysRepository.GetInlineKey(id);
+            var bots = await BotsService.GetBotsViewModels(_configuration, _botsRepository);
+            var bot = await BotsService.GetBotViewModel(botId, _configuration, _botsRepository);
 
-			return View(new PageViewModel{
-				CurrentInlineKey = inlineKeyDto,
-				Bots = bots
-			});
-		}
+            return View(new PageViewModel
+            {
+                CurrentBot = bot,
+                CurrentInlineKey = inlineKeyDto,
+                Bots = bots
+            });
+        }
 
-		// [Route("/inline-keys/add")]
-		// [HttpPost]
-		// public JsonResult AddInlineKey(string caption, string answer, string botId)
-		// {
-		// 	if (string.IsNullOrEmpty(caption)) return Json(false);
-		// 	if (string.IsNullOrEmpty(answer)) return Json(false);
-		// 	if (string.IsNullOrEmpty(botId)) return Json(false);
+        [Route("/inline-keys/new")]
+        [HttpPost]
+        public async Task<IActionResult> NewInlineKey(string caption, string answer, string botId)
+        {
+            var bots = await BotsService.GetBotsViewModels(_configuration, _botsRepository);
+            var bot = await BotsService.GetBotViewModel(botId, _configuration, _botsRepository);
 
-		// 	var inlineKeyDto = _inlineKeysRepository.AddInlineKey(new InlineKey
-		// 	{
-		// 		Caption = caption,
-		// 		Answer = answer,
-		// 		BotId = botId
-		// 	});
+            return View(new PageViewModel
+            {
+                CurrentBot = bot,
+                Bots = bots
+            });
+        }
 
-		// 	return inlineKeyDto != null
-		// 		? Json(inlineKeyDto.Transform())
-		// 		: Json(false);
-		// }}
+        [Route("/inline-keys/add")]
+        [HttpPost]
+        public IActionResult AddInlineKey(string caption, string answer, string botId)
+        {
+            var inlineKeyDto = _inlineKeysRepository.AddInlineKey(new InlineKey
+            {
+                Caption = caption,
+                Answer = answer,
+                BotId = botId
+            });
 
-		// [Route("/inline-keys/remove")]
-		// [HttpPost]
-		// public JsonResult RemoveInlineKey(string id)
-		// {
-		// 	if (string.IsNullOrEmpty(id)) return Json(false);
+            return Redirect("/bot?id=" + botId);
+        }
 
-		// 	var result = _inlineKeysRepository.RemoveInlineKey(id);
+        [Route("/inline-keys/remove")]
+        [HttpPost]
+        public IActionResult RemoveInlineKey(string id, string botId)
+        {
+            var result = _inlineKeysRepository.RemoveInlineKey(id);
 
-		// 	return result ? Json(true) : Json(false);
-		// }
-	}
+            return Redirect("/bot?id=" + botId);
+        }
+    }
 }
