@@ -90,11 +90,11 @@
                                 <tr>
                                     <td>@inlineKey.Caption</td>
                                     <td>@inlineKey.Answer</td>
-                                    <td>
+                                    <td class="text-right">
                                         <form method="POST" action="/inline-keys/remove">
                                             <input type="hidden" name="id" value="@inlineKey.Id" required>
                                             <input type="hidden" name="botId" value="@inlineKey.BotId" required>
-                                            <button type="submit" class="btn btn-icon btn-danger">
+                                            <button type="submit" class="btn btn-danger">
                                                 <i class="fa fa-remove"></i>
                                             </button>
                                         </form>
@@ -111,11 +111,13 @@
                             </p>
                         </div>
                         <br/>
+                        <a href="/inline-url-keys/new?botId=@Model.CurrentBot.Bot.Id" class="btn btn-default">New</a>
                         <table class="table table-striped">
                             <thead>
                             <tr>
                                 <th>Caption</th>
                                 <th>Url</th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -124,6 +126,15 @@
                                 <tr>
                                     <td>@urlKey.Caption</td>
                                     <td>@urlKey.Url</td>
+                                    <td class="text-right">
+                                        <form method="POST" action="/inline-url-keys/remove">
+                                            <input type="hidden" name="id" value="@urlKey.Id" required>
+                                            <input type="hidden" name="botId" value="@urlKey.BotId" required>
+                                            <button type="submit" class="btn btn-danger">
+                                                <i class="fa fa-remove"></i>
+                                            </button>
+                                        </form>
+                                    </td>
                                 </tr>
                             }
                             </tbody>

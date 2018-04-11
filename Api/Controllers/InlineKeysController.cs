@@ -8,54 +8,55 @@ using Microsoft.Extensions.Configuration;
 
 namespace Api.Controllers
 {
-    public class InlineKeysController : Controller
-    {
-        private readonly InlineKeysRepository _inlineKeysRepository;
-        private readonly IConfiguration _configuration;
-        private readonly BotsRepository _botsRepository;
+	public class InlineKeysController : Controller
+	{
+		private readonly InlineKeysRepository _inlineKeysRepository;
+		private readonly IConfiguration _configuration;
+		private readonly BotsRepository _botsRepository;
 
-        public InlineKeysController(InlineKeysRepository inlineKeysRepository, BotsRepository botsRepository, IConfiguration configuration)
-        {
-            _inlineKeysRepository = inlineKeysRepository;
-            _configuration = configuration;
-            _botsRepository = botsRepository;
-        }
+		public InlineKeysController(InlineKeysRepository inlineKeysRepository, BotsRepository botsRepository,
+			IConfiguration configuration)
+		{
+			_inlineKeysRepository = inlineKeysRepository;
+			_configuration = configuration;
+			_botsRepository = botsRepository;
+		}
 
-        [Route("/inline-keys/new")]
-        [HttpGet]
-        public async Task<IActionResult> NewInlineKey(string botId)
-        {
-            var bots = await BotsService.GetBotsViewModels(_configuration, _botsRepository);
-            var bot = await BotsService.GetBotViewModel(botId, _configuration, _botsRepository);
+		[Route("/inline-keys/new")]
+		[HttpGet]
+		public async Task<IActionResult> NewInlineKey(string botId)
+		{
+			var bots = await BotsService.GetBotsViewModels(_configuration, _botsRepository);
+			var bot = await BotsService.GetBotViewModel(botId, _configuration, _botsRepository);
 
-            return View(new PageViewModel
-            {
-                CurrentBot = bot,
-                Bots = bots
-            });
-        }
+			return View(new PageViewModel
+			{
+				CurrentBot = bot,
+				Bots = bots
+			});
+		}
 
-        [Route("/inline-keys/add")]
-        [HttpPost]
-        public IActionResult AddInlineKey(string caption, string answer, string botId)
-        {
-            _inlineKeysRepository.AddInlineKey(new InlineKey
-            {
-                Caption = caption,
-                Answer = answer,
-                BotId = botId
-            });
+		[Route("/inline-keys/add")]
+		[HttpPost]
+		public IActionResult AddInlineKey(string caption, string answer, string botId)
+		{
+			_inlineKeysRepository.AddInlineKey(new InlineKey
+			{
+				Caption = caption,
+				Answer = answer,
+				BotId = botId
+			});
 
-            return Redirect("/bot?id=" + botId);
-        }
+			return Redirect("/bot?id=" + botId);
+		}
 
-        [Route("/inline-keys/remove")]
-        [HttpPost]
-        public IActionResult RemoveInlineKey(string id, string botId)
-        {
-            _inlineKeysRepository.RemoveInlineKey(id);
+		[Route("/inline-keys/remove")]
+		[HttpPost]
+		public IActionResult RemoveInlineKey(string id, string botId)
+		{
+			_inlineKeysRepository.RemoveInlineKey(id);
 
-            return Redirect("/bot?id=" + botId);
-        }
-    }
+			return Redirect("/bot?id=" + botId);
+		}
+	}
 }
