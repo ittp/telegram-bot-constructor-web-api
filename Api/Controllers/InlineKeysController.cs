@@ -38,8 +38,8 @@ namespace Api.Controllers
         }
 
         [Route("/inline-keys/new")]
-        [HttpPost]
-        public async Task<IActionResult> NewInlineKey(string caption, string answer, string botId)
+        [HttpGet]
+        public async Task<IActionResult> NewInlineKey(string botId)
         {
             var bots = await BotsService.GetBotsViewModels(_configuration, _botsRepository);
             var bot = await BotsService.GetBotViewModel(botId, _configuration, _botsRepository);

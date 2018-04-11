@@ -75,11 +75,13 @@
                             </p>
                         </div>
                         <br/>
+                        <a href="/inline-keys/new?botId=@Model.CurrentBot.Bot.Id" class="btn btn-default">New</a>
                         <table class="table table-striped">
                             <thead>
                             <tr>
                                 <th>Caption</th>
                                 <th>Answer</th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -88,6 +90,15 @@
                                 <tr>
                                     <td>@inlineKey.Caption</td>
                                     <td>@inlineKey.Answer</td>
+                                    <td>
+                                        <form method="POST" action="/inline-keys/remove">
+                                            <input type="hidden" name="id" value="@inlineKey.Id" required>
+                                            <input type="hidden" name="botId" value="@inlineKey.BotId" required>
+                                            <button type="submit" class="btn btn-icon btn-danger">
+                                                <i class="fa fa-remove"></i>
+                                            </button>
+                                        </form>
+                                    </td>
                                 </tr>
                             }
                             </tbody>
@@ -108,11 +119,11 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach (var textMessage in Model.InlineUrlKeys)
+                            @foreach (var urlKey in Model.InlineUrlKeys)
                             {
                                 <tr>
-                                    <td>@textMessage.Caption</td>
-                                    <td>@textMessage.Url</td>
+                                    <td>@urlKey.Caption</td>
+                                    <td>@urlKey.Url</td>
                                 </tr>
                             }
                             </tbody>
