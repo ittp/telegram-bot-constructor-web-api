@@ -2,7 +2,7 @@
 
 namespace Api.Models
 {
-	public class BotPageViewModel
+	public class PageViewModel
 	{
 		public BotViewModel CurrentBot;
 		public IEnumerable<BotViewModel> Bots;

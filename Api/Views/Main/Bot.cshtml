@@ -1,4 +1,4 @@
-﻿@model Api.Models.BotPageViewModel
+﻿@model Api.Models.PageViewModel
 
 <div class="col-md-3">
     <div class="panel panel-white">
@@ -8,7 +8,7 @@
         <div class="panel-body user-profile-panel">
             <img src="http://via.placeholder.com/100x100" class="user-profile-image img-circle" alt="">
             <h4 class="text-center m-t-lg">@Model.CurrentBot.Bot.Name</h4>
-            <p class="text-center" style="font-size: 90%">@Model.CurrentBot.Bot.Name.Token</p>
+            <p class="text-center" style="font-size: 90%">@Model.CurrentBot.Bot.Token</p>
             <hr>
             <ul class="list-unstyled text-center">
                 <li>
@@ -110,7 +110,7 @@
             <h4 class="panel-title">Start message</h4>
         </div>
         <div class="panel-body">
-            <p>@Model.CurrentBot.StartMessage</p>
+            <p>@Model.CurrentBot.Bot.StartMessage</p>
         </div>
     </div>
     <div class="panel panel-white">

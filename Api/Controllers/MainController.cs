@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Api.Models;
@@ -38,21 +39,25 @@ namespace Api.Controllers
 			_httpClient = new HttpClient();
 		}
 
-		public IActionResult Index()
+		public async Task<IActionResult> Index()
 		{
 			var bots = _botsRepository.GetBots();
 
+			var botsViewModels = await Task.WhenAll(bots.Select(async _ =>
+			{
+				var result = await _httpClient.GetStringAsync($"{_configuration["RunnerApiUrl"]}/check?id={_.Id}");
+				var parsedResult = JsonConvert.DeserializeObject<Response>(result);
+				return new BotViewModel
+				{
+					Bot = _,
+					Status = parsedResult.status
+				};
+			}));
 
-			return View(bots);
-		}
-
-
-		public IActionResult TextMessages()
-		{
-			var bots = _botsRepository.GetBots();
-
-
-			return View(bots);
+			return View(new PageViewModel
+			{
+				Bots = botsViewModels.ToArray()
+			});
 		}
 
 		[Route("/bot")]
@@ -60,24 +65,33 @@ namespace Api.Controllers
 		{
 			var bot = _botsRepository.GetBot(id);
 
-			var result = await _httpClient.GetStringAsync($"{_configuration["RunnerApiUrl"]}/check?id={id}");
-			var parsedResult = JsonConvert.DeserializeObject<Response>(result);
+			var currentBotResult = await _httpClient.GetStringAsync($"{_configuration["RunnerApiUrl"]}/check?id={id}");
+			var currentBotParsedResult = JsonConvert.DeserializeObject<Response>(currentBotResult);
 			var startMessage = _botsRepository.GetStartMessage(id);
+
+			var bots = _botsRepository.GetBots();
+
+			var botsViewModels = await Task.WhenAll(bots.Select(async _ =>
+			{
+				var result = await _httpClient.GetStringAsync($"{_configuration["RunnerApiUrl"]}/check?id={_.Id}");
+				var parsedResult = JsonConvert.DeserializeObject<Response>(result);
+				return new BotViewModel
+				{
+					Bot = _,
+					Status = parsedResult.status
+				};
+			}));
 
 			var botViewModel = new BotViewModel
 			{
 				Bot = bot,
-				StartMessage = startMessage,
-				Status = Convert.ToBoolean(parsedResult.status)
+				Status = Convert.ToBoolean(currentBotParsedResult.status)
 			};
-			
-			return View(new BotPageViewModel
+
+			return View(new PageViewModel
 			{
 				CurrentBot = botViewModel,
-				Bots = new List<BotViewModel>
-				{
-					botViewModel
-				}
+				Bots = botsViewModels
 			});
 		}
 	}

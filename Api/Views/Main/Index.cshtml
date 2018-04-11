@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Api.Models.Bot>
+﻿@model Api.Models.PageViewModel
 
 <div class="page-title">
     <h3 class="breadcrumb-header">Bots</h3>
@@ -12,11 +12,11 @@
     </tr>
     </thead>
     <tbody>
-    @foreach (var bot in Model)
+    @foreach (var bot in Model.Bots)
     {
         <tr>
-            <td> <a href="/bot?id=@bot.Id">@bot.Name</a></td>
-            <td>@bot.Token</td>
+            <td> <a href="/bot?id=@bot.Bot.Id">@bot.Bot.Name</a></td>
+            <td>@bot.Bot.Token</td>
         </tr>
     }
     </tbody>
