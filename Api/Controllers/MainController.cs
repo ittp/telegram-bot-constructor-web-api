@@ -50,6 +50,22 @@ namespace Api.Controllers
 			});
 		}
 
+		[Route("/start")]
+		public async Task<RedirectResult> Start(string id)
+		{
+			await _httpClient.GetStringAsync($"{_configuration["RunnerApiUrl"]}/start?id={id}");
+
+			return Redirect($"/bot?id={id}");
+		}
+
+		[Route("/stop")]
+		public async Task<RedirectResult> Stop(string id)
+		{
+			await _httpClient.GetStringAsync($"{_configuration["RunnerApiUrl"]}/stop?id={id}");
+
+			return Redirect($"/bot?id={id}");
+		}
+
 		[Route("/bot")]
 		public async Task<IActionResult> Bot(string id)
 		{
