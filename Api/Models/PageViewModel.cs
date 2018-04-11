@@ -6,5 +6,6 @@ namespace Api.Models
 	{
 		public BotViewModel CurrentBot;
 		public IEnumerable<BotViewModel> Bots;
+		public InlineKey CurrentInlineKey;
 	}
 }

@@ -13101,11 +13101,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/ndy7/telegram-bot-constructor-web-api/Api/Api.csproj",
+      "projectUniqueName": "/workspace/telegram-bot-constructor-web-api/Api/Api.csproj",
       "projectName": "Api",
-      "projectPath": "/home/ndy7/telegram-bot-constructor-web-api/Api/Api.csproj",
+      "projectPath": "/workspace/telegram-bot-constructor-web-api/Api/Api.csproj",
       "packagesPath": "/home/ndy7/.nuget/packages/",
-      "outputPath": "/home/ndy7/telegram-bot-constructor-web-api/Api/obj/",
+      "outputPath": "/workspace/telegram-bot-constructor-web-api/Api/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/share/dotnet/sdk/NuGetFallbackFolder"
