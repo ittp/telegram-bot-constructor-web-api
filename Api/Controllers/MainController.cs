@@ -70,6 +70,7 @@ namespace Api.Controllers
 			var textMessages = _textMessageAnswersRepository.GetTextMessageAnswers(id);
 			var inlineKeys = _inlineKeysRepository.GetInlineKeys(id);
 			var inlineUrlKeys = _inlineUrlKeysRepository.GetUrlInlineUrlKeys(id);
+			var interviews = _interviewsRepository.GetInterviews(id);
 
 			var bots = _botsRepository.GetBots();
 
@@ -90,7 +91,8 @@ namespace Api.Controllers
 				Status = Convert.ToBoolean(currentBotParsedResult.status),
 				TextMessages = textMessages,
 				InlineKeys = inlineKeys,
-				InlineUrlKeys = inlineUrlKeys
+				InlineUrlKeys = inlineUrlKeys,
+				Interviews = interviews
 			};
 
 			return View(new PageViewModel
