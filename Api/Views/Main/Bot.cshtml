@@ -23,7 +23,7 @@
                 </li>
             </ul>
             <hr>
-            <a href="@(Model.CurrentBot.Status ? "stop/?id=" + Model.CurrentBot.Bot.Id : "start/?id=" + Model.CurrentBot.Bot.Id)" class="btn btn-info btn-block">@(Model.CurrentBot.Status ? "Stop" : "Start")</a>
+            <a href="@(Model.CurrentBot.Status ? "/bots/stop/?id=" + Model.CurrentBot.Bot.Id : "/bots/start/?id=" + Model.CurrentBot.Bot.Id)" class="btn btn-info btn-block">@(Model.CurrentBot.Status ? "Stop" : "Start")</a>
         </div>
     </div>
 </div>

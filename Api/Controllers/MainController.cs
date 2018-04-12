@@ -46,11 +46,11 @@ namespace Api.Controllers
 
 			return View(new PageViewModel
 			{
-				Bots = botsViewModels.ToArray()
+				Bots = botsViewModels
 			});
 		}
 
-		[Route("/start")]
+		[Route("/bots/start")]
 		public async Task<RedirectResult> Start(string id)
 		{
 			await _httpClient.GetStringAsync($"{_configuration["RunnerApiUrl"]}/start?id={id}");
@@ -67,12 +67,50 @@ namespace Api.Controllers
 			return Redirect($"/bot?id={id}");
 		}
 
-		[Route("/stop")]
+		[Route("/bots/stop")]
 		public async Task<RedirectResult> Stop(string id)
 		{
 			await _httpClient.GetStringAsync($"{_configuration["RunnerApiUrl"]}/stop?id={id}");
 
 			return Redirect($"/bot?id={id}");
+		}
+		
+		[Route("/bots/new")]
+		public async Task<IActionResult> NewBot(string name, string token, string message)
+		{
+			var botsViewModels = await BotsService.GetBotsViewModels(_configuration, _botsRepository);
+
+			return View(new PageViewModel
+			{
+				Bots = botsViewModels.ToArray()
+			});
+		}
+		
+		[Route("/bots/add")]
+		[HttpPost]
+		public async Task<IActionResult> AddBot(string name, string token, string message)
+		{
+			var botDto = _botsRepository.AddBot(new Bot
+			{
+				Name = name,
+				Token = token,
+				NetworkingEnabled = true,
+				CognitiveServicesEnabled = true,
+				StartMessage = message
+			});
+			
+			return Redirect($"/bot?id={botDto.Id}");
+		}
+		
+		[Route("/bots/remove")]
+		[HttpPost]
+		public async Task<IActionResult> Remove(string id)
+		{
+			await _httpClient.GetStringAsync($"{_configuration["RunnerApiUrl"]}/stop?id={id}");
+			
+			_botsRepository.RemoveBot(id);
+			
+			return Redirect($"/");
 		}
 
 		[Route("/bot")]
