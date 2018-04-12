@@ -227,11 +227,11 @@
             </div>
         </div>
         <div class="panel-body">
-                <textarea class="form-control" style="resize: none" placeholder="Text..." name="text" rows="4" form="sendEvent" required></textarea>
-                <form method="post" class="" action="/events/add" id="sendEvent">
-                    <input type="hidden" value="@Model.CurrentBot.Bot.Id" name="botId"/>
-                    <input class="btn btn-large btn-default" style="margin-top: 2%" type="submit" value="Send">
-                </form>
+            <textarea class="form-control" style="resize: none" placeholder="Text..." name="text" rows="4" form="sendEvent" required></textarea>
+            <form method="post" class="" action="/events/add" id="sendEvent">
+                <input type="hidden" value="@Model.CurrentBot.Bot.Id" name="botId"/>
+                <input class="btn btn-large btn-default" style="margin-top: 2%" type="submit" value="Send">
+            </form>
         </div>
     </div>
     <div class="panel panel-white">
@@ -240,6 +240,7 @@
                 <h4>Interviews</h4>
             </div>
         </div>
+        <a href="/interviews/new?botId=@Model.CurrentBot.Bot.Id" class="btn btn-default" style="margin-bottom: 2%">New</a>
         <div class="panel-body">
             @foreach (var interview in Model.Interviews)
             {
