@@ -12,5 +12,6 @@ namespace Api.Models
         public IEnumerable<InlineUrlKey> InlineUrlKeys { get; set; }
         public IEnumerable<Interview> Interviews {get;set;}
         public IEnumerable<UserViewModel> Users { get; set; }
+        public IEnumerable<InterviewAnswerViewModel> InterviewAnswers { get; set; }
     }
 }

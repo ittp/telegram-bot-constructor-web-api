@@ -53,14 +53,22 @@
                 <ul class="list-unstyled">
                     <li style="margin-top: 2%">
                         <div class="row">
-                            <div class="col-md-6"><p><i class="fa fa-paper-plane-o m-r-xs"></i>Congnitive Services:</p></div>
-                            <div class="col-md-6 text-right"> <a class="btn btn-default" href="/congnitiveservices?id=@Model.CurrentBot.Bot.Id&status=@(!Model.CurrentBot.Bot.CognitiveServicesEnabled)"> @(Model.CurrentBot.Bot.CognitiveServicesEnabled ? "Disable" : "Enable")</a></div>
+                            <div class="col-md-6">
+                                <p><i class="fa fa-paper-plane-o m-r-xs"></i>Congnitive Services:</p>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <a class="btn btn-default" href="/congnitiveservices?id=@Model.CurrentBot.Bot.Id&status=@(!Model.CurrentBot.Bot.CognitiveServicesEnabled)"> @(Model.CurrentBot.Bot.CognitiveServicesEnabled ? "Disable" : "Enable")</a>
+                            </div>
                         </div>
                     </li>
                     <li style="margin-top: 2%">
                         <div class="row">
-                            <div class="col-md-6"><p><i class="fa fa-paper-plane-o m-r-xs"></i>Networking:</p></div>
-                            <div class="col-md-6 text-right"><a class="btn btn-default" href="/networking?id=@Model.CurrentBot.Bot.Id&status=@(!Model.CurrentBot.Bot.NetworkingEnabled)"> @(Model.CurrentBot.Bot.NetworkingEnabled ? "Disable" : "Enable")</a></div>
+                            <div class="col-md-6">
+                                <p><i class="fa fa-paper-plane-o m-r-xs"></i>Networking:</p>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <a class="btn btn-default" href="/networking?id=@Model.CurrentBot.Bot.Id&status=@(!Model.CurrentBot.Bot.NetworkingEnabled)"> @(Model.CurrentBot.Bot.NetworkingEnabled ? "Disable" : "Enable")</a>
+                            </div>
                         </div>
                     </li>
                 </ul>
@@ -261,6 +269,40 @@
                     </div>
                 </div>
             }
+        </div>
+    </div>
+    <div class="panel panel-white">
+        <div class="panel-heading clearfix">
+            <div class="panel-title">
+                <h4>Answers</h4>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table id="example3" class="display table" style="width: 100%;">
+                    <thead>
+                    <tr>
+                        <th>Question</th>
+                        <th>Answer</th>
+                        <th>FirstName</th>
+                        <th>LastName</th>
+                        <th>TelegramId</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var answer in Model.InterviewAnswers)
+                    {
+                        <tr>
+                            <td>@answer.Interview.Question</td>
+                            <td>@answer.InterviewAnswer.Answer</td>
+                            <td>@answer.User.FirstName</td>
+                            <td>@answer.User.LastName</td>
+                            <td>@answer.User.TelegramId</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

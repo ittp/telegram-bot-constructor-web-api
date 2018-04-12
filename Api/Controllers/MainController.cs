@@ -128,6 +128,13 @@ namespace Api.Controllers
 			var inlineKeys = _inlineKeysRepository.GetInlineKeys(id);
 			var inlineUrlKeys = _inlineUrlKeysRepository.GetUrlInlineUrlKeys(id);
 			var interviews = _interviewsRepository.GetInterviews(id);
+			var interviewAnswers = _interviewAnswersRepository.GetInterviewAnswers(id).Select(_ => new InterviewAnswerViewModel
+			{
+				Interview = _interviewsRepository.GetInterview(_.InterviewId),
+				InterviewAnswer = _,
+				User = _usersRepository.GetUser(_.UserId, _.BotId)
+			});
+
 			var users = _usersRepository.GetUsers(id).Select(_ => new UserViewModel
 			{
 				Id = _.Id.ToString(),
@@ -146,9 +153,17 @@ namespace Api.Controllers
 				InlineKeys = inlineKeys,
 				InlineUrlKeys = inlineUrlKeys,
 				Interviews = interviews,
+				InterviewAnswers = interviewAnswers,
 				Users = users
 			});
 		}
+	}
+
+	public class InterviewAnswerViewModel
+	{
+		public Interview Interview { get; set; }
+		public User User { get; set; }
+		public InterviewAnswer InterviewAnswer { get; set; }
 	}
 
 	public class UserViewModel
