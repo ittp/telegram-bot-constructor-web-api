@@ -29,8 +29,12 @@
 </div>
 <div class="col-md-5">
     <div class="panel panel-white">
+        <div class="panel-heading clearfix">
+            <h4 class="panel-title">Notify users</h4>
+        </div>
         <div class="panel-body">
             <div class="post">
+
                 <textarea class="form-control" placeholder="Text..." name="text" rows="4" form="sendEvent" required></textarea>
                 <form method="post" action="/events/add" id="sendEvent">
                     <input type="hidden" value="@Model.CurrentBot.Bot.Id" name="botId"/>
@@ -167,7 +171,11 @@
             <h4 class="panel-title">Start message</h4>
         </div>
         <div class="panel-body">
-            <p>@Model.CurrentBot.Bot.StartMessage</p>
+            <form method="post" action="/start-message" class="text-center">
+                <input type="hidden" value="@Model.CurrentBot.Bot.Id" name="id"/>
+                <input value="@Model.CurrentBot.Bot.StartMessage" name="message" required/>
+                <input type="submit" value="Change" class="btn btn-default"/>
+            </form>
         </div>
     </div>
     <h4>Interviews</h4>

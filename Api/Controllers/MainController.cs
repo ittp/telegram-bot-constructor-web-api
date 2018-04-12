@@ -58,6 +58,15 @@ namespace Api.Controllers
 			return Redirect($"/bot?id={id}");
 		}
 
+		[Route("/start-message")]
+		[HttpPost]
+		public async Task<RedirectResult> SetStartMessage(string id, string message)
+		{
+			_botsRepository.SetStartMessage(id, message);
+
+			return Redirect($"/bot?id={id}");
+		}
+
 		[Route("/stop")]
 		public async Task<RedirectResult> Stop(string id)
 		{
