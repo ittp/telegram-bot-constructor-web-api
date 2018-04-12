@@ -8,6 +8,7 @@ namespace Api.Repositories
 	public class InterviewsRepository
 	{
 		private readonly IMongoCollection<Interview> _interviews;
+		private readonly IMongoCollection<InterviewAnswer> _interviewAnswers;
 
 		public InterviewsRepository(IMongoDatabase database)
 		{
@@ -33,9 +34,11 @@ namespace Api.Repositories
 
 		public bool RemoveInterview(string id)
 		{
+			var deleteDependensiesResult = _interviewAnswers.DeleteMany(x => x.InterviewId.ToString() == id);
+			
 			var deleteResult = _interviews.DeleteOne(x => x.Id == MongoService.TryCreateObjectId(id));
 
-			return deleteResult.DeletedCount > 0;
+			return deleteResult.DeletedCount > 0 && deleteDependensiesResult.DeletedCount > 0;
 		}
 
 	}
