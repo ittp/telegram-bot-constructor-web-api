@@ -1,192 +1,265 @@
 ﻿@model Api.Models.PageViewModel
 
-<div class="col-md-4">
-    <div class="panel panel-white">
-        <div class="panel-heading clearfix">
-            <h4 class="panel-title">Bot</h4>
-        </div>
-        <div class="panel-body user-profile-panel">
-            <img src="~/images/messenger.png" class="user-profile-image img-circle" alt="">
-            <h4 class="text-center m-t-lg">@Model.CurrentBot.Bot.Name</h4>
-            <p class="text-center" style="font-size: 90%">@Model.CurrentBot.Bot.Token</p>
-            <hr>
-            <ul class="list-unstyled text-center">
-                <li>
-                    <p><i class="fa fa-paper-plane-o m-r-xs"></i>Congnitive Services:</p>
-                    <a  class="btn btn-default" href="/congnitiveservices?id=@Model.CurrentBot.Bot.Id&status=@(!Model.CurrentBot.Bot.CognitiveServicesEnabled)"> @(Model.CurrentBot.Bot.CognitiveServicesEnabled ? "Disable" : "Enable")</a>
-                </li>
-                <li>
-                    <p>
-                        <p><i class="fa fa-paper-plane-o m-r-xs"></i>Networking:</p>
-                        <a  class="btn btn-default" href="/networking?id=@Model.CurrentBot.Bot.Id&status=@(!Model.CurrentBot.Bot.NetworkingEnabled)"> @(Model.CurrentBot.Bot.NetworkingEnabled ? "Disable" : "Enable")</a>
-                    </p>
-                </li>
-            </ul>
-            <hr>
-            <a href="@(Model.CurrentBot.Status ? "/bots/stop/?id=" + Model.CurrentBot.Bot.Id : "/bots/start/?id=" + Model.CurrentBot.Bot.Id)" class="btn btn-info btn-block">@(Model.CurrentBot.Status ? "Stop" : "Start")</a>
-        </div>
-    </div>
-</div>
-<div class="col-md-5">
-    <div class="panel panel-white">
-        <div class="panel-body">
-            <div class="post">
-                <textarea class="form-control" placeholder="Text..." name="text" rows="4" form="sendEvent" required></textarea>
-                <form method="post" action="/events/add" id="sendEvent">
-                    <input type="hidden" value="@Model.CurrentBot.Bot.Id" name="botId"/>
-                    <div class="post-options">
-                        <input class="btn btn-default pull-right" type="submit" value="Send">
+<div class="row">
+    <div class="col-md-4">
+        <div class="panel panel-white">
+            <div class="panel-heading clearfix">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="panel-title">
+                            <h4>Bot</h4>
+                        </div>
                     </div>
+                    <div class="col-md-6">
+                        <form method="POST" action="/bots/remove" class="text-right">
+                            <input type="hidden" name="id" value="@Model.CurrentBot.Bot.Id" required>
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fa fa-remove"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body user-profile-panel">
+                <img src="~/images/messenger.png" class="user-profile-image img-circle" alt="">
+                <h4 class="text-center m-t-lg">@Model.CurrentBot.Bot.Name</h4>
+                <p class="text-center" style="font-size: 90%">@Model.CurrentBot.Bot.Token</p>
+                <div style="margin-top: 5%; margin-left: 10%; margin-right: 10%;">
+                    <a href="@(Model.CurrentBot.Status ? "/bots/stop/?id=" + Model.CurrentBot.Bot.Id : "/bots/start/?id=" + Model.CurrentBot.Bot.Id)" class="btn btn-info btn-block">@(Model.CurrentBot.Status ? "Stop" : "Start")</a>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-white">
+            <div class="panel-heading clearfix">
+                <div class="panel-title">
+                    <h4>Start message</h4>
+                </div>
+            </div>
+            <div class="panel-body">
+                <textarea class="form-control" style="resize: none" name="message" rows="3" form="startMessage" required>@Model.CurrentBot.Bot.StartMessage</textarea>
+                <form method="post" class="text-center" action="/start-message" id="startMessage">
+                    <input type="hidden" value="@Model.CurrentBot.Bot.Id" name="id"/>
+                    <input class="btn btn-large btn-default" style="margin-top: 2%" type="submit" value="Change">
                 </form>
             </div>
         </div>
-    </div>
-
-    <div class="profile-timeline">
-        <ul class="list-unstyled">
-            <li class="timeline-item">
-                <div class="panel panel-white">
-                    <div class="panel-body">
-                        <div class="timeline-item-header">
-                            <img src="~/images/messenger.png" alt="">
-                            <p>
-                                @Model.CurrentBot.Bot.Name <span>text message answers</span>
-                            </p>
-                        </div>
-                        <br/>
-                        <a href="/text-message-answers/new?botId=@Model.CurrentBot.Bot.Id" class="btn btn-default">New</a>
-                        <table class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th>Text Message</th>
-                                <th>Answer</th>
-                                <th></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach (var textMessage in Model.TextMessages)
-                            {
-                                <tr>
-                                    <td>@textMessage.Message</td>
-                                    <td>@textMessage.Answer</td>
-                                    <td class="text-right">
-                                        <form method="POST" action="/text-message-answers/remove">
-                                            <input type="hidden" name="id" value="@textMessage.Id" required>
-                                            <input type="hidden" name="botId" value="@textMessage.BotId" required>
-                                            <button type="submit" class="btn btn-danger">
-                                                <i class="fa fa-remove"></i>
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            }
-                            </tbody>
-                        </table>
-                        <br/>
-
-                        <div class="timeline-item-header">
-                            <img src="~/images/messenger.png" alt="">
-                            <p>
-                                @Model.CurrentBot.Bot.Name <span>inline keys</span>
-                            </p>
-                        </div>
-                        <br/>
-                        <a href="/inline-keys/new?botId=@Model.CurrentBot.Bot.Id" class="btn btn-default">New</a>
-                        <table class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th>Caption</th>
-                                <th>Answer</th>
-                                <th></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach (var inlineKey in Model.InlineKeys)
-                            {
-                                <tr>
-                                    <td>@inlineKey.Caption</td>
-                                    <td>@inlineKey.Answer</td>
-                                    <td class="text-right">
-                                        <form method="POST" action="/inline-keys/remove">
-                                            <input type="hidden" name="id" value="@inlineKey.Id" required>
-                                            <input type="hidden" name="botId" value="@inlineKey.BotId" required>
-                                            <button type="submit" class="btn btn-danger">
-                                                <i class="fa fa-remove"></i>
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            }
-                            </tbody>
-                        </table>
-                        <br/>
-                        <div class="timeline-item-header">
-                            <img src="~/images/messenger.png" alt="">
-                            <p>
-                                @Model.CurrentBot.Bot.Name <span>url keys</span>
-                            </p>
-                        </div>
-                        <br/>
-                        <a href="/inline-url-keys/new?botId=@Model.CurrentBot.Bot.Id" class="btn btn-default">New</a>
-                        <table class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th>Caption</th>
-                                <th>Url</th>
-                                <th></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach (var urlKey in Model.InlineUrlKeys)
-                            {
-                                <tr>
-                                    <td>@urlKey.Caption</td>
-                                    <td>@urlKey.Url</td>
-                                    <td class="text-right">
-                                        <form method="POST" action="/inline-url-keys/remove">
-                                            <input type="hidden" name="id" value="@urlKey.Id" required>
-                                            <input type="hidden" name="botId" value="@urlKey.BotId" required>
-                                            <button type="submit" class="btn btn-danger">
-                                                <i class="fa fa-remove"></i>
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </li>
-        </ul>
-    </div>
-</div>
-<div class="col-md-3">
-    <div class="panel panel-white">
-        <div class="panel-heading clearfix">
-            <h4 class="panel-title">Start message</h4>
-        </div>
-        <div class="panel-body">
-            <p>@Model.CurrentBot.Bot.StartMessage</p>
-        </div>
-    </div>
-    <h4>Interviews</h4>
-    @foreach (var interview in Model.Interviews)
-    {
         <div class="panel panel-white">
             <div class="panel-heading clearfix">
-                <h4 class="panel-title">@interview.Name</h4>
+                <div class="panel-title">
+                    <h4>Features</h4>
+                </div>
             </div>
             <div class="panel-body">
-
-                <blockquote>
-                    <p>@(interview.Question[interview.Question.Length - 1] == '?' ? @interview.Question : interview.Question + "?")</p>
-                    @foreach (var answer in interview.Answers)
-                    {
-                        <footer>@answer</footer>
-                    }
-                </blockquote>
+                <ul class="list-unstyled">
+                    <li style="margin-top: 2%">
+                        <div class="row">
+                            <div class="col-md-6"><p><i class="fa fa-paper-plane-o m-r-xs"></i>Congnitive Services:</p></div>
+                            <div class="col-md-6 text-right"> <a class="btn btn-default" href="/congnitiveservices?id=@Model.CurrentBot.Bot.Id&status=@(!Model.CurrentBot.Bot.CognitiveServicesEnabled)"> @(Model.CurrentBot.Bot.CognitiveServicesEnabled ? "Disable" : "Enable")</a></div>
+                        </div>
+                    </li>
+                    <li style="margin-top: 2%">
+                        <div class="row">
+                            <div class="col-md-6"><p><i class="fa fa-paper-plane-o m-r-xs"></i>Networking:</p></div>
+                            <div class="col-md-6 text-right"><a class="btn btn-default" href="/networking?id=@Model.CurrentBot.Bot.Id&status=@(!Model.CurrentBot.Bot.NetworkingEnabled)"> @(Model.CurrentBot.Bot.NetworkingEnabled ? "Disable" : "Enable")</a></div>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
-    }
+    </div>
+    <div class="col-md-8">
+        <div class="profile-timeline">
+            <ul class="list-unstyled">
+                <li class="timeline-item">
+                    <div class="panel panel-white">
+                        <div class="panel-body">
+                            <div class="timeline-item-header">
+                                <h4>Text messages</h4>
+                            </div>
+                            <br/>
+                            <a href="/text-message-answers/new?botId=@Model.CurrentBot.Bot.Id" class="btn btn-default">New</a>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Text Message</th>
+                                    <th>Answer</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach (var textMessage in Model.TextMessages)
+                                {
+                                    <tr>
+                                        <td>@textMessage.Message</td>
+                                        <td>@textMessage.Answer</td>
+                                        <td class="text-right">
+                                            <form method="POST" action="/text-message-answers/remove">
+                                                <input type="hidden" name="id" value="@textMessage.Id" required>
+                                                <input type="hidden" name="botId" value="@textMessage.BotId" required>
+                                                <button type="submit" class="btn btn-danger">
+                                                    <i class="fa fa-remove"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                                </tbody>
+                            </table>
+                            <br/>
+
+                            <div class="timeline-item-header">
+                                <h4>Inline keys</h4>
+                            </div>
+                            <br/>
+                            <a href="/inline-keys/new?botId=@Model.CurrentBot.Bot.Id" class="btn btn-default">New</a>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Caption</th>
+                                    <th>Answer</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach (var inlineKey in Model.InlineKeys)
+                                {
+                                    <tr>
+                                        <td>@inlineKey.Caption</td>
+                                        <td>@inlineKey.Answer</td>
+                                        <td class="text-right">
+                                            <form method="POST" action="/inline-keys/remove">
+                                                <input type="hidden" name="id" value="@inlineKey.Id" required>
+                                                <input type="hidden" name="botId" value="@inlineKey.BotId" required>
+                                                <button type="submit" class="btn btn-danger">
+                                                    <i class="fa fa-remove"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                                </tbody>
+                            </table>
+                            <br/>
+                            <div class="timeline-item-header">
+                                <h4>Url keys</h4>
+                            </div>
+                            <br/>
+                            <a href="/inline-url-keys/new?botId=@Model.CurrentBot.Bot.Id" class="btn btn-default">New</a>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Caption</th>
+                                    <th>Url</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach (var urlKey in Model.InlineUrlKeys)
+                                {
+                                    <tr>
+                                        <td>@urlKey.Caption</td>
+                                        <td>@urlKey.Url</td>
+                                        <td class="text-right">
+                                            <form method="POST" action="/inline-url-keys/remove">
+                                                <input type="hidden" name="id" value="@urlKey.Id" required>
+                                                <input type="hidden" name="botId" value="@urlKey.BotId" required>
+                                                <button type="submit" class="btn btn-danger">
+                                                    <i class="fa fa-remove"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="panel panel-white">
+        <div class="panel-heading clearfix">
+            <div class="panel-title">
+                <h4>Users</h4>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table id="example" class="display table" style="width: 100%;">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>FirstName</th>
+                        <th>LastName</th>
+                        <th>UserName</th>
+                        <th>TelegramId</th>
+                        <th>Interests</th>
+                        <th>Use</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var user in Model.Users)
+                    {
+                        <tr>
+                            <td>
+                                <img style="width: 100px; height: 100px" class="img-circle" src="@user.Networking.photoUrl" alt=""/>
+                            </td>
+                            <td>@user.FirstName</td>
+                            <td>@user.LastName</td>
+                            <td>@user.UserName/td>
+                            <td>@user.TelegramId</td>
+                            <td>@user.Networking.intersts</td>
+                            <td>@user.Networking.use</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-white">
+        <div class="panel-heading clearfix">
+            <div class="panel-title">
+                <h4>Notify users</h4>
+            </div>
+        </div>
+        <div class="panel-body">
+                <textarea class="form-control" style="resize: none" placeholder="Text..." name="text" rows="4" form="sendEvent" required></textarea>
+                <form method="post" class="" action="/events/add" id="sendEvent">
+                    <input type="hidden" value="@Model.CurrentBot.Bot.Id" name="botId"/>
+                    <input class="btn btn-large btn-default" style="margin-top: 2%" type="submit" value="Send">
+                </form>
+        </div>
+    </div>
+    <div class="panel panel-white">
+        <div class="panel-heading clearfix">
+            <div class="panel-title">
+                <h4>Interviews</h4>
+            </div>
+        </div>
+        <div class="panel-body">
+            @foreach (var interview in Model.Interviews)
+            {
+                <div class="panel panel-white">
+                    <div class="panel-heading clearfix">
+                        <div class="panel-title">
+                            <h4>@interview.Name</h4>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <blockquote>
+                            <p>@(interview.Question[interview.Question.Length - 1] == '?' ? @interview.Question : interview.Question + "?")</p>
+                            @foreach (var answer in interview.Answers)
+                            {
+                                <footer>@answer</footer>
+                            }
+                        </blockquote>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
 </div>

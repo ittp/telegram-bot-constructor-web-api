@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Api.Models;
 using Api.Repositories;
 using Api.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using MongoDB.Bson;
 using Newtonsoft.Json;
 
 namespace Api.Controllers
@@ -58,6 +60,15 @@ namespace Api.Controllers
 			return Redirect($"/bot?id={id}");
 		}
 
+		[Route("/start-message")]
+		[HttpPost]
+		public async Task<RedirectResult> SetStartMessage(string id, string message)
+		{
+			_botsRepository.SetStartMessage(id, message);
+
+			return Redirect($"/bot?id={id}");
+		}
+
 		[Route("/bots/stop")]
 		public async Task<RedirectResult> Stop(string id)
 		{
@@ -83,12 +94,15 @@ namespace Api.Controllers
 		{
 			var botDto = _botsRepository.AddBot(new Bot
 			{
-				Name = name,
+				Name = Regex.Replace(name, @"\s+", ""),
 				Token = token,
 				NetworkingEnabled = true,
 				CognitiveServicesEnabled = true,
 				StartMessage = message
 			});
+
+			await _httpClient.GetStringAsync($"{_configuration["RunnerApiUrl"]}/start?id={botDto.Id}");
+
 			
 			return Redirect($"/bot?id={botDto.Id}");
 		}
@@ -114,6 +128,15 @@ namespace Api.Controllers
 			var inlineKeys = _inlineKeysRepository.GetInlineKeys(id);
 			var inlineUrlKeys = _inlineUrlKeysRepository.GetUrlInlineUrlKeys(id);
 			var interviews = _interviewsRepository.GetInterviews(id);
+			var users = _usersRepository.GetUsers(id).Select(_ => new UserViewModel
+			{
+				Id = _.Id.ToString(),
+				FirstName = _.FirstName,
+				LastName = _.LastName,
+				UserName = _.UserName,
+				TelegramId = _.TelegramId,
+				Networking = JsonConvert.DeserializeObject<UserNetworking>(_.Networking)
+			});
 
 			return View(new PageViewModel
 			{
@@ -122,8 +145,20 @@ namespace Api.Controllers
 				TextMessages = textMessages,
 				InlineKeys = inlineKeys,
 				InlineUrlKeys = inlineUrlKeys,
-				Interviews = interviews
+				Interviews = interviews,
+				Users = users
 			});
 		}
 	}
+
+	public class UserViewModel
+	{
+		public string Id { get; set; }
+		public string FirstName { get; set; }
+		public string LastName { get; set; }
+		public string UserName { get; set; }
+		public string TelegramId { get; set; }
+		public UserNetworking Networking { get; set; }
+	}
+
 }
