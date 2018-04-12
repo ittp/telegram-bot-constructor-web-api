@@ -25,5 +25,19 @@ namespace Api.Controllers
 
 			return Redirect("/bot?id=" + botId);
 		}
+
+		[Route("/user-events/add")]
+		[HttpPost]
+		public IActionResult AddUserEvent(string botId, string userTelegramId, string text)
+		{
+			_eventsRepository.AddUserEvent(new UserEvent
+			{
+				BotId = botId,
+				UserTelegramId = userTelegramId,
+				Text = text
+			});
+
+			return Redirect("/bot?id=" + botId);
+		}
 	}
 }

@@ -217,7 +217,7 @@
                             </td>
                             <td>@user.FirstName</td>
                             <td>@user.LastName</td>
-                            <td>@user.UserName/td>
+                            <td>@user.UserName</td>
                             <td>@user.TelegramId</td>
                             <td>@user.Networking.intersts</td>
                             <td>@user.Networking.use</td>
@@ -231,12 +231,32 @@
     <div class="panel panel-white">
         <div class="panel-heading clearfix">
             <div class="panel-title">
-                <h4>Notify users</h4>
+                <h4>Notify all users</h4>
             </div>
         </div>
         <div class="panel-body">
             <textarea class="form-control" style="resize: none" placeholder="Text..." name="text" rows="4" form="sendEvent" required></textarea>
             <form method="post" class="" action="/events/add" id="sendEvent">
+                <input type="hidden" value="@Model.CurrentBot.Bot.Id" name="botId"/>
+                <input class="btn btn-large btn-default" style="margin-top: 2%" type="submit" value="Send">
+            </form>
+        </div>
+    </div>
+    <div class="panel panel-white">
+        <div class="panel-heading clearfix">
+            <div class="panel-title">
+                <h4>Notify user</h4>
+            </div>
+        </div>
+        <div class="panel-body">
+            <textarea class="form-control" style="resize: none; margin-bottom: 1%" placeholder="Text..." name="text" rows="4" form="sendUserEvent" required></textarea>
+            <form method="post" class="" action="/user-events/add" id="sendUserEvent">
+                <select name="userTelegramId" class="form-control">
+                    @foreach (var user in Model.Users)
+                    {
+                        <option value="@user.TelegramId">@(user.FirstName + " " + user.LastName)(@user.TelegramId)</option>
+                    }
+                </select>
                 <input type="hidden" value="@Model.CurrentBot.Bot.Id" name="botId"/>
                 <input class="btn btn-large btn-default" style="margin-top: 2%" type="submit" value="Send">
             </form>

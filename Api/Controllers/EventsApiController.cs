@@ -27,6 +27,19 @@ namespace Api.Controllers
 				: Json(false);
 		}
 
+		[Route("/api/user-events")]
+		[HttpGet]
+		public JsonResult GetUserEvents(string botId)
+		{
+			if (string.IsNullOrEmpty(botId)) return Json(false);
+
+			var eventsDto = _eventsRepository.GetUserEvents(botId);
+
+			return eventsDto != null
+				? Json(eventsDto.Select(x => x.Transform()))
+				: Json(false);
+		}
+
 		[Route("/api/events/add")]
 		[HttpPost]
 		public JsonResult AddEvent(string botId, string text)
