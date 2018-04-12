@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div class="panel-body">
-                <textarea class="form-control" style="resize: none" name="message" rows="3" form="startMessage" required>@Model.CurrentBot.Bot.StartMessage</textarea>
+                <textarea class="form-control" data-provide="markdown" style="resize: none" name="message" rows="3" form="startMessage" required>@Model.CurrentBot.Bot.StartMessage</textarea>
                 <form method="post" class="text-center" action="/start-message" id="startMessage">
                     <input type="hidden" value="@Model.CurrentBot.Bot.Id" name="id"/>
                     <input class="btn btn-large btn-default" style="margin-top: 2%" type="submit" value="Change">
@@ -235,7 +235,7 @@
             </div>
         </div>
         <div class="panel-body">
-            <textarea class="form-control" style="resize: none" placeholder="Text..." name="text" rows="4" form="sendEvent" required></textarea>
+            <textarea class="form-control" data-provide="markdown" style="resize: none" placeholder="Text..." name="text" rows="4" form="sendEvent" required></textarea>
             <form method="post" class="" action="/events/add" id="sendEvent">
                 <input type="hidden" value="@Model.CurrentBot.Bot.Id" name="botId"/>
                 <input class="btn btn-large btn-default" style="margin-top: 2%" type="submit" value="Send">
@@ -249,7 +249,8 @@
             </div>
         </div>
         <div class="panel-body">
-            <textarea class="form-control" style="resize: none; margin-bottom: 1%" placeholder="Text..." name="text" rows="4" form="sendUserEvent" required></textarea>
+            <textarea class="form-control"  data-provide="markdown" style="resize: none;" placeholder="Text..." name="text" rows="4" form="sendUserEvent" required></textarea>
+            <br/>
             <form method="post" class="" action="/user-events/add" id="sendUserEvent">
                 <select name="userTelegramId" class="form-control">
                     @foreach (var user in Model.Users)
