@@ -13,6 +13,7 @@ namespace Api.Repositories
 		public InterviewsRepository(IMongoDatabase database)
 		{
 			_interviews = database.GetCollection<Interview>("interviews");
+			_interviewAnswers = database.GetCollection<InterviewAnswer>("interviewsAnswers");
 		}
 
 		public Interview AddInterview(Interview interview)
@@ -34,7 +35,7 @@ namespace Api.Repositories
 
 		public bool RemoveInterview(string id)
 		{
-			var deleteDependensiesResult = _interviewAnswers.DeleteMany(x => x.InterviewId.ToString() == id);
+			var deleteDependensiesResult = _interviewAnswers.DeleteMany(x => x.InterviewId == id);
 			
 			var deleteResult = _interviews.DeleteOne(x => x.Id == MongoService.TryCreateObjectId(id));
 
