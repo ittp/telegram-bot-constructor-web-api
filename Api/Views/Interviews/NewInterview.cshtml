@@ -1,0 +1,47 @@
+﻿@model Api.Models.PageViewModel
+
+<form id="interviews-form" role="form" action="/interviews/add" method="POST">
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input name="name" type="text" class="form-control" id="name" placeholder="" required>
+    </div>
+    <div class="form-group">
+        <label for="question">Question</label>
+        <input name="question" type="text" class="form-control" id="question" placeholder="" required>
+    </div>
+    <div class="form-group">
+        <label for="message">Message</label>
+        <input name="message" type="text" class="form-control" id="message" placeholder="" required>
+    </div>
+    <div class="form-group">
+        <label for="answers[0]">Message</label>
+        <input name="answers[0]" type="text" class="form-control" id="answers[0]" placeholder="" required>
+    </div>
+    <div><input type="text" name=""></div>
+    <button id="add-answer-button">Add Answer<span style="font-size:16px; font-weight:bold;">+ </span></button>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
+
+<script>
+    $(document).ready(function() {
+        var maxFields      = 1;
+        var interviewsForm  = $(".interviews-form");
+        var addAnswerButton  = $(".add-answer-button");
+
+        $(addAnswerButton).click(function(e){
+            e.preventDefault();
+
+            maxFields++;
+
+            for (var i = 0; i < maxFields; i++) {
+                $(interviewsForm).append('<div class="form-group"><label for="answers[' + i + ']">Message</label><input name="answers[' + i + ']" type="text" class="form-control" id="answers[' + i + ']" placeholder="" required><a href="#" id="deleteAnswer">Delete</a></div></div>');
+            }
+        });
+
+        $(interviewsForm).on("click","deleteAnswer", function(e){
+            e.preventDefault(); 
+            $(this).parent('div').remove(); 
+            maxFields--;
+        });
+    });
+</script>
