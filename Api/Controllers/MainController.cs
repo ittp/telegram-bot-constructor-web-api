@@ -9,6 +9,7 @@ using Api.Repositories;
 using Api.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using MongoDB.Bson;
 using Newtonsoft.Json;
 
 namespace Api.Controllers
@@ -127,6 +128,15 @@ namespace Api.Controllers
 			var inlineKeys = _inlineKeysRepository.GetInlineKeys(id);
 			var inlineUrlKeys = _inlineUrlKeysRepository.GetUrlInlineUrlKeys(id);
 			var interviews = _interviewsRepository.GetInterviews(id);
+			var users = _usersRepository.GetUsers(id).Select(_ => new UserViewModel
+			{
+				Id = _.Id.ToString(),
+				FirstName = _.FirstName,
+				LastName = _.LastName,
+				UserName = _.UserName,
+				TelegramId = _.TelegramId,
+				Networking = JsonConvert.DeserializeObject<UserNetworking>(_.Networking)
+			});
 
 			return View(new PageViewModel
 			{
@@ -135,8 +145,20 @@ namespace Api.Controllers
 				TextMessages = textMessages,
 				InlineKeys = inlineKeys,
 				InlineUrlKeys = inlineUrlKeys,
-				Interviews = interviews
+				Interviews = interviews,
+				Users = users
 			});
 		}
 	}
+
+	public class UserViewModel
+	{
+		public string Id { get; set; }
+		public string FirstName { get; set; }
+		public string LastName { get; set; }
+		public string UserName { get; set; }
+		public string TelegramId { get; set; }
+		public UserNetworking Networking { get; set; }
+	}
+
 }

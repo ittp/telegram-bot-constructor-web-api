@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Api.Controllers;
 
 namespace Api.Models
 {
@@ -10,5 +11,6 @@ namespace Api.Models
         public IEnumerable<InlineKey> InlineKeys { get; set; }
         public IEnumerable<InlineUrlKey> InlineUrlKeys { get; set; }
         public IEnumerable<Interview> Interviews {get;set;}
+        public IEnumerable<UserViewModel> Users { get; set; }
     }
 }

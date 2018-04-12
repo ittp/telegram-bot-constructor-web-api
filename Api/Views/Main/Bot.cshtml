@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div class="panel-body">
-                <textarea class="form-control" style="resize: none" value="@Model.CurrentBot.Bot.Id" name="message" rows="3" form="startMessage" required></textarea>
+                <textarea class="form-control" style="resize: none" name="message" rows="3" form="startMessage" required>@Model.CurrentBot.Bot.StartMessage</textarea>
                 <form method="post" class="text-center" action="/start-message" id="startMessage">
                     <input type="hidden" value="@Model.CurrentBot.Bot.Id" name="id"/>
                     <input class="btn btn-large btn-default" style="margin-top: 2%" type="submit" value="Change">
@@ -191,33 +191,30 @@
                 <table id="example" class="display table" style="width: 100%;">
                     <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Position</th>
-                        <th>Office</th>
-                        <th>Age</th>
-                        <th>Start date</th>
-                        <th>Salary</th>
+                        <th></th>
+                        <th>FirstName</th>
+                        <th>LastName</th>
+                        <th>UserName</th>
+                        <th>TelegramId</th>
+                        <th>Interests</th>
+                        <th>Use</th>
                     </tr>
                     </thead>
-                    <tfoot>
-                    <tr>
-                        <th>Name</th>
-                        <th>Position</th>
-                        <th>Office</th>
-                        <th>Age</th>
-                        <th>Start date</th>
-                        <th>Salary</th>
-                    </tr>
-                    </tfoot>
                     <tbody>
-                    <tr>
-                        <td>Tiger Nixon</td>
-                        <td>System Architect</td>
-                        <td>Edinburgh</td>
-                        <td>61</td>
-                        <td>2011/04/25</td>
-                        <td>$320,800</td>
-                    </tr>
+                    @foreach (var user in Model.Users)
+                    {
+                        <tr>
+                            <td>
+                                <img style="width: 100px; height: 100px" class="img-circle" src="@user.Networking.photoUrl" alt=""/>
+                            </td>
+                            <td>@user.FirstName</td>
+                            <td>@user.LastName</td>
+                            <td>@user.UserName/td>
+                            <td>@user.TelegramId</td>
+                            <td>@user.Networking.intersts</td>
+                            <td>@user.Networking.use</td>
+                        </tr>
+                    }
                     </tbody>
                 </table>
             </div>
