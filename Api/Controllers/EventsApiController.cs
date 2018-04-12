@@ -69,5 +69,16 @@ namespace Api.Controllers
 			return result ? Json(true) : Json(false);
 		}
 
+		[Route("/api/user-events/remove")]
+		[HttpPost]
+		public JsonResult RemoveUserEvent(string id)
+		{
+			if (string.IsNullOrEmpty(id)) return Json(false);
+
+			var result = _eventsRepository.RemoveUserEvent(id);
+
+			return result ? Json(true) : Json(false);
+		}
+
 	}
 }
