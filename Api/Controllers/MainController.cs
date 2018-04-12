@@ -52,6 +52,16 @@ namespace Api.Controllers
 			});
 		}
 
+		public async Task<IActionResult> About()
+		{
+			var botsViewModels = await BotsService.GetBotsViewModels(_configuration, _botsRepository);
+
+			return View(new PageViewModel
+			{
+				Bots = botsViewModels
+			});
+		}
+
 		[Route("/bots/start")]
 		public async Task<RedirectResult> Start(string id)
 		{

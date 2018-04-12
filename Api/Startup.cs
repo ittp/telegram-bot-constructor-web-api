@@ -52,7 +52,7 @@ namespace Api
 			{
 				routes.MapRoute(
 					name: "default",
-					template: "{controller=Main}/{action=Index}/{id?}");
+					template: "{controller=Main}/{action=About}/{id?}");
 			});
 		}
 	}
