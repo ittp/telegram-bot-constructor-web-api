@@ -92,6 +92,17 @@ namespace Api.Controllers
 			
 			return Redirect($"/bot?id={botDto.Id}");
 		}
+		
+		[Route("/bots/remove")]
+		[HttpPost]
+		public async Task<IActionResult> Remove(string id)
+		{
+			await _httpClient.GetStringAsync($"{_configuration["RunnerApiUrl"]}/stop?id={id}");
+			
+			_botsRepository.RemoveBot(id);
+			
+			return Redirect($"/");
+		}
 
 		[Route("/bot")]
 		public async Task<IActionResult> Bot(string id)
