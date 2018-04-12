@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Api.Models;
 using Api.Repositories;
@@ -92,12 +93,15 @@ namespace Api.Controllers
 		{
 			var botDto = _botsRepository.AddBot(new Bot
 			{
-				Name = name,
+				Name = Regex.Replace(name, @"\s+", ""),
 				Token = token,
 				NetworkingEnabled = true,
 				CognitiveServicesEnabled = true,
 				StartMessage = message
 			});
+
+			await _httpClient.GetStringAsync($"{_configuration["RunnerApiUrl"]}/start?id={botDto.Id}");
+
 			
 			return Redirect($"/bot?id={botDto.Id}");
 		}
