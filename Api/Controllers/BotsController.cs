@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -10,13 +8,12 @@ using Api.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using MongoDB.Bson;
 using Newtonsoft.Json;
 
 namespace Api.Controllers
 {
 	[AuthenticationAttribute]
-	public partial class MainController : Controller
+	public class BotsController : Controller
 	{
 		private readonly IConfiguration _configuration;
 		private readonly UsersRepository _usersRepository;
@@ -29,7 +26,7 @@ namespace Api.Controllers
 		private readonly SystemUserRepository _systemUserRepository;
 		private readonly HttpClient _httpClient;
 
-		public MainController(IConfiguration configuration, UsersRepository usersRepository, BotsRepository botsRepository,
+		public BotsController(IConfiguration configuration, UsersRepository usersRepository, BotsRepository botsRepository,
 			TextMessageAnswersRepository textMessageAnswersRepository, InterviewsRepository interviewsRepository,
 			InterviewAnswersRepository interviewAnswersRepository, InlineUrlKeysRepository inlineUrlKeysRepository,
 			InlineKeysRepository inlineKeysRepository, SystemUserRepository systemUserRepository)
@@ -46,7 +43,7 @@ namespace Api.Controllers
 			_httpClient = new HttpClient();
 		}
 
-		public async Task<IActionResult> Index()
+		public async Task<IActionResult> Bots()
 		{
 			var userId = HttpContext.Session.GetString("userId");
 			var botsViewModels = await BotsService.GetBotsViewModels(_configuration, _systemUserRepository, userId);
