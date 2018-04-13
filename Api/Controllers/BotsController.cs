@@ -43,7 +43,7 @@ namespace Api.Controllers
 			_httpClient = new HttpClient();
 		}
 
-		public async Task<IActionResult> Bots()
+		public async Task<IActionResult> Index()
 		{
 			var userId = HttpContext.Session.GetString("userId");
 			var botsViewModels = await BotsService.GetBotsViewModels(_configuration, _systemUserRepository, userId);
