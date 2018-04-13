@@ -23,7 +23,6 @@
             <div class="panel-body user-profile-panel">
                 <img src="~/images/messenger.png" class="user-profile-image img-circle" alt="">
                 <h4 class="text-center m-t-lg">@Model.CurrentBot.Bot.Name</h4>
-                <p class="text-center" style="font-size: 90%">@Model.CurrentBot.Bot.Token</p>
                 <div style="margin-top: 5%; margin-left: 10%; margin-right: 10%;">
                     <a href="@(Model.CurrentBot.Status ? "/bots/stop/?id=" + Model.CurrentBot.Bot.Id : "/bots/start/?id=" + Model.CurrentBot.Bot.Id)" class="btn btn-info btn-block">@(Model.CurrentBot.Status ? "Stop" : "Start")</a>
                 </div>
