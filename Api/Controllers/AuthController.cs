@@ -31,7 +31,7 @@ namespace Api.Controllers
 			
 			HttpContext.Session.SetString("userId", systemUser.Id.ToString());
 				
-			return Redirect("/");
+			return Redirect("/bots");
 
 		}
 		
@@ -52,8 +52,7 @@ namespace Api.Controllers
 			
 			HttpContext.Session.SetString("userId", systemUser.Id.ToString());
 
-			return Redirect("/");
-
+			return Redirect("/bots");
 		}
 		
 		[Route("/signin")]
