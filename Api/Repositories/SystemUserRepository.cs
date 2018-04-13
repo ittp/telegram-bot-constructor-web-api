@@ -35,7 +35,7 @@ namespace Api.Repositories
             return _users.Find(_ => _.Id == MongoService.TryCreateObjectId(id)).FirstOrDefault();
         }
         
-        public IEnumerable<Bot> GetUserBots(string id)
+        public IEnumerable<string> GetUserBots(string id)
         {
             return _users.Find(_ => _.Id == MongoService.TryCreateObjectId(id)).FirstOrDefault().Bots;
         }
@@ -45,11 +45,11 @@ namespace Api.Repositories
             return _users.Find(_ => _.Login == login).FirstOrDefault();
         }
 
-        public void AddBotToUser(string userId, Bot bot)
+        public void AddBotToUser(string userId, string botId)
         {
             var user = _users.Find(_ => _.Id == MongoService.TryCreateObjectId(userId)).FirstOrDefault();
-            if (user.Bots == null) user.Bots = new List<Bot>();
-            user.Bots.Add(bot);
+            if (user.Bots == null) user.Bots = new List<string>();
+            user.Bots.Add(botId);
             
             var builder = Builders<SystemUser>.Update.Set(_=>_.Bots, user.Bots);
 
@@ -64,7 +64,7 @@ namespace Api.Repositories
         public ObjectId Id { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
-        public List<Bot> Bots { get; set; }
+        public List<string> Bots { get; set; }
 
         public object Transform()
         {

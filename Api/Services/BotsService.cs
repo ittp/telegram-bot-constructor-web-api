@@ -14,19 +14,19 @@ namespace Api.Services
 	public class BotsService
 	{
 		public async static Task<IEnumerable<BotViewModel>> GetBotsViewModels(IConfiguration _configuration,
-			SystemUserRepository _botsRepository, string userId)
+			SystemUserRepository _botsRepository,BotsRepository botsRepository, string userId)
 		{
             var httpClient = new HttpClient();
             
-			var bots = _botsRepository.GetUserBots(userId) ?? new List<Bot>();
+			var bots = _botsRepository.GetUserBots(userId) ?? new List<string>();
 
             var botsViewModels = await Task.WhenAll(bots.Select(async _ =>
 			{
-				var result = await httpClient.GetStringAsync($"{_configuration["RunnerApiUrl"]}/check?id={_.Id}");
+				var result = await httpClient.GetStringAsync($"{_configuration["RunnerApiUrl"]}/check?id={_}");
 				var parsedResult = JsonConvert.DeserializeObject<Response>(result);
 				return new BotViewModel
 				{
-					Bot = _,
+					Bot = botsRepository.GetBot(_),
 					Status = parsedResult.status
 				};
 			}));

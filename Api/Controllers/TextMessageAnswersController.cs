@@ -16,7 +16,8 @@ namespace Api.Controllers
         private readonly IConfiguration _configuration;
         private readonly BotsRepository _botsRepository;
 
-        public TextMessageAnswersController(TextMessageAnswersRepository textMessageAnswersRepository, SystemUserRepository systemUserRepository, BotsRepository botsRepository, IConfiguration configuration)
+        public TextMessageAnswersController(TextMessageAnswersRepository textMessageAnswersRepository,
+            SystemUserRepository systemUserRepository, BotsRepository botsRepository, IConfiguration configuration)
         {
             _textMessageAnswersRepository = textMessageAnswersRepository;
             _systemUserRepository = systemUserRepository;
@@ -29,7 +30,8 @@ namespace Api.Controllers
         public async Task<IActionResult> NewInlineKey(string botId)
         {
             var userId = HttpContext.Session.GetString("userId");
-            var bots = await BotsService.GetBotsViewModels(_configuration, _systemUserRepository,userId);
+            var bots = await BotsService.GetBotsViewModels(_configuration, _systemUserRepository, _botsRepository,
+                userId);
             var bot = await BotsService.GetBotViewModel(botId, _configuration, _botsRepository);
 
             return View(new PageViewModel

@@ -31,7 +31,7 @@ namespace Api.Controllers
 		public async Task<IActionResult> NewInlineKey(string botId)
 		{
 			var userId = HttpContext.Session.GetString("userId");
-			var bots = await BotsService.GetBotsViewModels(_configuration, _systemUserRepository, userId);
+			var bots = await BotsService.GetBotsViewModels(_configuration, _systemUserRepository,_botsRepository, userId);
 			var bot = await BotsService.GetBotViewModel(botId, _configuration, _botsRepository);
 
 			return View(new PageViewModel

@@ -19,7 +19,8 @@ namespace Api.Controllers
         private readonly BotsRepository _botsRepository;
 
         public InterviewsController(BotsRepository botsRepository,
-            IConfiguration configuration, InterviewsRepository interviewsRepository, SystemUserRepository systemUserRepository)
+            IConfiguration configuration, InterviewsRepository interviewsRepository,
+            SystemUserRepository systemUserRepository)
         {
             _configuration = configuration;
             _interviewsRepository = interviewsRepository;
@@ -32,7 +33,8 @@ namespace Api.Controllers
         public async Task<IActionResult> NewInterview(string botId)
         {
             var userId = HttpContext.Session.GetString("userId");
-            var bots = await BotsService.GetBotsViewModels(_configuration, _systemUserRepository, userId);
+            var bots = await BotsService.GetBotsViewModels(_configuration, _systemUserRepository, _botsRepository,
+                userId);
             var bot = await BotsService.GetBotViewModel(botId, _configuration, _botsRepository);
 
             return View(new PageViewModel
