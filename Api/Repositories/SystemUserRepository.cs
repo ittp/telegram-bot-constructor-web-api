@@ -32,12 +32,28 @@ namespace Api.Repositories
 
         public SystemUser GetUser(string id)
         {
-            return _users.Find(_ => _.Id == MongoService.TryCreateObjectId(id)).First();
+            return _users.Find(_ => _.Id == MongoService.TryCreateObjectId(id)).FirstOrDefault();
+        }
+        
+        public IEnumerable<Bot> GetUserBots(string id)
+        {
+            return _users.Find(_ => _.Id == MongoService.TryCreateObjectId(id)).FirstOrDefault().Bots;
         }
 
         public SystemUser GetUserByLogin(string login)
         {
             return _users.Find(_ => _.Login == login).FirstOrDefault();
+        }
+
+        public void AddBotToUser(string userId, Bot bot)
+        {
+            var user = _users.Find(_ => _.Id == MongoService.TryCreateObjectId(userId)).FirstOrDefault();
+            if (user.Bots == null) user.Bots = new List<Bot>();
+            user.Bots.Add(bot);
+            
+            var builder = Builders<SystemUser>.Update.Set(_=>_.Bots, user.Bots);
+
+            _users.UpdateOne(_ => _.Id == MongoService.TryCreateObjectId(userId), builder);        
         }
     }
 
@@ -48,7 +64,7 @@ namespace Api.Repositories
         public ObjectId Id { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
-        public IEnumerable<Bot> Bots { get; set; }
+        public List<Bot> Bots { get; set; }
 
         public object Transform()
         {

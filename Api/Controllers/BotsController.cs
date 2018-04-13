@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Api.Models;
 using Api.Repositories;
 using Api.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -22,12 +23,13 @@ namespace Api.Controllers
 		private readonly InterviewAnswersRepository _interviewAnswersRepository;
 		private readonly InlineUrlKeysRepository _inlineUrlKeysRepository;
 		private readonly InlineKeysRepository _inlineKeysRepository;
+		private readonly SystemUserRepository _systemUserRepository;
 		private readonly HttpClient _httpClient;
 
 		public BotsController(IConfiguration configuration, UsersRepository usersRepository, BotsRepository botsRepository,
 			TextMessageAnswersRepository textMessageAnswersRepository, InterviewsRepository interviewsRepository,
 			InterviewAnswersRepository interviewAnswersRepository, InlineUrlKeysRepository inlineUrlKeysRepository,
-			InlineKeysRepository inlineKeysRepository)
+			InlineKeysRepository inlineKeysRepository, SystemUserRepository systemUserRepository)
 		{
 			_configuration = configuration;
 			_usersRepository = usersRepository;
@@ -37,12 +39,14 @@ namespace Api.Controllers
 			_interviewAnswersRepository = interviewAnswersRepository;
 			_inlineUrlKeysRepository = inlineUrlKeysRepository;
 			_inlineKeysRepository = inlineKeysRepository;
+			_systemUserRepository = systemUserRepository;
 			_httpClient = new HttpClient();
 		}
 
 		public async Task<IActionResult> Bots()
 		{
-			var botsViewModels = await BotsService.GetBotsViewModels(_configuration, _botsRepository);
+			var userId = HttpContext.Session.GetString("userId");
+			var botsViewModels = await BotsService.GetBotsViewModels(_configuration, _systemUserRepository, userId);
 
 			return View(new PageViewModel
 			{
@@ -52,7 +56,8 @@ namespace Api.Controllers
 
 		public async Task<IActionResult> About()
 		{
-			var botsViewModels = await BotsService.GetBotsViewModels(_configuration, _botsRepository);
+			var userId = HttpContext.Session.GetString("userId");
+			var botsViewModels = await BotsService.GetBotsViewModels(_configuration, _systemUserRepository, userId);
 
 			return View(new PageViewModel
 			{
@@ -88,7 +93,8 @@ namespace Api.Controllers
 		[Route("/bots/new")]
 		public async Task<IActionResult> NewBot(string name, string token, string message)
 		{
-			var botsViewModels = await BotsService.GetBotsViewModels(_configuration, _botsRepository);
+			var userId = HttpContext.Session.GetString("userId");
+			var botsViewModels = await BotsService.GetBotsViewModels(_configuration, _systemUserRepository, userId);
 
 			return View(new PageViewModel
 			{
@@ -108,6 +114,9 @@ namespace Api.Controllers
 				CognitiveServicesEnabled = true,
 				StartMessage = message
 			});
+
+			var userId = HttpContext.Session.GetString("userId");
+			_systemUserRepository.AddBotToUser(userId, botDto);
 
 			await _httpClient.GetStringAsync($"{_configuration["RunnerApiUrl"]}/start?id={botDto.Id}");
 
@@ -129,7 +138,8 @@ namespace Api.Controllers
 		[Route("/bot")]
 		public async Task<IActionResult> Bot(string id)
 		{
-			var botsViewModels = await BotsService.GetBotsViewModels(_configuration, _botsRepository);
+			var userId = HttpContext.Session.GetString("userId");
+			var botsViewModels = await BotsService.GetBotsViewModels(_configuration, _systemUserRepository, userId);
 			var botViewModel = await BotsService.GetBotViewModel(id, _configuration, _botsRepository);
 
 			var textMessages = _textMessageAnswersRepository.GetTextMessageAnswers(id);

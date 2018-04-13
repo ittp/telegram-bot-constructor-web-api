@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Api.Models;
 using Api.Repositories;
 using Api.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -14,20 +15,23 @@ namespace Api.Controllers
 		private readonly InlineKeysRepository _inlineKeysRepository;
 		private readonly IConfiguration _configuration;
 		private readonly BotsRepository _botsRepository;
+		private readonly SystemUserRepository _systemUserRepository;
 
-		public InlineKeysController(InlineKeysRepository inlineKeysRepository, BotsRepository botsRepository,
+		public InlineKeysController(InlineKeysRepository inlineKeysRepository, BotsRepository botsRepository, SystemUserRepository systemUserRepository,
 			IConfiguration configuration)
 		{
 			_inlineKeysRepository = inlineKeysRepository;
 			_configuration = configuration;
 			_botsRepository = botsRepository;
+			_systemUserRepository = systemUserRepository;
 		}
 
 		[Route("/inline-keys/new")]
 		[HttpGet]
 		public async Task<IActionResult> NewInlineKey(string botId)
 		{
-			var bots = await BotsService.GetBotsViewModels(_configuration, _botsRepository);
+			var userId = HttpContext.Session.GetString("userId");
+			var bots = await BotsService.GetBotsViewModels(_configuration, _systemUserRepository, userId);
 			var bot = await BotsService.GetBotViewModel(botId, _configuration, _botsRepository);
 
 			return View(new PageViewModel

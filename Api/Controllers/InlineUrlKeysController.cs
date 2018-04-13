@@ -2,6 +2,7 @@
 using Api.Models;
 using Api.Repositories;
 using Api.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -11,12 +12,14 @@ namespace Api.Controllers
     public class InlineUrlKeysController: Controller
     {
         private readonly InlineUrlKeysRepository _inlineUrlKeysRepository;
+        private readonly SystemUserRepository _systemUserRepository;
         private readonly IConfiguration _configuration;
         private readonly BotsRepository _botsRepository;
 
-        public InlineUrlKeysController(InlineUrlKeysRepository inlineUrlKeysRepository, BotsRepository botsRepository, IConfiguration configuration)
+        public InlineUrlKeysController(InlineUrlKeysRepository inlineUrlKeysRepository,SystemUserRepository systemUserRepository, BotsRepository botsRepository, IConfiguration configuration)
         {
             _inlineUrlKeysRepository = inlineUrlKeysRepository;
+            _systemUserRepository = systemUserRepository;
             _configuration = configuration;
             _botsRepository = botsRepository;
         }
@@ -25,7 +28,8 @@ namespace Api.Controllers
         [HttpGet]
         public async Task<IActionResult> NewInlineUrlKey(string botId)
         {
-            var bots = await BotsService.GetBotsViewModels(_configuration, _botsRepository);
+            var userId = HttpContext.Session.GetString("userId");
+            var bots = await BotsService.GetBotsViewModels(_configuration, _systemUserRepository, userId);
             var bot = await BotsService.GetBotViewModel(botId, _configuration, _botsRepository);
 
             return View(new PageViewModel

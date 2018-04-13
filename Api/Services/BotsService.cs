@@ -13,11 +13,12 @@ namespace Api.Services
 {
 	public class BotsService
 	{
-		public async static Task<IEnumerable<BotViewModel>> GetBotsViewModels(IConfiguration _configuration, BotsRepository _botsRepository)
+		public async static Task<IEnumerable<BotViewModel>> GetBotsViewModels(IConfiguration _configuration,
+			SystemUserRepository _botsRepository, string userId)
 		{
             var httpClient = new HttpClient();
             
-			var bots = _botsRepository.GetBots();
+			var bots = _botsRepository.GetUserBots(userId) ?? new List<Bot>();
 
             var botsViewModels = await Task.WhenAll(bots.Select(async _ =>
 			{
