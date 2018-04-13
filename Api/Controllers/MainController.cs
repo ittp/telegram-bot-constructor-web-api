@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 
 namespace Api.Controllers
 {
+	[AuthenticationAttribute]
 	public partial class MainController : Controller
 	{
 		private readonly IConfiguration _configuration;

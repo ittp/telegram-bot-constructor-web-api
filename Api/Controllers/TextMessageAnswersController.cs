@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Api.Controllers
 {
+    [AuthenticationAttribute]
     public class TextMessageAnswersController : Controller
     {
         private readonly TextMessageAnswersRepository _textMessageAnswersRepository;

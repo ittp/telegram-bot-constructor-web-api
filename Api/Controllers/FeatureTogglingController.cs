@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 
 namespace Api.Controllers
 {
+	[AuthenticationAttribute]
 	public class FeatureTogglingController : Controller
 	{
 		private readonly BotsRepository _botsRepository;

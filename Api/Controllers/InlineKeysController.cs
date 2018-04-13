@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Api.Controllers
 {
+	[AuthenticationAttribute]
 	public class InlineKeysController : Controller
 	{
 		private readonly InlineKeysRepository _inlineKeysRepository;

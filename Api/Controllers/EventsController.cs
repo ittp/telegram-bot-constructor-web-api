@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
+	[AuthenticationAttribute]
 	public class EventsController : Controller
 	{
 		private readonly EventsRepository _eventsRepository;

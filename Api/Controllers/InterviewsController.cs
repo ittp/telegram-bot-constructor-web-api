@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Api.Controllers
 {
+    [AuthenticationAttribute]
     public class InterviewsController : Controller
     {
         private readonly InterviewsRepository _interviewsRepository;
