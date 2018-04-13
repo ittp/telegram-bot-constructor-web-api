@@ -1,5 +1,4 @@
-﻿using System.Xml;
-using Api.Repositories;
+﻿using Api.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -31,7 +30,7 @@ namespace Api.Controllers
 			
 			HttpContext.Session.SetString("userId", systemUser.Id.ToString());
 				
-			return Redirect("/");
+			return Redirect("/bots");
 
 		}
 		
@@ -52,8 +51,7 @@ namespace Api.Controllers
 			
 			HttpContext.Session.SetString("userId", systemUser.Id.ToString());
 
-			return Redirect("/");
-
+			return Redirect("/bots");
 		}
 		
 		[Route("/signin")]

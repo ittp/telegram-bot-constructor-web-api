@@ -44,7 +44,7 @@ namespace Api.Controllers
             _httpClient = new HttpClient();
         }
 
-        public async Task<IActionResult> Bots()
+        public async Task<IActionResult> Index()
         {
             var userId = HttpContext.Session.GetString("userId");
             var botsViewModels =
@@ -59,8 +59,10 @@ namespace Api.Controllers
         public async Task<IActionResult> About()
         {
             var userId = HttpContext.Session.GetString("userId");
+
             var botsViewModels =
                 await BotsService.GetBotsViewModels(_configuration, _systemUserRepository, _botsRepository, userId);
+
 
             return View(new PageViewModel
             {
@@ -97,6 +99,7 @@ namespace Api.Controllers
         public async Task<IActionResult> NewBot(string name, string token, string message)
         {
             var userId = HttpContext.Session.GetString("userId");
+            
             var botsViewModels =
                 await BotsService.GetBotsViewModels(_configuration, _systemUserRepository, _botsRepository, userId);
 
@@ -136,13 +139,18 @@ namespace Api.Controllers
 
             _botsRepository.RemoveBot(id);
 
-            return Redirect($"/bots");
+
+            var userId = HttpContext.Session.GetString("userId");
+            _systemUserRepository.RemoveBotFromUser(userId, id);
+
+            return Redirect("/bots");
         }
 
         [Route("/bot")]
         public async Task<IActionResult> Bot(string id)
         {
             var userId = HttpContext.Session.GetString("userId");
+
             var botsViewModels =
                 await BotsService.GetBotsViewModels(_configuration, _systemUserRepository, _botsRepository, userId);
             var botViewModel = await BotsService.GetBotViewModel(id, _configuration, _botsRepository);
