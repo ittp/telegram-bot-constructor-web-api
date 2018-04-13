@@ -1,5 +1,4 @@
-﻿using System.Xml;
-using Api.Repositories;
+﻿using Api.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
