@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Api.Models;
 using Api.Services;
 using MongoDB.Bson;
@@ -26,7 +27,7 @@ namespace Api.Repositories
             }
 
             _users.InsertOne(user);
-            
+
             return GetUser(user.Id.ToString());
         }
 
@@ -34,7 +35,7 @@ namespace Api.Repositories
         {
             return _users.Find(_ => _.Id == MongoService.TryCreateObjectId(id)).FirstOrDefault();
         }
-        
+
         public IEnumerable<Bot> GetUserBots(string id)
         {
             return _users.Find(_ => _.Id == MongoService.TryCreateObjectId(id)).FirstOrDefault().Bots;
@@ -50,18 +51,28 @@ namespace Api.Repositories
             var user = _users.Find(_ => _.Id == MongoService.TryCreateObjectId(userId)).FirstOrDefault();
             if (user.Bots == null) user.Bots = new List<Bot>();
             user.Bots.Add(bot);
-            
-            var builder = Builders<SystemUser>.Update.Set(_=>_.Bots, user.Bots);
 
-            _users.UpdateOne(_ => _.Id == MongoService.TryCreateObjectId(userId), builder);        
+            var builder = Builders<SystemUser>.Update.Set(_ => _.Bots, user.Bots);
+
+            _users.UpdateOne(_ => _.Id == MongoService.TryCreateObjectId(userId), builder);
+        }
+
+        public void RemoveBotFromUser(string userId, string botId)
+        {
+            var user = _users.Find(_ => _.Id == MongoService.TryCreateObjectId(userId)).FirstOrDefault();
+
+            var newBots = user.Bots.FindAll(_ => _.Id != MongoService.TryCreateObjectId(botId));
+
+            var builder = Builders<SystemUser>.Update.Set(_ => _.Bots, newBots);
+
+            _users.UpdateOne(_ => _.Id == MongoService.TryCreateObjectId(userId), builder);
         }
     }
 
 
     public class SystemUser
     {
-        [BsonId] 
-        public ObjectId Id { get; set; }
+        [BsonId] public ObjectId Id { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
         public List<Bot> Bots { get; set; }

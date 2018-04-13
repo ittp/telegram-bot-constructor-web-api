@@ -12,186 +12,190 @@ using Newtonsoft.Json;
 
 namespace Api.Controllers
 {
-	[AuthenticationAttribute]
-	public class BotsController : Controller
-	{
-		private readonly IConfiguration _configuration;
-		private readonly UsersRepository _usersRepository;
-		private readonly BotsRepository _botsRepository;
-		private readonly TextMessageAnswersRepository _textMessageAnswersRepository;
-		private readonly InterviewsRepository _interviewsRepository;
-		private readonly InterviewAnswersRepository _interviewAnswersRepository;
-		private readonly InlineUrlKeysRepository _inlineUrlKeysRepository;
-		private readonly InlineKeysRepository _inlineKeysRepository;
-		private readonly SystemUserRepository _systemUserRepository;
-		private readonly HttpClient _httpClient;
+    [AuthenticationAttribute]
+    public class BotsController : Controller
+    {
+        private readonly IConfiguration _configuration;
+        private readonly UsersRepository _usersRepository;
+        private readonly BotsRepository _botsRepository;
+        private readonly TextMessageAnswersRepository _textMessageAnswersRepository;
+        private readonly InterviewsRepository _interviewsRepository;
+        private readonly InterviewAnswersRepository _interviewAnswersRepository;
+        private readonly InlineUrlKeysRepository _inlineUrlKeysRepository;
+        private readonly InlineKeysRepository _inlineKeysRepository;
+        private readonly SystemUserRepository _systemUserRepository;
+        private readonly HttpClient _httpClient;
 
-		public BotsController(IConfiguration configuration, UsersRepository usersRepository, BotsRepository botsRepository,
-			TextMessageAnswersRepository textMessageAnswersRepository, InterviewsRepository interviewsRepository,
-			InterviewAnswersRepository interviewAnswersRepository, InlineUrlKeysRepository inlineUrlKeysRepository,
-			InlineKeysRepository inlineKeysRepository, SystemUserRepository systemUserRepository)
-		{
-			_configuration = configuration;
-			_usersRepository = usersRepository;
-			_botsRepository = botsRepository;
-			_textMessageAnswersRepository = textMessageAnswersRepository;
-			_interviewsRepository = interviewsRepository;
-			_interviewAnswersRepository = interviewAnswersRepository;
-			_inlineUrlKeysRepository = inlineUrlKeysRepository;
-			_inlineKeysRepository = inlineKeysRepository;
-			_systemUserRepository = systemUserRepository;
-			_httpClient = new HttpClient();
-		}
+        public BotsController(IConfiguration configuration, UsersRepository usersRepository,
+            BotsRepository botsRepository,
+            TextMessageAnswersRepository textMessageAnswersRepository, InterviewsRepository interviewsRepository,
+            InterviewAnswersRepository interviewAnswersRepository, InlineUrlKeysRepository inlineUrlKeysRepository,
+            InlineKeysRepository inlineKeysRepository, SystemUserRepository systemUserRepository)
+        {
+            _configuration = configuration;
+            _usersRepository = usersRepository;
+            _botsRepository = botsRepository;
+            _textMessageAnswersRepository = textMessageAnswersRepository;
+            _interviewsRepository = interviewsRepository;
+            _interviewAnswersRepository = interviewAnswersRepository;
+            _inlineUrlKeysRepository = inlineUrlKeysRepository;
+            _inlineKeysRepository = inlineKeysRepository;
+            _systemUserRepository = systemUserRepository;
+            _httpClient = new HttpClient();
+        }
 
-		public async Task<IActionResult> Index()
-		{
-			var userId = HttpContext.Session.GetString("userId");
-			var botsViewModels = await BotsService.GetBotsViewModels(_configuration, _systemUserRepository, userId);
+        public async Task<IActionResult> Index()
+        {
+            var userId = HttpContext.Session.GetString("userId");
+            var botsViewModels = await BotsService.GetBotsViewModels(_configuration, _systemUserRepository, userId);
 
-			return View(new PageViewModel
-			{
-				Bots = botsViewModels
-			});
-		}
+            return View(new PageViewModel
+            {
+                Bots = botsViewModels
+            });
+        }
 
-		public async Task<IActionResult> About()
-		{
-			var userId = HttpContext.Session.GetString("userId");
-			var botsViewModels = await BotsService.GetBotsViewModels(_configuration, _systemUserRepository, userId);
+        public async Task<IActionResult> About()
+        {
+            var userId = HttpContext.Session.GetString("userId");
+            var botsViewModels = await BotsService.GetBotsViewModels(_configuration, _systemUserRepository, userId);
 
-			return View(new PageViewModel
-			{
-				Bots = botsViewModels
-			});
-		}
+            return View(new PageViewModel
+            {
+                Bots = botsViewModels
+            });
+        }
 
-		[Route("/bots/start")]
-		public async Task<RedirectResult> Start(string id)
-		{
-			await _httpClient.GetStringAsync($"{_configuration["RunnerApiUrl"]}/start?id={id}");
+        [Route("/bots/start")]
+        public async Task<RedirectResult> Start(string id)
+        {
+            await _httpClient.GetStringAsync($"{_configuration["RunnerApiUrl"]}/start?id={id}");
 
-			return Redirect($"/bot?id={id}");
-		}
+            return Redirect($"/bot?id={id}");
+        }
 
-		[Route("/start-message")]
-		[HttpPost]
-		public async Task<RedirectResult> SetStartMessage(string id, string message)
-		{
-			_botsRepository.SetStartMessage(id, message);
+        [Route("/start-message")]
+        [HttpPost]
+        public async Task<RedirectResult> SetStartMessage(string id, string message)
+        {
+            _botsRepository.SetStartMessage(id, message);
 
-			return Redirect($"/bot?id={id}");
-		}
+            return Redirect($"/bot?id={id}");
+        }
 
-		[Route("/bots/stop")]
-		public async Task<RedirectResult> Stop(string id)
-		{
-			await _httpClient.GetStringAsync($"{_configuration["RunnerApiUrl"]}/stop?id={id}");
+        [Route("/bots/stop")]
+        public async Task<RedirectResult> Stop(string id)
+        {
+            await _httpClient.GetStringAsync($"{_configuration["RunnerApiUrl"]}/stop?id={id}");
 
-			return Redirect($"/bot?id={id}");
-		}
-		
-		[Route("/bots/new")]
-		public async Task<IActionResult> NewBot(string name, string token, string message)
-		{
-			var userId = HttpContext.Session.GetString("userId");
-			var botsViewModels = await BotsService.GetBotsViewModels(_configuration, _systemUserRepository, userId);
+            return Redirect($"/bot?id={id}");
+        }
 
-			return View(new PageViewModel
-			{
-				Bots = botsViewModels.ToArray()
-			});
-		}
-		
-		[Route("/bots/add")]
-		[HttpPost]
-		public async Task<IActionResult> AddBot(string name, string token, string message)
-		{
-			var botDto = _botsRepository.AddBot(new Bot
-			{
-				Name = Regex.Replace(name, @"\s+", ""),
-				Token = token,
-				NetworkingEnabled = true,
-				CognitiveServicesEnabled = true,
-				StartMessage = message
-			});
+        [Route("/bots/new")]
+        public async Task<IActionResult> NewBot(string name, string token, string message)
+        {
+            var userId = HttpContext.Session.GetString("userId");
+            var botsViewModels = await BotsService.GetBotsViewModels(_configuration, _systemUserRepository, userId);
 
-			var userId = HttpContext.Session.GetString("userId");
-			_systemUserRepository.AddBotToUser(userId, botDto);
+            return View(new PageViewModel
+            {
+                Bots = botsViewModels.ToArray()
+            });
+        }
 
-			await _httpClient.GetStringAsync($"{_configuration["RunnerApiUrl"]}/start?id={botDto.Id}");
+        [Route("/bots/add")]
+        [HttpPost]
+        public async Task<IActionResult> AddBot(string name, string token, string message)
+        {
+            var botDto = _botsRepository.AddBot(new Bot
+            {
+                Name = Regex.Replace(name, @"\s+", ""),
+                Token = token,
+                NetworkingEnabled = true,
+                CognitiveServicesEnabled = true,
+                StartMessage = message
+            });
 
-			
-			return Redirect($"/bot?id={botDto.Id}");
-		}
-		
-		[Route("/bots/remove")]
-		[HttpPost]
-		public async Task<IActionResult> Remove(string id)
-		{
-			await _httpClient.GetStringAsync($"{_configuration["RunnerApiUrl"]}/stop?id={id}");
-			
-			_botsRepository.RemoveBot(id);
-			
-			return Redirect($"/");
-		}
+            var userId = HttpContext.Session.GetString("userId");
+            _systemUserRepository.AddBotToUser(userId, botDto);
 
-		[Route("/bot")]
-		public async Task<IActionResult> Bot(string id)
-		{
-			var userId = HttpContext.Session.GetString("userId");
-			var botsViewModels = await BotsService.GetBotsViewModels(_configuration, _systemUserRepository, userId);
-			var botViewModel = await BotsService.GetBotViewModel(id, _configuration, _botsRepository);
+            await _httpClient.GetStringAsync($"{_configuration["RunnerApiUrl"]}/start?id={botDto.Id}");
 
-			var textMessages = _textMessageAnswersRepository.GetTextMessageAnswers(id);
-			var inlineKeys = _inlineKeysRepository.GetInlineKeys(id);
-			var inlineUrlKeys = _inlineUrlKeysRepository.GetUrlInlineUrlKeys(id);
-			var interviews = _interviewsRepository.GetInterviews(id);
-			var interviewAnswers = _interviewAnswersRepository.GetInterviewAnswers(id).Select(_ => new InterviewAnswerViewModel
-			{
-				Interview = _interviewsRepository.GetInterview(_.InterviewId),
-				InterviewAnswer = _,
-				User = _usersRepository.GetUser(_.UserId, _.BotId)
-			});
 
-			var users = _usersRepository.GetUsers(id).Select(_ => new UserViewModel
-			{
-				Id = _.Id.ToString(),
-				FirstName = _.FirstName,
-				LastName = _.LastName,
-				UserName = _.UserName,
-				TelegramId = _.TelegramId,
-				Networking = JsonConvert.DeserializeObject<UserNetworking>(_.Networking)
-			});
+            return Redirect($"/bot?id={botDto.Id}");
+        }
 
-			return View(new PageViewModel
-			{
-				CurrentBot = botViewModel,
-				Bots = botsViewModels,
-				TextMessages = textMessages,
-				InlineKeys = inlineKeys,
-				InlineUrlKeys = inlineUrlKeys,
-				Interviews = interviews,
-				InterviewAnswers = interviewAnswers,
-				Users = users
-			});
-		}
-	}
+        [Route("/bots/remove")]
+        [HttpPost]
+        public async Task<IActionResult> Remove(string id)
+        {
+            await _httpClient.GetStringAsync($"{_configuration["RunnerApiUrl"]}/stop?id={id}");
 
-	public class InterviewAnswerViewModel
-	{
-		public Interview Interview { get; set; }
-		public User User { get; set; }
-		public InterviewAnswer InterviewAnswer { get; set; }
-	}
+            _botsRepository.RemoveBot(id);
 
-	public class UserViewModel
-	{
-		public string Id { get; set; }
-		public string FirstName { get; set; }
-		public string LastName { get; set; }
-		public string UserName { get; set; }
-		public string TelegramId { get; set; }
-		public UserNetworking Networking { get; set; }
-	}
+            var userId = HttpContext.Session.GetString("userId");
+            _systemUserRepository.RemoveBotFromUser(userId, id);
 
+            return Redirect("/bots");
+        }
+
+        [Route("/bot")]
+        public async Task<IActionResult> Bot(string id)
+        {
+            var userId = HttpContext.Session.GetString("userId");
+            var botsViewModels = await BotsService.GetBotsViewModels(_configuration, _systemUserRepository, userId);
+            var botViewModel = await BotsService.GetBotViewModel(id, _configuration, _botsRepository);
+
+            var textMessages = _textMessageAnswersRepository.GetTextMessageAnswers(id);
+            var inlineKeys = _inlineKeysRepository.GetInlineKeys(id);
+            var inlineUrlKeys = _inlineUrlKeysRepository.GetUrlInlineUrlKeys(id);
+            var interviews = _interviewsRepository.GetInterviews(id);
+            var interviewAnswers = _interviewAnswersRepository.GetInterviewAnswers(id).Select(_ =>
+                new InterviewAnswerViewModel
+                {
+                    Interview = _interviewsRepository.GetInterview(_.InterviewId),
+                    InterviewAnswer = _,
+                    User = _usersRepository.GetUser(_.UserId, _.BotId)
+                });
+
+            var users = _usersRepository.GetUsers(id).Select(_ => new UserViewModel
+            {
+                Id = _.Id.ToString(),
+                FirstName = _.FirstName,
+                LastName = _.LastName,
+                UserName = _.UserName,
+                TelegramId = _.TelegramId,
+                Networking = JsonConvert.DeserializeObject<UserNetworking>(_.Networking)
+            });
+
+            return View(new PageViewModel
+            {
+                CurrentBot = botViewModel,
+                Bots = botsViewModels,
+                TextMessages = textMessages,
+                InlineKeys = inlineKeys,
+                InlineUrlKeys = inlineUrlKeys,
+                Interviews = interviews,
+                InterviewAnswers = interviewAnswers,
+                Users = users
+            });
+        }
+    }
+
+    public class InterviewAnswerViewModel
+    {
+        public Interview Interview { get; set; }
+        public User User { get; set; }
+        public InterviewAnswer InterviewAnswer { get; set; }
+    }
+
+    public class UserViewModel
+    {
+        public string Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string UserName { get; set; }
+        public string TelegramId { get; set; }
+        public UserNetworking Networking { get; set; }
+    }
 }
